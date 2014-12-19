@@ -33,3 +33,8 @@ class Term(models.Model):
     def __str__(self):
         return '%s %s %s %s %s %s %s %s %s %s %s' % (self.departed, self.departed_notes, self.district, self.party, self.actual_start_date, self.actual_start_date_confirmed, self.actual_end_date, self.actual_end_date_confirmed, self.effective_end_year, self.effective_start_year, self.notes)
 
+# When it's time to add choices to fields:
+#     MALE = 'M'
+#     FEMALE = 'F'
+#     GENDER_CHOICES = ((MALE, 'M'), (FEMALE, 'F'))
+#     gender = models.CharField(max_length = 1, choices = GENDER_CHOICES)
