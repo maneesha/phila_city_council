@@ -11,9 +11,9 @@ class Councilmember(models.Model):
     notes = models.CharField(max_length = 250) 
 
 class Term:
-    predecessor_id = models.ForeignKey('Councilmember', predecessor)
-    councilperson_id = models.ForeignKey('Councilmember', councilperson)
-    successor_id = models.ForeignKey('Councilmember', successor)
+    predecessor_id = models.ForeignKey('Councilmember', related_name="predecessor")
+    councilperson_id = models.ForeignKey('Councilmember', related_name="councilperson")
+    successor_id = models.ForeignKey('Councilmember', related_name="successor")
     departed = models.CharField(max_length = 20)
     departed_notes = models.CharField(max_length = 250)
     district = models.IntegerField()
