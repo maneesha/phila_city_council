@@ -10,7 +10,7 @@ class Councilmember(models.Model):
     birthdate = models.DateTimeField()
     notes = models.CharField(max_length = 250) 
 
-class Term:
+class Term(models.Model):
     predecessor_id = models.ForeignKey('Councilmember', related_name="predecessor")
     councilperson_id = models.ForeignKey('Councilmember', related_name="councilperson")
     successor_id = models.ForeignKey('Councilmember', related_name="successor")
