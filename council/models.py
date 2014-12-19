@@ -10,6 +10,10 @@ class Councilmember(models.Model):
     birthdate = models.CharField(max_length = 25, blank=True, null=True)
     notes = models.CharField(max_length = 250, blank=True, null=True) 
 
+    def __str__(self):
+        return '%s %s %s %s %s %s %s %s' % (self.first_name, self.middle_name, self.last_name, self.suffix, self.gender, self.race, self.birthdate, self.notes)
+
+
 class Term(models.Model):
     predecessor_id = models.ForeignKey('Councilmember', related_name="predecessor")
     councilperson_id = models.ForeignKey('Councilmember', related_name="councilperson")
@@ -25,3 +29,7 @@ class Term(models.Model):
     effective_start_year = models.IntegerField(blank=True, null=True)
     effective_end_year = models.IntegerField(blank=True, null=True)
     notes = models.CharField(max_length = 250, blank=True, null=True) 
+
+    def __str__(self):
+        return '%s %s %s %s %s %s %s %s %s %s %s' % (self.departed, self.departed_notes, self.district, self.party, self.actual_start_date, self.actual_start_date_confirmed, self.actual_end_date, self.actual_end_date_confirmed, self.effective_end_year, self.effective_start_year, self.notes)
+
