@@ -6,5 +6,9 @@ urlpatterns = patterns('',
     # url(r'^$', 'citycouncil.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),\
+    #Include the urls defined in council.urls
+    #Their urls will all start with council/
+    url(r'^council/', include('council.urls')),
+    #Remember the trailing comma
 )
