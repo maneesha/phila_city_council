@@ -1,2 +1,3 @@
 citycouncil/local_settings.py
 **/*.pyc
+citycouncil.sqlite3
