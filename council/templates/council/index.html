@@ -1,0 +1,14 @@
+{% if ordered_list %}
+<ul>
+    {% for m in ordered_list %}
+
+    <li>{{ m.first_name }} {{ m.last_name }}</li>
+
+    {% endfor %}
+
+{% else %}
+
+<p>No names found.</p>
+
+{% endif %}
+
