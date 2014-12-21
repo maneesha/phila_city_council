@@ -9,7 +9,8 @@ urlpatterns = patterns('',
     #Call it when the url ends nothing (regex = ^$)
     url(r'^$', old_views.index, name='index'),
     url(r'^simple_search_form$', old_views.simple_search_form, name="simple_search_form"),
-    url(r'simple_search_results', old_views.simple_search_results, name="simple_search_results"),
+    url(r'^simple_search_results$', old_views.simple_search_results, name="simple_search_results"),
+    url(r'^all_councilmembers$', views.all_councilmembers, name='all_councilmembers'),
     #Remember the trailing comma
 
     )

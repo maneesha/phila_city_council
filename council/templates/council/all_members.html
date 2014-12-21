@@ -1,0 +1,31 @@
+<h3>A simple list of all the city council members</h3>
+<table>
+
+
+<th>First Name </th>
+<th>Last Name</th>
+<th>Gender</th>
+<th>Race</th>
+<th>Party</th>
+<th>Start Date</th>
+<th>End Date</th>
+{% for m in members %}
+
+<tr>
+<td> {{ m.councilperson_id.first_name }} </td>
+<td>{{ m.councilperson_id.last_name }} </td>
+<td> {{ m.councilperson_id.gender }} </td>
+
+<td> {{ m.councilperson_id.race }} </td>
+
+<td> {{ m.party }}</td>
+
+<td> {{m.actual_start_date }} </td>
+
+<td> {{m.actual_end_date }}</td>
+</tr>
+
+
+
+{% endfor %}
+</table>
