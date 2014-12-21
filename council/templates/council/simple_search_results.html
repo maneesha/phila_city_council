@@ -1,0 +1,14 @@
+You completed a search for {{ last_name }}.
+{% if last_name_list %}
+{% for i in last_name_list %}
+
+<p>First Name: {{ i.councilperson_id.first_name }}</p>
+<p>Last Name: {{ i.councilperson_id.last_name }}</p>
+Start Date: {{ i.actual_start_date }}<br>
+End Date: {{ i.actual_end_date }}<br>
+<hr>
+{% endfor %}
+
+{% else %}
+<p>none found</p>
+{% endif %}
