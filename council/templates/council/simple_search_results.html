@@ -1,3 +1,11 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+
 You completed a search for {{ last_name }}.
 {% if last_name_list %}
 {% for i in last_name_list %}
@@ -7,8 +15,12 @@ You completed a search for {{ last_name }}.
 Start Date: {{ i.actual_start_date }}<br>
 End Date: {{ i.actual_end_date }}<br>
 <hr>
+
 {% endfor %}
 
 {% else %}
 <p>none found</p>
 {% endif %}
+
+</body>
+</html>
