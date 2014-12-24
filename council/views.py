@@ -7,6 +7,9 @@ from council.tables import MemberTable
 from django.db.models import Count
 
 
+import json
+from django.core import serializers
+
 from council.models import Councilmember, Term
 from council.forms import LastNameForm
 
@@ -25,9 +28,13 @@ def unique_councilmembers(request):
     """
     Used to create page showing how many unique councilmembers each district has had.
     """
-    members = Term.objects.filter(actual_end_date__gte='1980')
-    members = members.values('district').annotate(Count('councilperson_id_id'))
-    #Note: above is same as this sql statement:
+
+    #Note: This is same as this sql statement:
     #select distinct councilperson_id_id, district from council_term where actual_end_date > '1979' order by district;
+    members = Term.objects.filter(actual_end_date__gte='1980')
+    members = members.filter(district__gte=1)
+    members = members.values(r'district').annotate(Count(r'councilperson_id_id'))
+    json_members = json.dumps(list(members))
+
     page = "council/unique_councilmembers.html"
-    return render(request, page, {'members':members})
+    return render(request, page, {'members':members,'json_members':json_members})
