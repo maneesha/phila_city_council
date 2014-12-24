@@ -10,14 +10,12 @@
 <!-- Load d3 charts -->
 <script src="http://d3js.org/d3.v3.min.js"></script>
 
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-
+<!-- initialize json data -->
 <script>
-
-var uniqueMembers = []
-console.log(typeof uniqueMembers)
+var uniqueMembers = {{ json_members|safe }};
 </script>
 
+<!-- Styling the bar graph -->
 <style>
 
 .bar {
@@ -48,8 +46,9 @@ console.log(typeof uniqueMembers)
 
 <body>
 
-
 <table>
+<!-- For debugging purposes
+View raw data in html table -->
 
     <tr><th>count</th><th>district</th></tr>
 
@@ -63,10 +62,6 @@ console.log(typeof uniqueMembers)
             {{ member.district}}
         </td>
     </tr>
-
-    <script>
-    uniqueMembers.push({'district':parseInt("{{ member.district }}"), 'unique':parseInt("{{ member.councilperson_id_id__count }}") })
-    </script>
     
     {% endfor %}
 </table>
@@ -75,10 +70,7 @@ console.log(typeof uniqueMembers)
 
 <script>
 
-console.log(uniqueMembers)
 function InitChart() {
-
-  var barData = uniqueMembers;
  
   var vis = d3.select('#visualisation'),
     WIDTH = 1000,
@@ -90,13 +82,13 @@ function InitChart() {
       left: 50
       },
 
-    xRange = d3.scale.ordinal().rangeRoundBands([MARGINS.left, WIDTH - MARGINS.right], 0.1).domain(barData.map(function(d) {
+    xRange = d3.scale.ordinal().rangeRoundBands([MARGINS.left, WIDTH - MARGINS.right], 0.1).domain(uniqueMembers.map(function(d) {
         return d.district;
     })); 
 
     yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0,
-        d3.max(barData, function(d) {
-        return d.unique;
+        d3.max(uniqueMembers, function(d) {
+        return d.councilperson_id_id__count;
     })]);
  
     xAxis = d3.svg.axis()
@@ -121,18 +113,18 @@ function InitChart() {
       .call(yAxis);
 
     vis.selectAll('rect')
-      .data(barData)
+      .data(uniqueMembers)
       .enter()
       .append('rect')
       .attr('x', function(d) { // sets the x position of the bar
         return xRange(d.district);
        })
       .attr('y', function(d) { // sets the y position of the bar
-        return yRange(d.unique);
+        return yRange(d.councilperson_id_id__count);
        })
       .attr('width', xRange.rangeBand()) // sets the width of bar
       .attr('height', function(d) {      // sets the height of bar
-        return ((HEIGHT - MARGINS.bottom) - yRange(d.unique));
+        return ((HEIGHT - MARGINS.bottom) - yRange(d.councilperson_id_id__count));
        })
       .attr('fill', 'grey')   // fills the bar with grey color
       .on('mouseover', function(d){
@@ -145,10 +137,7 @@ function InitChart() {
           .attr('fill', 'grey');
       })
       .append("title")
-      .text(function(d) {return "this is a tooltip"})
-
-
-      ;
+      .text(function(d) {return "this is a tooltip"});
 
 } //close function InitChart
  
