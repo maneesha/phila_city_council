@@ -55,3 +55,32 @@ def unique_councilmembers(request):
     page = "council/unique_councilmembers.html"
     return render(request, page, {'members':members,'unique_list':unique_list})
 
+
+def race_breakdown(request):
+    """
+    Used to create pie charts showing racial makeup of city council
+    """
+
+    #For most years this will actually need a start & end value, to come from html GET
+    active_in_2014 = Term.objects.filter(actual_end_date__gte='2014')
+    members = active_in_2014.values('councilperson_id_id__race').annotate(Count('councilperson_id_id'))
+
+    councilmember_names = members.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race')
+
+    race_list = []  #This is the list that will eventually passed to json
+
+    for member in members:
+        temp_list = []
+        for i in councilmember_names:
+
+            if i['councilperson_id_id__race'] == member['councilperson_id_id__race']:
+                temp_list.append(i['councilperson_id_id__first_name'] + " " + i['councilperson_id_id__last_name'])
+
+            #Add that temp list to the member dict
+            member['allnames'] = temp_list
+        #Add the updated member dict to race_list
+        race_list.append(member)
+
+    page = "council/race_breakdown.html"
+
+    return render(request, page, {'race_list':race_list})

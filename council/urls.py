@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^simple_search_results$', old_views.simple_search_results, name="simple_search_results"),
     url(r'^all_councilmembers$', views.all_councilmembers, name='all_councilmembers'),
     url(r'^unique_councilmembers$', views.unique_councilmembers, name='unique_councilmembers'),
+    url(r'^race_breakdown$', views.race_breakdown, name="race_breakdown"),
     #Remember the trailing comma
 
     )
