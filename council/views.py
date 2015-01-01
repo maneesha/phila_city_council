@@ -114,7 +114,30 @@ def demographic_breakdown(request):
 
 
 
+    #LASTLY BY PARTY
+
+    members_by_party = active_in_2014.values('party').annotate(Count('councilperson_id_id'))
+
+    councilmember_names_by_party = members_by_party.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'party')
+
+    party_list = []  #This is the list that will eventually passed to json
+
+    for member_by_party in members_by_party:
+        party_temp_list = []
+        for i in councilmember_names_by_party:
+
+            if i['party'] == member_by_party['party']:
+                party_temp_list.append(i['councilperson_id_id__first_name'] + " " + i['councilperson_id_id__last_name'])
+
+            #Add that temp list to the member dict
+            member_by_party['allnames'] = party_temp_list
+        #Add the updated member dict to race_list
+        party_list.append(member_by_party)
+
+
+
+
 
     page = "council/demographic_breakdown.html"
 
-    return render(request, page, {'race_list':race_list, 'gender_list':gender_list})
+    return render(request, page, {'race_list':race_list, 'gender_list':gender_list, 'party_list':party_list})

@@ -27,11 +27,11 @@ var gender_list = {{ gender_list|safe }};
 <body>
 
 <!-- <div style="display:none"> -->
-
-{% for i in gender_list %}
+<div>
+{% for i in party_list %}
 
 <p>
-{{ i.councilperson_id_id__gender }}: {{ i.allnames }}
+{{ i.party }}: {{ i.allnames }}
 TOTAL: {{ i.councilperson_id_id__count}}
 </p>
 <br>
