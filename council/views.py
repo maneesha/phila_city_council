@@ -62,9 +62,9 @@ def unique_councilmembers(request):
     return render(request, page, {'members':members,'unique_list':unique_list})
 
 
-def race_breakdown(request):
+def demographic_breakdown(request):
     """
-    Used to create pie charts showing racial makeup of city council
+    Used to create pie charts showing demographic makeup of city council
     """
 
     #For most years this will actually need a start & end value, to come from html GET
@@ -87,6 +87,6 @@ def race_breakdown(request):
         #Add the updated member dict to race_list
         race_list.append(member)
 
-    page = "council/race_breakdown.html"
+    page = "council/demographic_breakdown.html"
 
     return render(request, page, {'race_list':race_list})
