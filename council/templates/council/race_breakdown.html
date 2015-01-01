@@ -49,6 +49,7 @@ var r = h/2;
 // See: https://github.com/mbostock/d3/wiki/Ordinal-Scales
 var color = d3.scale.category10();
 
+//Give the chart a div to go into, root svg element, a data source, attr of width, attr height, g element (groups svg shapes to work with them as if a single element), translate is a transform function that moves object x, y units
 var vis = d3.select('#chart').append("svg:svg").data([race_list]).attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + r + ")");
 var pie = d3.layout.pie().value(function(d){return d.councilperson_id_id__count;});
 
