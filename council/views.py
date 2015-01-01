@@ -69,23 +69,23 @@ def demographic_breakdown(request):
 
     #For most years this will actually need a start & end value, to come from html GET
     active_in_2014 = Term.objects.filter(actual_end_date__gte='2014')
-    members = active_in_2014.values('councilperson_id_id__race').annotate(Count('councilperson_id_id'))
+    members_by_race = active_in_2014.values('councilperson_id_id__race').annotate(Count('councilperson_id_id'))
 
-    councilmember_names = members.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race')
+    councilmember_names_by_race = members_by_race.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race')
 
     race_list = []  #This is the list that will eventually passed to json
 
-    for member in members:
+    for member_by_race in members_by_race:
         temp_list = []
-        for i in councilmember_names:
+        for i in councilmember_names_by_race:
 
-            if i['councilperson_id_id__race'] == member['councilperson_id_id__race']:
+            if i['councilperson_id_id__race'] == member_by_race['councilperson_id_id__race']:
                 temp_list.append(i['councilperson_id_id__first_name'] + " " + i['councilperson_id_id__last_name'])
 
             #Add that temp list to the member dict
-            member['allnames'] = temp_list
+            member_by_race['allnames'] = temp_list
         #Add the updated member dict to race_list
-        race_list.append(member)
+        race_list.append(member_by_race)
 
     page = "council/demographic_breakdown.html"
 
