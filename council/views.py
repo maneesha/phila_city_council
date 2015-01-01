@@ -68,7 +68,12 @@ def demographic_breakdown(request):
     """
 
     #For most years this will actually need a start & end value, to come from html GET
+    #This will be used to get race, gender, & party numbers
     active_in_2014 = Term.objects.filter(actual_end_date__gte='2014')
+
+    #Now comes some rather redundant stuff where we do the same thing to get race, gender, and party data
+
+    #FIRST BY RACE
     members_by_race = active_in_2014.values('councilperson_id_id__race').annotate(Count('councilperson_id_id'))
 
     councilmember_names_by_race = members_by_race.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race')
@@ -76,17 +81,40 @@ def demographic_breakdown(request):
     race_list = []  #This is the list that will eventually passed to json
 
     for member_by_race in members_by_race:
-        temp_list = []
+        race_temp_list = []
         for i in councilmember_names_by_race:
 
             if i['councilperson_id_id__race'] == member_by_race['councilperson_id_id__race']:
-                temp_list.append(i['councilperson_id_id__first_name'] + " " + i['councilperson_id_id__last_name'])
+                race_temp_list.append(i['councilperson_id_id__first_name'] + " " + i['councilperson_id_id__last_name'])
 
             #Add that temp list to the member dict
-            member_by_race['allnames'] = temp_list
+            member_by_race['allnames'] = race_temp_list
         #Add the updated member dict to race_list
         race_list.append(member_by_race)
 
+
+    #NEXT BY GENDER
+    members_by_gender = active_in_2014.values('councilperson_id_id__gender').annotate(Count('councilperson_id_id'))
+
+    councilmember_names_by_gender = members_by_gender.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__gender')
+
+    gender_list = []  #This is the list that will eventually passed to json
+
+    for member_by_gender in members_by_gender:
+        gender_temp_list = []
+        for i in councilmember_names_by_gender:
+
+            if i['councilperson_id_id__gender'] == member_by_gender['councilperson_id_id__gender']:
+                gender_temp_list.append(i['councilperson_id_id__first_name'] + " " + i['councilperson_id_id__last_name'])
+
+            #Add that temp list to the member dict
+            member_by_gender['allnames'] = gender_temp_list
+        #Add the updated member dict to race_list
+        gender_list.append(member_by_gender)
+
+
+
+
     page = "council/demographic_breakdown.html"
 
-    return render(request, page, {'race_list':race_list})
+    return render(request, page, {'race_list':race_list, 'gender_list':gender_list})
