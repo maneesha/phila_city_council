@@ -13,6 +13,12 @@ from django.core import serializers
 from council.models import Councilmember, Term
 from council.forms import LastNameForm
 
+def index(request):
+    """
+    Landing page
+    """
+    return render(request, 'council/index.html')
+
 def all_councilmembers(request):
     """
     Simple view to show all councilmembers' info on a page

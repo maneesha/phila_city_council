@@ -30,7 +30,7 @@ from council.forms import LastNameForm
 #     return HttpResponse(template.render(context))
 
 #Rewrite the view by simplifying the template call
-def index(request):
+def old_index(request):
     ordered_list = Councilmember.objects.order_by('first_name')
     context = {'ordered_list':ordered_list}
     return render(request, 'council/index.html', context)

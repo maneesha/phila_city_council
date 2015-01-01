@@ -1,14 +1,18 @@
-{% if ordered_list %}
+<h3>City Council</h3>
+
+
 <ul>
-    {% for m in ordered_list %}
 
-    <li>{{ m.first_name }} {{ m.last_name }}</li>
+<li><a href="/council/simple_search_form">Search</a> city council members by last name</li>
 
-    {% endfor %}
+<li><a href="/council/all_councilmembers">Sortable list of all city council members &amp; demographic data</li>
 
-{% else %}
+<li><a href="/council/race_breakdown">Pie chart of the race breakdown of City Council in 2014</li>
 
-<p>No names found.</p>
+<li><a href="/council/unique_councilmembers">Bar chart of how many unique councilmembers each district has had since 1980</li>
 
-{% endif %}
+
+
+</ul>
+
 
