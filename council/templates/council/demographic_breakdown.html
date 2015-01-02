@@ -69,6 +69,10 @@ City Council Demographics for the year: {{ search }}
 <script></script>
 {% endif %}
 
+{% if message %}
+{{ message }}
+{% endif %}
+
 <div id="gender-chart" style="border:solid">Gender</div><br>
 <div id="party-chart" style="border:solid">Party</div><br>
 <div id="race-chart"style="border:solid">Race</div><br>
