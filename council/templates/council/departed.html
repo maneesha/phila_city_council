@@ -21,30 +21,6 @@
 Here is a pie chart showing how members left.
 
 
-
-<table >
-<!-- For debugging purposes
-View raw data in html table -->
-
-    <tr><th>count</th><th>departed</th></tr>
-
-    {% for member in members %}
-
-    <tr>
-        <td>
-            {{ member.councilperson_id_id__count}}
-        </td>
-        <td>
-            {{ member.departed}}
-        </td>
-    </tr>
-    
-    {% endfor %}
-</table>
-
-
-{{ departed_list }}
-
 <div id = "departed-chart"><div>
 
 <script>
