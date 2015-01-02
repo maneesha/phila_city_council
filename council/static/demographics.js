@@ -1,7 +1,7 @@
-<!-- Script to generate race chart -->
-// <script>
 
-console.log("DO WE GET HERE?")
+///////////////////////
+//Race chart
+///////////////////////
 
 var w = 400;
 var h = 400;
@@ -54,16 +54,11 @@ arcs.append("svg:text")
 
 arcs.append("title");
 
-// </script>
 
+///////////////////////
+//Gender Chart
+///////////////////////
 
-
-/////////////
-/////////////
-/////////////
-/////////////
-// <!-- Script to generate gender chart-->
-// <script>
 
 var w = 400;
 var h = 400;
@@ -117,11 +112,10 @@ arcs.append("svg:text")
 
 arcs.append("title");
 
-// </script>
 
-
-// <!-- Script to generate party chart-->
-// <script>
+///////////////////////
+//Party Chart
+///////////////////////
 
 var w = 400;
 var h = 400;
@@ -181,6 +175,3 @@ arcs.append("svg:text")
 
 
 arcs.append("title");
-
-
-// </script>
