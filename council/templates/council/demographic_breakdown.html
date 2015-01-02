@@ -27,8 +27,8 @@ var party_list = {{ party_list|safe }}
 
 <body>
 
-<!-- <div style="display:none"> -->
-<div>
+<div style="display:none">
+
 {% for i in party_list %}
 
 <p>
@@ -41,6 +41,8 @@ TOTAL: {{ i.councilperson_id_id__count}}
 
 </div>
 
+
+<h2>2014 City Council by race, gender, party</h2>
 
 <div id="gender-chart" style="border:solid">Gender</div><br>
 <div id="party-chart" style="border:solid">Party</div><br>
@@ -80,7 +82,11 @@ arcs.append("svg:path")
         // log the result of the arc generator to show how cool it is :)
         console.log(arc(d));
         return arc(d);
-    });
+    })
+    //Hover text using browser defaults
+    .append("title").text(function(d, i)
+        {return race_list[i].allnames}
+        );
 
 // add the text labels to each slice
 arcs.append("svg:text")
@@ -134,7 +140,12 @@ arcs.append("svg:path")
         // log the result of the arc generator to show how cool it is :)
         console.log(arc(d));
         return arc(d);
-    });
+    })
+
+    .append("title").text(function(d, i)
+        {return gender_list[i].allnames}
+        )
+    ;
 
 // add the text labels to each slice
 arcs.append("svg:text")
@@ -179,6 +190,8 @@ var arc = d3.svg.arc().outerRadius(r);
 
 // select paths, use arc generator to draw
 var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
+
+
 arcs.append("svg:path")
     .attr("fill", function(d, i){
         return color(i);
@@ -187,7 +200,17 @@ arcs.append("svg:path")
         // log the result of the arc generator to show how cool it is :)
         console.log(arc(d));
         return arc(d);
-    });
+    })
+    // .on('mouseover', function(d) {d3.select(this).attr('fill', 'grey');})
+    // .on('mouseout', 
+    //     function(d) {
+    //         d3.select(this).attr('fill', function(d,i) {return color(i)}
+    //     )})
+    .append("title").text(function(d, i)
+        {return party_list[i].allnames}
+        )
+    ;
+
 
 // add the text labels to each slice
 arcs.append("svg:text")
@@ -203,17 +226,8 @@ arcs.append("svg:text")
 
 arcs.append("title");
 
+
 </script>
-
-
-
-
-
-
-
-
-
-
 
 </body>
 
