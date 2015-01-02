@@ -1,0 +1,104 @@
+<html>
+
+<head>
+    <title>How councilmembers left</title>
+
+
+    <!-- Load jQuery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Load d3 charts -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+
+
+</head>
+
+<body>
+
+
+
+Here is a pie chart showing how members left.
+
+
+
+<table >
+<!-- For debugging purposes
+View raw data in html table -->
+
+    <tr><th>count</th><th>departed</th></tr>
+
+    {% for member in members %}
+
+    <tr>
+        <td>
+            {{ member.councilperson_id_id__count}}
+        </td>
+        <td>
+            {{ member.departed}}
+        </td>
+    </tr>
+    
+    {% endfor %}
+</table>
+
+
+{{ departed_list }}
+
+<div id = "departed-chart"><div>
+
+<script>
+
+var departed_list ={{ departed_list|safe }};
+var w = 400;
+var h = 400;
+var r = h/2;
+
+//Gets angle of arc
+//Used to position pie slice labels below
+var getAngle = function (d) {
+  return (180 / Math.PI * (d.startAngle + d.endAngle) / 2 - 90);
+  };
+
+// Set color scale.
+// See: https://github.com/mbostock/d3/wiki/Ordinal-Scales
+var color = d3.scale.category10();
+
+//Give the chart a div to go into, root svg element, a data source, attr of width, attr height, g element (groups svg shapes to work with them as if a single element), translate is a transform function that moves object x, y units
+var vis = d3.select('#departed-chart').append("svg:svg").data([departed_list]).attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + r + ") rotate(1.6)");
+var pie = d3.layout.pie().value(function(d){return d.councilperson_id_id__count;});
+
+// declare an arc generator function
+var arc = d3.svg.arc().outerRadius(r);
+
+// select paths, use arc generator to draw
+var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
+arcs.append("svg:path")
+    .attr("fill", function(d, i){
+        return color(i);
+    })
+    .attr("d", function (d) {
+        // log the result of the arc generator to show how cool it is :)
+        console.log(arc(d));
+        return arc(d);
+    })
+    //Hover text using browser defaults
+    .append("title").text(function(d, i)
+        {return departed_list[i].allnames}
+        );
+
+// add the text labels to each slice
+arcs.append("svg:text")
+    .attr("transform", function(d){
+            d.innerRadius = 0;
+            d.outerRadius = r;
+            return "translate(" + arc.centroid(d) + ") rotate(" + getAngle(d) + ")";})
+
+    .attr("text-anchor", "middle")
+    .text( function(d, i) {
+        return departed_list[i].departed + ": " + departed_list[i].councilperson_id_id__count;});
+</script>
+
+</body>
+
+</html>

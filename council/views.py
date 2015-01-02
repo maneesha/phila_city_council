@@ -151,3 +151,34 @@ def demographic_breakdown(request):
     page = "council/demographic_breakdown.html"
 
     return render(request, page, {'race_list':race_list, 'gender_list':gender_list, 'party_list':party_list, 'search':search, 'message':message})
+
+
+def departed(request):
+
+    members_since_80 = Term.objects.filter(actual_end_date__gte='1980').filter(departed__in=["defeated", "died", "resigned", "retired", "scandal"])
+
+    members = members_since_80.values('departed').annotate(Count('councilperson_id_id'))
+
+    #get names by departed
+    names_by_departed = members_since_80.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'departed').order_by('actual_end_date')
+
+
+
+    departed_list = []  #This is the list that will eventually passed to json
+
+    for member in members:
+        temp_list = []
+        for i in names_by_departed:
+            if i['departed'] == member['departed']:
+                #Add names for that departed to a temp list
+                temp_list.append(i['councilperson_id_id__first_name'] + " " + i['councilperson_id_id__last_name'])
+            #Add that temp list to the member dict
+            member['allnames'] = temp_list
+        #Add the updated member dict to unique_list
+        departed_list.append(member)
+
+
+    page = "council/departed.html"
+
+
+    return render(request, page, {'members':members, 'departed_list':departed_list})
