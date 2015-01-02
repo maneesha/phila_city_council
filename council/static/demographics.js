@@ -1,3 +1,8 @@
+console.log("FROM THE EXTERNAL JS SCRIPT")
+console.log("YOUR SEARCH:", year)
+
+
+
 
 ///////////////////////
 //Race chart

@@ -67,14 +67,16 @@ def demographic_breakdown(request):
     Used to create pie charts showing demographic makeup of city council
     """
 
-    #For most years this will actually need a start & end value, to come from html GET
-    #This will be used to get race, gender, & party numbers
-    active_in_2014 = Term.objects.filter(actual_end_date__gte='2014')
+    search = 2014
+    if request.GET.get('search'):
+        search = int(request.GET.get('search'))
+
+    active_in_year = Term.objects.filter(effective_end_year__gte=search).filter(effective_start_year__lte=search)
 
     #Now comes some rather redundant stuff where we do the same thing to get race, gender, and party data
 
     #FIRST BY RACE
-    members_by_race = active_in_2014.values('councilperson_id_id__race').annotate(Count('councilperson_id_id'))
+    members_by_race = active_in_year.values('councilperson_id_id__race').annotate(Count('councilperson_id_id'))
 
     councilmember_names_by_race = members_by_race.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race')
 
@@ -94,7 +96,7 @@ def demographic_breakdown(request):
 
 
     #NEXT BY GENDER
-    members_by_gender = active_in_2014.values('councilperson_id_id__gender').annotate(Count('councilperson_id_id'))
+    members_by_gender = active_in_year.values('councilperson_id_id__gender').annotate(Count('councilperson_id_id'))
 
     councilmember_names_by_gender = members_by_gender.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__gender')
 
@@ -116,7 +118,7 @@ def demographic_breakdown(request):
 
     #LASTLY BY PARTY
 
-    members_by_party = active_in_2014.values('party').annotate(Count('councilperson_id_id'))
+    members_by_party = active_in_year.values('party').annotate(Count('councilperson_id_id'))
 
     councilmember_names_by_party = members_by_party.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'party')
 
@@ -140,4 +142,4 @@ def demographic_breakdown(request):
 
     page = "council/demographic_breakdown.html"
 
-    return render(request, page, {'race_list':race_list, 'gender_list':gender_list, 'party_list':party_list})
+    return render(request, page, {'race_list':race_list, 'gender_list':gender_list, 'party_list':party_list, 'search':search})

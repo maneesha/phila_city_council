@@ -16,7 +16,8 @@
     <script>
         var race_list = {{ race_list|safe }};
         var gender_list = {{ gender_list|safe }};
-        var party_list = {{ party_list|safe }}
+        var party_list = {{ party_list|safe }};
+        var year = "{{ search|safe }}";
     </script>
 
 </head>
@@ -39,6 +40,15 @@
 
 
 <h2>2014 City Council by race, gender, party</h2>
+
+<form method="GET">
+    YEAR: <input type="text" name="search"><br/>
+</form><br/>
+
+{% if search %}
+City Council Demographics for the year: {{ search }}
+<script></script>
+{% endif %}
 
 <div id="gender-chart" style="border:solid">Gender</div><br>
 <div id="party-chart" style="border:solid">Party</div><br>
