@@ -182,3 +182,8 @@ def departed(request):
 
 
     return render(request, page, {'members':members, 'departed_list':departed_list})
+
+
+def timeline(request):
+    page = "council/timeline.html"
+    return render(request, page)
