@@ -82,6 +82,8 @@
 
 This will be the timeline page.
 
+{{ members }}
+
  <div id = "container">
 <div class = "svg"></div>
 <div id = "tag"></div>
@@ -90,6 +92,10 @@ This will be the timeline page.
 
 
 <script>
+
+  
+  var members = {{ members|safe }};
+  console.log(m);
 
   var w = 800;
   var h = 400;
