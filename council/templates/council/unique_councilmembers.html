@@ -84,7 +84,7 @@ function InitChart() {
       left: 50
       },
 
-    xRange = d3.scale.ordinal().rangeRoundBands([MARGINS.left, WIDTH - MARGINS.right], 0.1).domain(uniqueMembers.map(function(d) {
+    xRange = d3.scale.ordinal().rangeRoundBands([MARGINS.left, WIDTH - MARGINS.right], 0.1).domain(uniqueMembers.map(function(d){
         return d.district;
     })); 
 
