@@ -13,7 +13,7 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
     <!-- Load script for this page -->
-    
+    <script src="../static/timeline.js"></script>
 
     <!-- Internal Style Sheet -->
     <style>
@@ -74,18 +74,18 @@
 
 <body>
 
-{{ members }}
+    <h2>Timeline of City Council Terms of Service</h2>
 
 <script>
 var members = {{ members|safe }};
-console.log(members);
-for (i=0; i<members.length; i++)
-{
 
+for (i=0; i<members.length; i++)
+    {
     //convert date strings to js date format
     members[i].actual_end_date = new Date(members[i].actual_end_date);
     members[i].actual_start_date = new Date(members[i].actual_start_date);
-}
+    }
+
 
 //members has the following fields:
 // actual_end_date
@@ -125,16 +125,13 @@ var minDate = members[0].actual_start_date;
 //https://github.com/mbostock/d3/wiki/Time-Formatting
 var dateFormat = "%x"
 
-var gantt = d3.gantt().taskTypes(districtNames).departedStyle(departedStyle).tickFormat(dateFormat);
+var gantt = d3.gantt().councilmembers(districtNames).departedStyle(departedStyle).tickFormat(dateFormat);
 
 gantt(members);
-
 
 </script>
 
 
-
 </body>
-
 
 </html>

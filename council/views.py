@@ -187,6 +187,7 @@ def departed(request):
 def timeline(request):
     members_since_80 = Term.objects.filter(actual_end_date__gte='1980').filter(district__gte=1)
     members = members_since_80.values("district", "actual_end_date", "actual_start_date", "departed", 'councilperson_id_id__first_name', 'councilperson_id_id__last_name')
+    members = list(members)
 
     page = "council/timeline.html"
     return render(request, page, {'members':members})
