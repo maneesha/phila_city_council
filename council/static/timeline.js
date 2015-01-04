@@ -101,10 +101,11 @@ d3.gantt = function() {
          })
     .append("title")
       .text(function(d) {
-        return (d.councilperson_id_id__first_name + " " + d.councilperson_id_id__last_name + ": " + d.departed)
+        var formatDate = d3.time.format("%x");
+        return (d.councilperson_id_id__first_name + " " + d.councilperson_id_id__last_name + ": " + formatDate(d.actual_start_date) + " to " + formatDate(d.actual_end_date) + " (" + d.departed +  ")")
             });
-     
-     
+
+
      svg.append("g")
      .attr("class", "x axis")
      .attr("transform", "translate(0, " + (height - margin.top - margin.bottom) + ")")
