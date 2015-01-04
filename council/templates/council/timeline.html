@@ -12,62 +12,62 @@
     <!-- Load d3 charts -->
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
+    <!-- Load script for this page -->
+    
+
     <!-- Internal Style Sheet -->
     <style>
-html,body,#wrapper {
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-}
- 
-.chart {
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-}
- 
-.axis path,.axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-}
- 
-.defeated {
-    fill: #F2C249;
-}
- 
-.resigned {
-    fill: #E6772E;
-}
- 
-.retired {
-    fill: #4DB3B3;
-}
- 
-.scandal {
-    fill: #E64A45;
-}
- 
-.died{
-    fill: #3D4C53;
-}
- 
-div.tooltip {   
-  position: absolute;           
-  text-align: center;           
-  width: 60px;                  
-  height: 28px;                 
-  padding: 2px;             
-  font: 12px sans-serif;        
-  background: lightsteelblue;   
-  border: 0px;      
-  border-radius: 8px;           
-  pointer-events: none;         
-}
+    html,body,#wrapper {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+    }
+     
+    .chart {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+    }
+     
+    .axis path,.axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+     
+    .defeated {
+        fill: #F2C249;
+    }
+     
+    .resigned {
+        fill: #E6772E;
+    }
+     
+    .retired {
+        fill: #4DB3B3;
+    }
+     
+    .scandal {
+        fill: #E64A45;
+    }
+     
+    .died{
+        fill: #3D4C53;
+    }
+     
+    div.tooltip {   
+      position: absolute;           
+      text-align: center;           
+      width: 60px;                  
+      height: 28px;                 
+      padding: 2px;             
+      font: 12px sans-serif;        
+      background: lightsteelblue;   
+      border: 0px;      
+      border-radius: 8px;           
+      pointer-events: none;         
+    }
 
-
-
-
-</style>
+    </style>
 
 
 </head>
@@ -87,7 +87,6 @@ for (i=0; i<members.length; i++)
     members[i].actual_start_date = new Date(members[i].actual_start_date);
 }
 
-
 //members has the following fields:
 // actual_end_date
 // departed
@@ -95,6 +94,41 @@ for (i=0; i<members.length; i++)
 // district
 // councilperson_id_id__last_name
 // councilperson_id_id__first_name
+
+//connects with css styles
+var departedStyle = {
+    "defeated": "defeated",
+    "scandal": "scandal",
+    "resigned":"resigned",
+    "retired":"retired",
+    "died":"died"
+    }
+
+//sets up y axis 
+var districtNames = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+//get max & min values for x axis based on max/min dates
+members.sort(function(a,b){
+    return a.actual_end_date - b.actual_end_date;
+});
+
+var maxDate = members[members.length-1].actual_end_date;
+
+members.sort(function(a,b){
+    return a.actual_start_date - b.actual_start_date;
+});
+
+var minDate = members[0].actual_start_date;
+
+//format date as mm/dd/yyyy
+//see for more info:
+//https://github.com/mbostock/d3/wiki/Time-Formatting
+var dateFormat = "%x"
+
+var gantt = d3.gantt().taskTypes(districtNames).departedStyle(departedStyle).tickFormat(dateFormat);
+
+gantt(members);
+
 
 </script>
 
