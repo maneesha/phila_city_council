@@ -1,17 +1,7 @@
-<!DOCTYPE html>
+{% extends 'council/base.html' %}
 
-<html>
 
-<head>
-
-    <title>Demographic Breakdown</title>
-
-    <!-- Load jQuery -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
-    <!-- Load d3 charts -->
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-
+{% block scripts %}
     <!-- Initialize demographics lists as json -->
     <script>
         var race_list = {{ race_list|safe }};
@@ -19,11 +9,15 @@
         var party_list = {{ party_list|safe }};
         var year = "{{ search|safe }}";
     </script>
+{% endblock %}
 
-</head>
 
-<body>
+{% block styles %}
 
+{% endblock %}
+
+
+{% block content %}
 <div style="display:none">
 
     {% for i in party_list %}
@@ -73,13 +67,10 @@ City Council Demographics for the year: {{ search }}
 {{ message }}
 {% endif %}
 
-<div id="gender-chart" style="border:solid">Gender</div><br>
-<div id="party-chart" style="border:solid">Party</div><br>
-<div id="race-chart"style="border:solid">Race</div><br>
+<div id="gender-chart">Gender</div><br>
+<div id="party-chart">Party</div><br>
+<div id="race-chart">Race</div><br>
 
 <!-- Load race code -->
 <script src="../static/demographics.js"></script>
-
-</body>
-
-</html>
+{% endblock %}
