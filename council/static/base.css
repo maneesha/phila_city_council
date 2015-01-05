@@ -1,5 +1,14 @@
 
 body {
     background-color: #b0c4de;
-    font: 12px arial, sans-serif;
+    font: medium arial, sans-serif;
+    margin: 50px;
+}
+
+
+ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    line-height: 150%;
 }
