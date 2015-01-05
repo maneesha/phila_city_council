@@ -1,26 +1,26 @@
-<html>
 
-<head>
+{% extends 'council/base.html' %}
 
-</head>
+{% block content %}
 
-<body>
+You completed a search for last names beginning with {{ last_name }}.
 
-You completed a search for {{ last_name }}.
 {% if last_name_list %}
-{% for i in last_name_list %}
 
-<p>First Name: {{ i.councilperson_id.first_name }}</p>
-<p>Last Name: {{ i.councilperson_id.last_name }}</p>
-Start Date: {{ i.actual_start_date }}<br>
-End Date: {{ i.actual_end_date }}<br>
-<hr>
+    {% for i in last_name_list %}
 
-{% endfor %}
+    <p>First Name: {{ i.councilperson_id.first_name }}</p>
+    <p>Last Name: {{ i.councilperson_id.last_name }}</p>
+    <p>Start Date: {{ i.actual_start_date }}</p>
+    <p>End Date: {{ i.actual_end_date }}</p>
+    <hr>
+
+    {% endfor %}
 
 {% else %}
-<p>none found</p>
+
+<p>No results found.</p>
+
 {% endif %}
 
-</body>
-</html>
+{% endblock content %}
