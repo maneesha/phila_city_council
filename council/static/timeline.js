@@ -84,15 +84,10 @@ d3.gantt = function() {
     .attr("height", height + margin.top + margin.bottom)
     .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
     
-///////////////////////
-
-    //define what goes in the tooltip and call it to the vis
+    //define what goes in the tooltip and call it to the svg
     tip = d3.tip().attr('class', 'd3-tip').offset([-10, 0])
       .html(function(d){
-        // var names_list = ""
-        // for (i=0; i<d.councilperson_id_id__count; i++){
-        //   names_list = names_list + d.allnames[i] + "<br> "
-        // }
+
 
     var formatDate = d3.time.format("%x");
     return (d.councilperson_id_id__first_name + " " + 
@@ -103,7 +98,7 @@ d3.gantt = function() {
 });
 
     svg.call(tip);
- /////////////
+
 
 
 
@@ -126,11 +121,6 @@ d3.gantt = function() {
      .on('mouseover', function(d){
         tip.show(d);
      })
-    // .append("title")
-    //   .text(function(d) {
-    //     var formatDate = d3.time.format("%x");
-    //     return (d.councilperson_id_id__first_name + " " + d.councilperson_id_id__last_name + ": " + formatDate(d.actual_start_date) + " to " + formatDate(d.actual_end_date) + " (" + d.departed +  ")")
-    //         })
 
       ;
 
