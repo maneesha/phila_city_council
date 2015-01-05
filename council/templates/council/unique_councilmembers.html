@@ -11,6 +11,7 @@
 
 <!-- Load d3 charts -->
 <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
 <!-- initialize json data -->
 <script>
@@ -41,6 +42,45 @@ var uniqueMembers = {{ unique_list|safe }};
 
 .x.axis path {
 }
+
+
+
+.d3-tip {
+  font: 12px arial, sans-serif;
+  line-height: 1;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 5px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+
+
+
+
+
+
+
+
+
 
 </style>
 
@@ -103,6 +143,20 @@ function InitChart() {
       .tickSize(5)
       .orient("left")
       .tickSubdivide(true);
+
+
+
+    //define what goes in the tooltip and call it to the vis
+    tip = d3.tip().attr('class', 'd3-tip').offset([-10, 0])
+      .html(function(d){
+        var names_list = ""
+        for (i=0; i<d.councilperson_id_id__count; i++){
+          names_list = names_list + d.allnames[i] + "<br> "
+        }
+
+        return names_list + "<br>(total " + d.councilperson_id_id__count + ")";})
+
+    vis.call(tip);
  
     vis.append('svg:g')
       .attr('class', 'x axis')
@@ -118,29 +172,31 @@ function InitChart() {
       .data(uniqueMembers)
       .enter()
       .append('rect')
-      .attr('x', function(d) { // sets the x position of the bar
+      .attr('x', function(d) { 
+/*        // sets the x position of the bar*/
         return xRange(d.district);
        })
-      .attr('y', function(d) { // sets the y position of the bar
+      .attr('y', function(d) { /*// sets the y position of the bar*/
         return yRange(d.councilperson_id_id__count);
        })
-      .attr('width', xRange.rangeBand()) // sets the width of bar
-      .attr('height', function(d) {      // sets the height of bar
+      .attr('width', xRange.rangeBand()) /*// sets the width of bar*/
+      .attr('height', function(d) {      /*// sets the height of bar*/
         return ((HEIGHT - MARGINS.bottom) - yRange(d.councilperson_id_id__count));
        })
       .attr('fill', 'grey')   // fills the bar with grey color
       .on('mouseover', function(d){
-         d3.select(this)
-          .attr('fill', 'blue');
-      })
+        tip.show(d);
+         d3.select(this).attr('fill', 'blue');})
+/*     //.on('mouseover', tip.show)*/
+
 
       .on('mouseout', function(d){
-         d3.select(this)
-          .attr('fill', 'grey');
+                  tip.hide(d);
+         d3.select(this).attr('fill', 'grey');
       })
-      .append("title")
+/*      .append("title")
       .text(function(d) {return d.allnames});
-
+*/;
 } //close function InitChart
  
 InitChart();
