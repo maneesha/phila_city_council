@@ -1,6 +1,12 @@
 {% extends 'council/base.html' %}
 
 
+{% block title %} 
+    <title>Philadelphia City Council Demographics</title>
+{% endblock %}
+
+
+
 {% block scripts %}
     <!-- Initialize demographics lists as json -->
     <script>
@@ -50,13 +56,6 @@
 </select>
     <input type="submit" value="Submit" />
 </form>
-
-<!-- <form method = "GET">
-    YEAR: 
-
-
-
-</form><br/> -->
 
 {% if search %}
 City Council Demographics for the year: {{ search }}

@@ -4,8 +4,10 @@
 <html>
 
 <head>
-    <title>Philadelphia City Council</title>
 
+{% block title %} 
+    <title>Philadelphia City Council</title>
+{% endblock %}
 
 {% block scripts %}
 
@@ -22,12 +24,15 @@
     <!-- Load d3 charts -->
     <script src="http://d3js.org/d3.v3.min.js"></script>    
 
-<link rel="stylesheet" href="{{ STATIC_URL }}/static/base.css" />
+
+    <!-- Load site-wide styles  -->
+    <link rel="stylesheet" href="{{ STATIC_URL }}/static/base.css" />
+
 </head>
 
 <body>
 
-<h3>Philadelphia City Council</h3>
+<h1>Philadelphia City Council</h1>
 
 {% block content %}
 
