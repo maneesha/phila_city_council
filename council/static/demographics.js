@@ -1,13 +1,4 @@
-console.log("FROM THE EXTERNAL JS SCRIPT")
-console.log("YOUR SEARCH:", year)
-
-
-
-
-///////////////////////
-//Race chart
-///////////////////////
-
+//Set width, height, radius, angle for all charts
 var w = 400;
 var h = 400;
 var r = h/2;
@@ -18,9 +9,27 @@ var getAngle = function (d) {
   return (180 / Math.PI * (d.startAngle + d.endAngle) / 2 - 90);
   };
 
-// Set color scale.
+
+
+///////////////////////
+//COLORS
+///////////////////////
+
+// Set color scale.  To be customized for each chart.
 // See: https://github.com/mbostock/d3/wiki/Ordinal-Scales
-var color = d3.scale.category10();
+//Need to lock these to race fields
+var race_color = d3.scale.ordinal()
+  .range(["#2ECCFA", "#AC58FA" , "#86B404", "#FA5858", "#E0F8F7"]);
+
+var party_color = d3.scale.ordinal()
+  .range(["blue", "red"]);
+
+var gender_color = d3.scale.category20b();
+
+
+///////////////////////
+//Race chart
+///////////////////////
 
 //Give the chart a div to go into, root svg element, a data source, attr of width, attr height, g element (groups svg shapes to work with them as if a single element), translate is a transform function that moves object x, y units
 var vis = d3.select('#race-chart').append("svg:svg").data([race_list]).attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + r + ") rotate(1.6)");
@@ -33,7 +42,7 @@ var arc = d3.svg.arc().outerRadius(r);
 var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
 arcs.append("svg:path")
     .attr("fill", function(d, i){
-        return color(i);
+        return race_color(i);
     })
     .attr("d", function (d) {
         // log the result of the arc generator to show how cool it is :)
@@ -59,25 +68,9 @@ arcs.append("svg:text")
 
 arcs.append("title");
 
-
 ///////////////////////
 //Gender Chart
 ///////////////////////
-
-
-var w = 400;
-var h = 400;
-var r = h/2;
-
-//Gets angle of arc
-//Used to position pie slice labels below
-var getAngle = function (d) {
-  return (180 / Math.PI * (d.startAngle + d.endAngle) / 2 - 90);
-  };
-
-// Set color scale.
-// See: https://github.com/mbostock/d3/wiki/Ordinal-Scales
-var color = d3.scale.category10();
 
 //Give the chart a div to go into, root svg element, a data source, attr of width, attr height, g element (groups svg shapes to work with them as if a single element), translate is a transform function that moves object x, y units
 var vis = d3.select('#gender-chart').append("svg:svg").data([gender_list]).attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + r + ") rotate(1.6)");
@@ -90,7 +83,7 @@ var arc = d3.svg.arc().outerRadius(r);
 var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
 arcs.append("svg:path")
     .attr("fill", function(d, i){
-        return color(i);
+        return gender_color(i);
     })
     .attr("d", function (d) {
         // log the result of the arc generator to show how cool it is :)
@@ -100,8 +93,7 @@ arcs.append("svg:path")
 
     .append("title").text(function(d, i)
         {return gender_list[i].allnames}
-        )
-    ;
+        );
 
 // add the text labels to each slice
 arcs.append("svg:text")
@@ -114,27 +106,12 @@ arcs.append("svg:text")
     .text( function(d, i) {
         return gender_list[i].councilperson_id_id__gender + ": " + gender_list[i].councilperson_id_id__count;});
 
-
 arcs.append("title");
 
 
 ///////////////////////
 //Party Chart
 ///////////////////////
-
-var w = 400;
-var h = 400;
-var r = h/2;
-
-//Gets angle of arc
-//Used to position pie slice labels below
-var getAngle = function (d) {
-  return (180 / Math.PI * (d.startAngle + d.endAngle) / 2 - 90);
-  };
-
-// Set color scale.
-// See: https://github.com/mbostock/d3/wiki/Ordinal-Scales
-var color = d3.scale.category10();
 
 //Give the chart a div to go into, root svg element, a data source, attr of width, attr height, g element (groups svg shapes to work with them as if a single element), translate is a transform function that moves object x, y units
 var vis = d3.select('#party-chart').append("svg:svg").data([party_list]).attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + r + ") rotate(1.6)");
@@ -146,10 +123,9 @@ var arc = d3.svg.arc().outerRadius(r);
 // select paths, use arc generator to draw
 var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
 
-
 arcs.append("svg:path")
     .attr("fill", function(d, i){
-        return color(i);
+        return party_color(i);
     })
     .attr("d", function (d) {
         // log the result of the arc generator to show how cool it is :)
@@ -163,9 +139,7 @@ arcs.append("svg:path")
     //     )})
     .append("title").text(function(d, i)
         {return party_list[i].allnames}
-        )
-    ;
-
+        );
 
 // add the text labels to each slice
 arcs.append("svg:text")
@@ -177,6 +151,5 @@ arcs.append("svg:text")
     .attr("text-anchor", "middle")
     .text( function(d, i) {
         return party_list[i].party + ": " + party_list[i].councilperson_id_id__count;});
-
 
 arcs.append("title");

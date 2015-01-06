@@ -97,15 +97,13 @@ def demographic_breakdown(request):
 
                 members_by_race, councilmember_names_by_race, race_list = members_by_demographic('councilperson_id_id__race')
 
-
                 members_by_gender, councilmember_names_by_gender, gender_list = members_by_demographic('councilperson_id_id__gender')
 
                 members_by_party, councilmember_names_by_party, party_list = members_by_demographic('party')
 
-            else:
+            else: #if date is not in range 1980-2015
                 search = None
                 message = "Year must be a four digit number between 1980 and 2015. Please try again."
-
 
         except ValueError:
             search = None
