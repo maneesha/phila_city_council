@@ -1,16 +1,11 @@
-<!DOCTYPE html>
+{% extends 'council/base.html' %}
 
-<html>
+{% block title %} 
+<title>Timeline of Councilmembers' Terms</title>  
 
-<head>
+{% endblock %}  
 
-    <title>Timeline</title>
-
-    <!-- Load jQuery -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
-    <!-- Load d3 charts -->
-    <script src="http://d3js.org/d3.v3.min.js"></script>
+{% block scripts %}
 
 <!--     Load tooltip library available here under MIT license:
     http://labratrevenge.com/d3-tip/ -->
@@ -18,6 +13,10 @@
 
     <!-- Load script for this page -->
     <script src="../static/timeline.js"></script>
+
+{% endblock scripts %}
+
+{% block styles %}
 
     <!-- Internal Style Sheet -->
     <style>
@@ -100,18 +99,13 @@
   margin: -1px 0 0 0;
   top: 100%;
   left: 0;
+    
+</style>
+
+{% endblock styles %}
 
 
-
-
-
-
-    </style>
-
-
-</head>
-
-<body>
+{% block content %}
 
     <h2>Timeline of City Council Terms of Service</h2>
 
@@ -170,7 +164,4 @@ gantt(members);
 
 </script>
 
-
-</body>
-
-</html>
+{% endblock content %}
