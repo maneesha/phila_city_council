@@ -75,21 +75,13 @@ def demographic_breakdown(request):
 
             if 1980 <= search <= 2015: #if date falls in range, else return message below
 
-                
                 #Filter for all councilmembers active that year (started before/equal & ended after/equal)
                 active_in_year = Term.objects.filter(effective_end_year__gte=search).filter(effective_start_year__lte=search)
-
-                #Now comes some rather redundant stuff where we do the same thing to get race, gender, and party data
-
-
 
                 def members_by_demographic(model_field_name):
                     query = active_in_year.values(model_field_name).annotate(Count('councilperson_id_id'))
                     query_with_names = query.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', model_field_name)
-                    print("mbd function running")
-                    print("FIRST RETURNED VALUE: ", query)
-                    print("SECOND RETURNED VALUE: ", query_with_names)
-                    
+
                     demographic_list = []
 
                     for q in query:
@@ -109,8 +101,6 @@ def demographic_breakdown(request):
                 members_by_gender, councilmember_names_by_gender, gender_list = members_by_demographic('councilperson_id_id__gender')
 
                 members_by_party, councilmember_names_by_party, party_list = members_by_demographic('party')
-
-
 
             else:
                 search = None
