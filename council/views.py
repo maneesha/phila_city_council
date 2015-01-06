@@ -66,78 +66,51 @@ def demographic_breakdown(request):
     """
     Used to create pie charts showing demographic makeup of city council
     """
-    race_list = party_list = gender_list = search = message = None
+    race_list = party_list = gender_list = message = search = None
 
-    if request.GET.get('search'):
-        try:
-            search = int(request.GET.get('search'))
 
-            if 1980 <= search <= 2015:
+    if request.GET.get('search'): #check to see if there was any input
+        try:  #Try this 
+            search = int(request.GET.get('search')) #if it can't be converted to int, ValueError exception below
 
+            if 1980 <= search <= 2015: #if date falls in range, else return message below
+
+                
+                #Filter for all councilmembers active that year (started before/equal & ended after/equal)
                 active_in_year = Term.objects.filter(effective_end_year__gte=search).filter(effective_start_year__lte=search)
 
                 #Now comes some rather redundant stuff where we do the same thing to get race, gender, and party data
 
-                #FIRST BY RACE
-                members_by_race = active_in_year.values('councilperson_id_id__race').annotate(Count('councilperson_id_id'))
-
-                councilmember_names_by_race = members_by_race.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race')
-
-                race_list = []  #This is the list that will eventually passed to json
-
-                for member_by_race in members_by_race:
-                    race_temp_list = []
-                    for i in councilmember_names_by_race:
-
-                        if i['councilperson_id_id__race'] == member_by_race['councilperson_id_id__race']:
-                            race_temp_list.append(i['councilperson_id_id__first_name'] + " " + i['councilperson_id_id__last_name'])
-
-                        #Add that temp list to the member dict
-                        member_by_race['allnames'] = race_temp_list
-                    #Add the updated member dict to race_list
-                    race_list.append(member_by_race)
 
 
-                #NEXT BY GENDER
-                members_by_gender = active_in_year.values('councilperson_id_id__gender').annotate(Count('councilperson_id_id'))
+                def members_by_demographic(model_field_name):
+                    query = active_in_year.values(model_field_name).annotate(Count('councilperson_id_id'))
+                    query_with_names = query.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', model_field_name)
+                    print("mbd function running")
+                    print("FIRST RETURNED VALUE: ", query)
+                    print("SECOND RETURNED VALUE: ", query_with_names)
+                    
+                    demographic_list = []
 
-                councilmember_names_by_gender = members_by_gender.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__gender')
+                    for q in query:
+                        demographic_temp_list = []
+                        for i in query_with_names:
+                            if i[model_field_name] == q[model_field_name]:
+                                demographic_temp_list.append((i['councilperson_id_id__first_name'] + " " + i['councilperson_id_id__last_name']))
+                            q['allnames'] = demographic_temp_list
+                        demographic_list.append(q)
 
-                gender_list = []  #This is the list that will eventually passed to json
-
-                for member_by_gender in members_by_gender:
-                    gender_temp_list = []
-                    for i in councilmember_names_by_gender:
-
-                        if i['councilperson_id_id__gender'] == member_by_gender['councilperson_id_id__gender']:
-                            gender_temp_list.append(i['councilperson_id_id__first_name'] + " " + i['councilperson_id_id__last_name'])
-
-                        #Add that temp list to the member dict
-                        member_by_gender['allnames'] = gender_temp_list
-                    #Add the updated member dict to race_list
-                    gender_list.append(member_by_gender)
+                    return query, query_with_names, demographic_list
 
 
+                members_by_race, councilmember_names_by_race, race_list = members_by_demographic('councilperson_id_id__race')
 
-                #LASTLY BY PARTY
 
-                members_by_party = active_in_year.values('party').annotate(Count('councilperson_id_id'))
+                members_by_gender, councilmember_names_by_gender, gender_list = members_by_demographic('councilperson_id_id__gender')
 
-                councilmember_names_by_party = members_by_party.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'party')
+                members_by_party, councilmember_names_by_party, party_list = members_by_demographic('party')
 
-                party_list = []  #This is the list that will eventually passed to json
 
-                for member_by_party in members_by_party:
-                    party_temp_list = []
-                    for i in councilmember_names_by_party:
-
-                        if i['party'] == member_by_party['party']:
-                            party_temp_list.append(i['councilperson_id_id__first_name'] + " " + i['councilperson_id_id__last_name'])
-
-                        #Add that temp list to the member dict
-                        member_by_party['allnames'] = party_temp_list
-                    #Add the updated member dict to race_list
-                    party_list.append(member_by_party)
 
             else:
                 search = None
