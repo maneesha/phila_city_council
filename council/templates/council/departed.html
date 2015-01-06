@@ -1,21 +1,20 @@
-<html>
+{% extends 'council/base.html' %}
 
-<head>
-    <title>How councilmembers left</title>
+{% block title %} 
+<title>How Councilmembers' Terms Ended</title>  
+
+{% endblock title %}  
+
+{% block scripts %}
+
+    <!-- Load tooltips -->
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+{% endblock scripts %}
 
 
-    <!-- Load jQuery -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-    <!-- Load d3 charts -->
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-
-
-
-</head>
-
-<body>
-
+{% block content %}
 
 
 Here is a pie chart showing how members left.
@@ -75,6 +74,4 @@ arcs.append("svg:text")
         return departed_list[i].departed + ": " + departed_list[i].councilperson_id_id__count;});
 </script>
 
-</body>
-
-</html>
+{% endblock content %}
