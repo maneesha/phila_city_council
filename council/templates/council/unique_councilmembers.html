@@ -1,16 +1,13 @@
-<!DOCTYPE html>
+{% extends 'council/base.html' %}
 
-<html>
+{% block title %} 
+<title>Unique Councilmembers by District</title>  
 
-<head>
+{% endblock %}  
 
-<title>Unique Councilmembers by District</title>    
-<!-- Load jQuery -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+{% block scripts %}
 
-
-<!-- Load d3 charts -->
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<!-- Load tooltips -->
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
 <!-- initialize json data -->
@@ -18,6 +15,10 @@
 var uniqueMembers = {{ unique_list|safe }};
 </script>
 
+{% endblock scripts %}
+
+
+{% block styles %}
 <!-- Styling the bar graph -->
 <style>
 
@@ -73,20 +74,13 @@ var uniqueMembers = {{ unique_list|safe }};
   top: 100%;
   left: 0;
 
-
-
-
-
-
-
-
-
-
 </style>
 
-</head>
+{% endblock styles %}
 
-<body>
+
+
+{% block content %}
 
 <table style="display:none;">
 <!-- For debugging purposes
@@ -203,9 +197,5 @@ InitChart();
 
 </script>
 
-</body>
-
-</html>
-
-
+{% endblock content %}
 

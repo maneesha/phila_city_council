@@ -9,9 +9,7 @@
     <title>Philadelphia City Council</title>
 {% endblock %}
 
-{% block scripts %}
 
-{% endblock %}
 
 
 {% block styles %}
@@ -27,7 +25,9 @@
 
     <!-- Load site-wide styles  -->
     <link rel="stylesheet" href="{{ STATIC_URL }}/static/base.css" />
+{% block scripts %}
 
+{% endblock %}
 </head>
 
 <body>
