@@ -65,8 +65,10 @@ arcs.append("svg:text")
     .text( function(d, i) {
         return race_list[i].councilperson_id_id__race + ": " + race_list[i].councilperson_id_id__count;});
 
-
-arcs.append("title");
+arcs.append("svg:text")
+.attr("transform", "translate(-200, -170)")
+.style("font-weight", "bold")
+.text("RACE");
 
 ///////////////////////
 //Gender Chart
@@ -106,7 +108,10 @@ arcs.append("svg:text")
     .text( function(d, i) {
         return gender_list[i].councilperson_id_id__gender + ": " + gender_list[i].councilperson_id_id__count;});
 
-arcs.append("title");
+arcs.append("svg:text")
+.attr("transform", "translate(-200, -170)")
+.style("font-weight", "bold")
+.text("GENDER");
 
 
 ///////////////////////
@@ -152,4 +157,7 @@ arcs.append("svg:text")
     .text( function(d, i) {
         return party_list[i].party + ": " + party_list[i].councilperson_id_id__count;});
 
-arcs.append("title");
+arcs.append("svg:text")
+.attr("transform", "translate(-200, -170)")
+.style("font-weight", "bold")
+.text("PARTY");
