@@ -1,26 +1,25 @@
+{% extends 'council/base.html' %}
 {% load render_table from django_tables2 %}
-<!doctype html>
 
-<head>
-<!--     <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
- -->
+
+{% block title %} 
+<title>All Councilmembers: List</title>  
+
+{% endblock %}  
+
+{% block styles %}
+
 
 <link rel="stylesheet" href="{{ STATIC_URL }}/static/screen.css" />
 
-
-</head>
-
+{% endblock styles %}
 
 
-<html>
+
+{% block content %}
+
 <h3>A simple list of all the city council members</h3>
-
-
-
-
 
         {% render_table members %}
 
-
-
-</html>
+{% endblock content %}
