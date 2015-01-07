@@ -155,9 +155,30 @@ def timeline(request):
 
 
 def demographics_stacked_bar(request):
-    active_1984 = Term.objects.filter(effective_end_year__gte=1984)
-    variables = {'active_1984':active_1984}
+    years = [2004, 2008, 2012]
+    demographic_list = []
+
+
+    for year in years:
+
+        active_in_year = Term.objects.filter(effective_end_year__gte=year).filter(effective_start_year__lte=year)
+
+        query = active_in_year.values('councilperson_id_id__race').annotate(Count('councilperson_id_id'))
+        query_with_names = query.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race')
+
+
+
+        for q in query:
+            demographic_temp_list = []
+            for i in query_with_names:
+                if i['councilperson_id_id__race'] == q['councilperson_id_id__race']:
+                    demographic_temp_list.append((i['councilperson_id_id__first_name'] + " " + i['councilperson_id_id__last_name']))
+                q['allnames'] = demographic_temp_list
+                q['year'] = year
+            demographic_list.append(q)
+            
+
+    variables = {'query':query, 'query_with_names':query_with_names, 'demographic_list':demographic_list}
 
     page = "council/demographics-bar.html"
     return render(request, page, variables)
-    

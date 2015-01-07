@@ -2,8 +2,30 @@
 
 {% block content %}
 
-This is where the stacked bar chart will go.
+<script>
+var members = {{ demographic_list|safe }}
+console.log(members)
+</script>
 
-{{ active_1984 }}
+This is where the stacked bar chart will go.
+<br>
+<br>
+<br>
+QUERY WITH NAMES
+{{ query_with_names }}
+
+
+<br>
+<br>
+<br>
+QUERY
+{{ query }}
+
+
+<br>
+<br>
+<br>
+
+{{ demographic_list }}
 
 {% endblock content %}
