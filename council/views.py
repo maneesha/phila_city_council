@@ -152,3 +152,12 @@ def timeline(request):
 
     page = "council/timeline.html"
     return render(request, page, {'members':members})
+
+
+def demographics_stacked_bar(request):
+    active_1984 = Term.objects.filter(effective_end_year__gte=1984)
+    variables = {'active_1984':active_1984}
+
+    page = "council/demographics-bar.html"
+    return render(request, page, variables)
+    
