@@ -1,31 +1,290 @@
 {% extends 'council/base.html' %}
 
+
+{% block title %} 
+    <title>Philadelphia City Council Demographics: Stacked Bar Chart</title>
+{% endblock %}
+
+{% block styles %}
+
+<style>
+
+.axis path, .axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+}
+#tooltip {
+    position: absolute;
+    text-align: center;
+    width: 40px;
+    height: auto;
+    padding: 10px;
+    background-color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+}
+#tooltip.hidden {
+    display: none;
+}
+#tooltip p {
+    margin: 0;
+    font-family: sans-serif;
+    font-size: 16px;
+    line-height: 20px;
+}
+</style>
+{% endblock styles %}
+
+
+
 {% block content %}
 
+
 <script>
-var members = {{ demographic_list|safe }}
-console.log(members)
+var races = {{ races|safe }};
+console.log(races);
+
+
+var margins = {
+    top: 12,
+    left: 48,
+    right: 24,
+    bottom: 24
+},
+legendPanel = {
+    width: 180
+},
+width = 500 - margins.left - margins.right - legendPanel.width,
+height = 400 - margins.top - margins.bottom,
+    
+   
+dataset = [
+    //Data is hardcoded until I figure out what to do with zero values
+
+    {'councilperson_id_id__race': 'White',
+    'values': 
+    [
+        {'count': 9, 'names_list': ['Ann Land', 'Anna Verna', "Brian O'Neill", 'David Cohen', 'George Schwartz', 'James Tayoun', 'Joan Krajewski', 'Joan Specter', 'Louis Johanson'], 'year': 1980}, 
+        {'count': 8, 'names_list': ['Ann Land', 'Anna Verna', "Brian O'Neill", 'David Cohen', 'Joan Krajewski', 'Joan Specter', 'Leland Beloff', 'William Longstreth'], 'year': 1984}, 
+        {'count': 9, 'names_list': ['Ann Land', 'Anna Verna', "Brian O'Neill", 'David Cohen', 'Jack Kelly', 'James Tayoun', 'Joan Krajewski', 'Joan Specter', 'William Longstreth'], 'year': 1988}, 
+        {'count': 10, 'names_list': ['Anna Verna', "Brian O'Neill", 'Daniel McElhatton', 'David Cohen', 'Happy Fernandez', 'James Kenney', 'Joan Krajewski', 'Joan Specter', 'Joseph Vignola', 'William Longstreth'], 'year': 1992}, 
+        {'count': 10, 'names_list': ['Anna Verna', "Brian O'Neill", 'David Cohen', 'Frank DiCicco', 'Frank Rizzo', 'Happy Fernandez', 'James Kenney', 'Joan Krajewski', 'Richard Mariano', 'William Longstreth'], 'year': 1996}, 
+        {'count': 9, 'names_list': ['Anna Verna', "Brian O'Neill", 'David Cohen', 'Frank DiCicco', 'Frank Rizzo', 'James Kenney', 'Joan Krajewski', 'Richard Mariano', 'William Longstreth'], 'year': 2000}, 
+        {'count': 9, 'names_list': ['Anna Verna', "Brian O'Neill", 'David Cohen', 'Frank DiCicco', 'Frank Rizzo', 'Jack Kelly', 'James Kenney', 'Joan Krajewski', 'Richard Mariano'], 'year': 2004}, 
+        {'count': 9, 'names_list': ['Anna Verna', 'Bill Green', "Brian O'Neill", 'Frank DiCicco', 'Frank Rizzo', 'Jack Kelly', 'James Kenney', 'Joan Krajewski', 'William Greenlee'], 'year': 2008}, 
+        {'count': 7, 'names_list': ['Bill Green', 'Bobby Henon', "Brian O'Neill", "Denny O'Brien", 'James Kenney', 'Mark Squilla', 'William Greenlee'], 'year': 2012}
+    ]},
+    
+    {'councilperson_id_id__race': 'Black', 
+     'values': 
+    [
+     {'count': 5, 'names_list': ['Augusta Clark', 'John Anderson', 'John Street', 'Joseph Coleman', 'Lucien Blackwell'], 'year': 1980},
+     {'count': 5, 'names_list': ['Augusta Clark', 'John Street', 'John White', 'Joseph Coleman', 'Lucien Blackwell'], 'year': 1984}, 
+     {'count': 6, 'names_list': ['Augusta Clark', 'George Burrell', 'John Street', 'Joseph Coleman', 'Lucien Blackwell', 'Marian Tasco'], 'year': 1988}, 
+     {'count': 5, 'names_list': ['Augusta Clark', 'Jannie Blackwell', 'John Street', 'Marian Tasco', 'Michael Nutter'], 'year': 1992}, {'count': 6, 'names_list': ['Augusta Clark', 'Donna Miller', 'Jannie Blackwell', 'John Street', 'Marian Tasco', 'Michael Nutter'], 'year': 1996}, 
+     {'count': 7, 'names_list': ['Blondell Brown', 'Darrell Clarke', 'Donna Miller', 'Jannie Blackwell', 'Marian Tasco', 'Michael Nutter', 'W Goode'], 'year': 2000}, 
+     {'count': 7, 'names_list': ['Blondell Brown', 'Darrell Clarke', 'Donna Miller', 'Jannie Blackwell', 'Marian Tasco', 'Michael Nutter', 'W Goode'], 'year': 2004}, 
+     {'count': 7, 'names_list': ['Blondell Brown', 'Curtis Jones', 'Darrell Clarke', 'Donna Miller', 'Jannie Blackwell', 'Marian Tasco', 'W Goode'], 'year': 2008}, 
+     {'count': 8, 'names_list': ['Blondell Brown', 'Cindy Bass', 'Curtis Jones', 'Darrell Clarke', 'Jannie Blackwell', 'Kenyatta Johnson', 'Marian Tasco', 'W Goode'], 'year': 2012}
+     ]},
+    
+    
+    {'councilperson_id_id__race': 'Hispanic', 
+     'values':
+     [
+      {'count': 0, 'names_list': [], 'year': 1980},
+      {'count': 0, 'names_list': [], 'year': 1984},     
+      {'count': 1, 'names_list': ['Angel Ortiz'], 'year': 1988}, 
+      {'count': 1, 'names_list': ['Angel Ortiz'], 'year': 1992}, 
+      {'count': 1, 'names_list': ['Angel Ortiz'], 'year': 1996}, 
+      {'count': 1, 'names_list': ['Angel Ortiz'], 'year': 2000}, 
+      {'count': 1, 'names_list': ['Juan Ramos'], 'year': 2004}, 
+      {'count': 1, 'names_list': ['Maria Quinonez-Sanchez'], 'year': 2008}, 
+      {'count': 1, 'names_list': ['Maria Quinonez-Sanchez'], 'year': 2012}
+
+    ]},
+
+    {'councilperson_id_id__race': 'Asian', 
+     'values':
+     [
+      {'count': 0, 'names_list': [], 'year': 1980},
+      {'count': 0, 'names_list': [], 'year': 1984},     
+      {'count': 0, 'names_list': [], 'year': 1988}, 
+      {'count': 0, 'names_list': [], 'year': 1992}, 
+      {'count': 0, 'names_list': [], 'year': 1996}, 
+      {'count': 0, 'names_list': [], 'year': 2000}, 
+      {'count': 0, 'names_list': [], 'year': 2004}, 
+      {'count': 0, 'names_list': [], 'year': 2008}, 
+      {'count': 1, 'names_list': ['David Oh'], 'year': 2012}
+
+    ]},
+
+        {'councilperson_id_id__race': 'Unknown', 
+     'values':
+     [
+      {'count': 3, 'names_list': [], 'year': 1980},
+      {'count': 4, 'names_list': [], 'year': 1984},     
+      {'count': 1, 'names_list': [], 'year': 1988}, 
+      {'count': 1, 'names_list': [], 'year': 1992}, 
+      {'count': 0, 'names_list': [], 'year': 1996}, 
+      {'count': 0, 'names_list': [], 'year': 2000}, 
+      {'count': 0, 'names_list': [], 'year': 2004}, 
+      {'count': 0, 'names_list': [], 'year': 2008}, 
+      {'count': 0, 'names_list': [], 'year': 2012}
+
+    ]}
+
+
+
+    ]
+   
+    series = dataset.map(function (d) {
+        return d.councilperson_id_id__race;
+    }),
+    dataset = dataset.map(function (d) {
+        return d.values.map(function (o, i) {
+            // Structure it so that your numeric
+            // axis (the stacked amount) is y
+            return {
+                y: o.count,
+                x: o.year
+            };
+        });
+    }),
+    stack = d3.layout.stack();
+
+stack(dataset);
+
+var dataset = dataset.map(function (group) {
+    return group.map(function (d) {
+        // Invert the x and y values, and y0 becomes x0
+        return {
+            x: d.y,
+            y: d.x,
+            x0: d.y0
+
+        };
+    });
+}),
+    svg = d3.select('body')
+        .append('svg')
+        .attr('width', width + margins.left + margins.right + legendPanel.width)
+        .attr('height', height + margins.top + margins.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')'),
+    xMax = d3.max(dataset, function (group) {
+        return d3.max(group, function (d) {
+            return d.x + d.x0;
+        });
+    }),
+    xScale = d3.scale.linear()
+        .domain([0, xMax])
+        .range([0, width]),
+    years = dataset[0].map(function (d) {
+        return d.y;
+    }),
+    _ = console.log(years),
+    yScale = d3.scale.ordinal()
+        .domain(years)
+        .rangeRoundBands([0, height], .1),
+    xAxis = d3.svg.axis()
+        .scale(xScale)
+        .orient('bottom'),
+    yAxis = d3.svg.axis()
+        .scale(yScale)
+        .orient('left'),
+    colours = d3.scale.category10(),
+    groups = svg.selectAll('g')
+        .data(dataset)
+        .enter()
+        .append('g')
+        .style('fill', function (d, i) {
+        return colours(i);
+    }),
+    rects = groups.selectAll('rect')
+        .data(function (d) {
+        return d;
+    })
+        .enter()
+        .append('rect')
+        .attr('x', function (d) {
+        return xScale(d.x0);
+    })
+        .attr('y', function (d, i) {
+        return yScale(d.y);
+    })
+        .attr('height', function (d) {
+        return yScale.rangeBand();
+    })
+        .attr('width', function (d) {
+        return xScale(d.x);
+    })
+        .on('mouseover', function (d) {
+        var xPos = parseFloat(d3.select(this).attr('x')) / 2 + width / 2;
+        var yPos = parseFloat(d3.select(this).attr('y')) + yScale.rangeBand() / 2;
+
+        d3.select('#tooltip')
+            .style('left', xPos + 'px')
+            .style('top', yPos + 'px')
+            .select('#value')
+            .text(d.x);
+
+        d3.select('#tooltip').classed('hidden', false);
+    })
+        .on('mouseout', function () {
+        d3.select('#tooltip').classed('hidden', true);
+    })
+
+    svg.append('g')
+        .attr('class', 'axis')
+        .attr('transform', 'translate(0,' + height + ')')
+        .call(xAxis);
+
+svg.append('g')
+    .attr('class', 'axis')
+    .call(yAxis);
+
+svg.append('rect')
+    .attr('fill', 'yellow')
+    .attr('width', 160)
+    .attr('height', 30 * dataset.length)
+    .attr('x', width + margins.left)
+    .attr('y', 0);
+
+series.forEach(function (s, i) {
+    svg.append('text')
+        .attr('fill', 'black')
+        .attr('x', width + margins.left + 8)
+        .attr('y', i * 24 + 24)
+        .text(s);
+    svg.append('rect')
+        .attr('fill', colours(i))
+        .attr('width', 60)
+        .attr('height', 20)
+        .attr('x', width + margins.left + 90)
+        .attr('y', i * 24 + 6);
+});
+
 </script>
 
-This is where the stacked bar chart will go.
-<br>
-<br>
-<br>
-QUERY WITH NAMES
-{{ query_with_names }}
+
+<div id='bar-chart'>bar chart div</div>
+
+<div id="tooltip" class="hidden">
+    <p><span id="value">100</span>
+    </p>
+</div>
 
 
-<br>
-<br>
-<br>
-QUERY
-{{ query }}
-
-
-<br>
-<br>
-<br>
-
-{{ demographic_list }}
 
 {% endblock content %}

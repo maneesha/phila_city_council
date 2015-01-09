@@ -155,30 +155,53 @@ def timeline(request):
 
 
 def demographics_stacked_bar(request):
-    years = [2004, 2008, 2012]
+    """
+    This returns a dataset in the format d3 needs to make a stacked bar chart except
+    d3  requires zero values to be explicity stated.  How to fix this?
+    """
+    years = [1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012]
     demographic_list = []
+    
+    #SELECT distinct(race) FROM Council JOIN Term
+    #Returns this (a list of dictionaries):
+    # [{'councilperson_id_id__race': 'White'}, {'councilperson_id_id__race': 'Black'}, {'councilperson_id_id__race': 'Hispanic'}, {'councilperson_id_id__race': 'Asian'}, {'councilperson_id_id__race': 'unknown'}]
+    races = Term.objects.values('councilperson_id_id__race').distinct()
+
+    #Make query value set into a real list & iterate through it
+    races = list(races)
+
+    for r in races:  #r is a dictionary
+
+        #Add an item to each dictionary: Key = 'values', Value = empty list
+        r['values'] = []
+
+        for year in years:
+            #Add a dict for each year in years to the empty list assigned to values
+
+            #all members that were active that year
+            active_in_year = Term.objects.filter(effective_end_year__gte=year).filter(effective_start_year__lte=year)
+
+            #Race & count for that year
+            query = active_in_year.values('councilperson_id_id__race').annotate(Count('councilperson_id_id'))
+
+            #first name, last name, race for each query count
+            query_with_names = query.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race')
+
+            query = list(query)
+
+            #List to be populated in following for loop
+            names_list = []
+
+            for qn in query_with_names:
+                if qn['councilperson_id_id__race'] == r['councilperson_id_id__race']:
+                    names_list.append(qn['councilperson_id_id__first_name'] + " " + qn['councilperson_id_id__last_name'])
 
 
-    for year in years:
+            for q in query:
+                #Go through query, if race matches, add year, count, & names list to dictionary
+                if q['councilperson_id_id__race'] == r['councilperson_id_id__race']:
+                    r['values'].append({'year':year, 'count':q['councilperson_id_id__count'], 'names_list':names_list})
 
-        active_in_year = Term.objects.filter(effective_end_year__gte=year).filter(effective_start_year__lte=year)
-
-        query = active_in_year.values('councilperson_id_id__race').annotate(Count('councilperson_id_id'))
-        query_with_names = query.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race')
-
-
-
-        for q in query:
-            demographic_temp_list = []
-            for i in query_with_names:
-                if i['councilperson_id_id__race'] == q['councilperson_id_id__race']:
-                    demographic_temp_list.append((i['councilperson_id_id__first_name'] + " " + i['councilperson_id_id__last_name']))
-                q['allnames'] = demographic_temp_list
-                q['year'] = year
-            demographic_list.append(q)
-            
-
-    variables = {'query':query, 'query_with_names':query_with_names, 'demographic_list':demographic_list}
-
+    variables = {'races':races}
     page = "council/demographics-bar.html"
     return render(request, page, variables)
