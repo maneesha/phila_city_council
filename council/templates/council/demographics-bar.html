@@ -61,9 +61,11 @@ var margins = {
     right: 24,
     bottom: 24
 },
+
 legendPanel = {
     width: 180
 },
+
 width = 500 - margins.left - margins.right - legendPanel.width,
 height = 400 - margins.top - margins.bottom,
     
@@ -88,16 +90,16 @@ dataset = [
     {'councilperson_id_id__race': 'Black', 
      'values': 
     [
-     {'count': 5, 'names_list': ['Augusta Clark', 'John Anderson', 'John Street', 'Joseph Coleman', 'Lucien Blackwell'], 'year': 1980},
-     {'count': 5, 'names_list': ['Augusta Clark', 'John Street', 'John White', 'Joseph Coleman', 'Lucien Blackwell'], 'year': 1984}, 
-     {'count': 6, 'names_list': ['Augusta Clark', 'George Burrell', 'John Street', 'Joseph Coleman', 'Lucien Blackwell', 'Marian Tasco'], 'year': 1988}, 
-     {'count': 5, 'names_list': ['Augusta Clark', 'Jannie Blackwell', 'John Street', 'Marian Tasco', 'Michael Nutter'], 'year': 1992}, {'count': 6, 'names_list': ['Augusta Clark', 'Donna Miller', 'Jannie Blackwell', 'John Street', 'Marian Tasco', 'Michael Nutter'], 'year': 1996}, 
-     {'count': 7, 'names_list': ['Blondell Brown', 'Darrell Clarke', 'Donna Miller', 'Jannie Blackwell', 'Marian Tasco', 'Michael Nutter', 'W Goode'], 'year': 2000}, 
-     {'count': 7, 'names_list': ['Blondell Brown', 'Darrell Clarke', 'Donna Miller', 'Jannie Blackwell', 'Marian Tasco', 'Michael Nutter', 'W Goode'], 'year': 2004}, 
-     {'count': 7, 'names_list': ['Blondell Brown', 'Curtis Jones', 'Darrell Clarke', 'Donna Miller', 'Jannie Blackwell', 'Marian Tasco', 'W Goode'], 'year': 2008}, 
-     {'count': 8, 'names_list': ['Blondell Brown', 'Cindy Bass', 'Curtis Jones', 'Darrell Clarke', 'Jannie Blackwell', 'Kenyatta Johnson', 'Marian Tasco', 'W Goode'], 'year': 2012}
-     ]},
-    
+       {'count': 5, 'names_list': ['Augusta Clark', 'John Anderson', 'John Street', 'Joseph Coleman', 'Lucien Blackwell'], 'year': 1980},
+       {'count': 5, 'names_list': ['Augusta Clark', 'John Street', 'John White', 'Joseph Coleman', 'Lucien Blackwell'], 'year': 1984}, 
+       {'count': 6, 'names_list': ['Augusta Clark', 'George Burrell', 'John Street', 'Joseph Coleman', 'Lucien Blackwell', 'Marian Tasco'], 'year': 1988}, 
+       {'count': 5, 'names_list': ['Augusta Clark', 'Jannie Blackwell', 'John Street', 'Marian Tasco', 'Michael Nutter'], 'year': 1992}, 
+       {'count': 6, 'names_list': ['Augusta Clark', 'Donna Miller', 'Jannie Blackwell', 'John Street', 'Marian Tasco', 'Michael Nutter'  ], 'year': 1996}, 
+       {'count': 7, 'names_list': ['Blondell Brown', 'Darrell Clarke', 'Donna Miller', 'Jannie Blackwell', 'Marian Tasco', 'Michael Nutter', 'W Goode'], 'year': 2000}, 
+       {'count': 7, 'names_list': ['Blondell Brown', 'Darrell Clarke', 'Donna Miller', 'Jannie Blackwell', 'Marian Tasco', 'Michael Nutter', 'W Goode'], 'year': 2004}, 
+       {'count': 7, 'names_list': ['Blondell Brown', 'Curtis Jones', 'Darrell Clarke', 'Donna Miller', 'Jannie Blackwell', 'Marian Tasco', 'W Goode'], 'year': 2008}, 
+       {'count': 8, 'names_list': ['Blondell Brown', 'Cindy Bass', 'Curtis Jones', 'Darrell Clarke', 'Jannie Blackwell', 'Kenyatta Johnson', 'Marian Tasco', 'W Goode'], 'year': 2012}
+    ]},
     
     {'councilperson_id_id__race': 'Hispanic', 
      'values':
@@ -111,7 +113,6 @@ dataset = [
       {'count': 1, 'names_list': ['Juan Ramos'], 'year': 2004}, 
       {'count': 1, 'names_list': ['Maria Quinonez-Sanchez'], 'year': 2008}, 
       {'count': 1, 'names_list': ['Maria Quinonez-Sanchez'], 'year': 2012}
-
     ]},
 
     {'councilperson_id_id__race': 'Asian', 
@@ -126,10 +127,9 @@ dataset = [
       {'count': 0, 'names_list': [], 'year': 2004}, 
       {'count': 0, 'names_list': [], 'year': 2008}, 
       {'count': 1, 'names_list': ['David Oh'], 'year': 2012}
-
     ]},
 
-        {'councilperson_id_id__race': 'Unknown', 
+    {'councilperson_id_id__race': 'Unknown', 
      'values':
      [
       {'count': 3, 'names_list': [], 'year': 1980},
@@ -141,34 +141,35 @@ dataset = [
       {'count': 0, 'names_list': [], 'year': 2004}, 
       {'count': 0, 'names_list': [], 'year': 2008}, 
       {'count': 0, 'names_list': [], 'year': 2012}
-
     ]}
+ ]//end of dataset
 
-
-
-    ]
    
-    series = dataset.map(function (d) {
+series = dataset.map(function (d) {
+        //define what you're counting by 
         return d.councilperson_id_id__race;
     }),
 
 
-    dataset = dataset.map(function (d) {
+dataset = dataset.map(function (d) {
         return d.values.map(function (o, i) {
             // Structure it so that your numeric
             // axis (the stacked amount) is y
             return {
                 //all the data that's going to be used in the chart
+                //y-axis has the count; x-axis has the year; also passing in names for tooltips
                 y: o.count,
                 x: o.year,
                 n: o.names_list
             };
         });
     }),
-    stack = d3.layout.stack();
+
+stack = d3.layout.stack();
 
 
-stack(dataset);
+
+stack(dataset);  //d3 stack function on the dataset defined & modified above
 
 var dataset = dataset.map(function (group) {
     return group.map(function (d) {
@@ -183,91 +184,133 @@ var dataset = dataset.map(function (group) {
         };
     });
 }),
-    svg = d3.select('body')
-        .append('svg')
-        .attr('width', width + margins.left + margins.right + legendPanel.width)
-        .attr('height', height + margins.top + margins.bottom)
-        .append('g')
-        .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')'),
-    xMax = d3.max(dataset, function (group) {
-        return d3.max(group, function (d) {
-            return d.x + d.x0;
-        });
-    }),
-    xScale = d3.scale.linear()
-        .domain([0, xMax])
-        .range([0, width]),
-    years = dataset[0].map(function (d) {
-        return d.y;
-    }),
-    _ = console.log(years),
-    yScale = d3.scale.ordinal()
-        .domain(years)
-        .rangeRoundBands([0, height], .1),
-    xAxis = d3.svg.axis()
-        .scale(xScale)
-        .orient('bottom'),
-    yAxis = d3.svg.axis()
-        .scale(yScale)
-        .orient('left'),
-    colours = d3.scale.category10(),
-    groups = svg.selectAll('g')
-        .data(dataset)
-        .enter()
-        .append('g')
-        .style('fill', function (d, i) {
-        return colours(i);
-    }),
-    rects = groups.selectAll('rect')
-        .data(function (d) {
-        return d;
-    })
-        .enter()
-        .append('rect')
-        .attr('x', function (d) {
-        return xScale(d.x0);
-    })
-        .attr('y', function (d, i) {
-        return yScale(d.y);
-    })
-        .attr('height', function (d) {
-        return yScale.rangeBand();
-    })
-        .attr('width', function (d) {
-        return xScale(d.x);
-    })
-        .on('mouseover', function (d) {
-        var xPos = parseFloat(d3.select(this).attr('x'))  / 2 + width  / 2;
-        var yPos = parseFloat(d3.select(this).attr('y')) + yScale.rangeBand() *3.5;
 
-        d3.select('#tooltip')
-            .style('left', xPos + 'px')
-            .style('top', yPos + 'px')
+
+_ = console.log('dataset is: ', dataset),
+
+svg = d3.select('body')
+    .append('svg')
+    .attr('width', width + margins.left + margins.right + legendPanel.width)
+    .attr('height', height + margins.top + margins.bottom)
+    .append('g')
+    .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')'),
+
+
+_ = console.log('svg is: ', svg)
+
+xMax = d3.max(dataset, function (group) {
+    return d3.max(group, function (d) {
+        return d.x + d.x0;
+    });
+}),
+
+_ = console.log('xMax is: ', xMax), //prints 17
+
+xScale = d3.scale.linear()
+    .domain([0, xMax])
+    .range([0, width]),
+
+_ = console.log('xScale is: ', xScale), //prints function i()
+
+years = dataset[0].map(function (d) {
+    return d.y;
+}),
+
+_ = console.log('years is: ', years), //prints array of years [1980, 1984 ... ]
+
+yScale = d3.scale.ordinal()
+    .domain(years)
+    .rangeRoundBands([0, height], .1),
+
+_ = console.log('yScale is: ', yScale), //prints function e()
+
+xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient('bottom'),
+
+_ = console.log('xAxis is: ', xAxis),  //prints function n()
+
+yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient('left'),
+
+_ = console.log('yAxis is: ', yAxis) //prints function n()
+
+
+colours = d3.scale.category10(),
+
+_ = console.log('colours is: ', colours), //prints function e()
+
+groups = svg.selectAll('g')
+    .data(dataset)
+    .enter()
+    .append('g')
+    .style('fill', function (d, i) {
+    return colours(i);
+}),
+
+_ = console.log('groups is: ', groups),  //prints array of 5 objects
+
+rects = groups.selectAll('rect')
+    .data(function (d) {
+        return d;
+        })
+    .enter()
+    .append('rect')
+    .attr('x', function (d) {
+        return xScale(d.x0);
+        })
+    .attr('y', function (d, i) {
+        return yScale(d.y);
+        })
+    .attr('height', function (d) {
+        return yScale.rangeBand();
+        })
+    .attr('width', function (d) {
+        return xScale(d.x);
+        })
+    .on('mouseover', function (d) {
+        // var xPos = parseFloat(d3.select(this).attr('x'))  / 2 + width  / 2;
+        // var yPos = parseFloat(d3.select(this).attr('y')) + yScale.rangeBand() *3.5;
+
+        d3.select('#member-names')
+            // .style('left', xPos + 'px')
+            // .style('top', yPos + 'px')
             .select('#value')
             .text("Councilmembers: " + d.n);
 
-        d3.select('#tooltip').classed('hidden', false);
-    })
-        .on('mouseout', function () {
-        d3.select('#tooltip').classed('hidden', true);
+        d3.select('#member-names').classed('hidden', false);
+        })
+    .on('mouseout', function () {
+        d3.select('#member-names').classed('hidden', true);
     })
 
-    svg.append('g')
-        .attr('class', 'axis')
-        .attr('transform', 'translate(0,' + height + ')')
-        .call(xAxis);
+_ = console.log('rects is: ', rects) // array of 5 objects, each is a array of 9 objects
 
+
+//end next set of variables drawing graph itself
+
+
+//draw xAxis, apply styles defined above
+svg.append('g')
+    .attr('class', 'axis')
+    .attr('transform', 'translate(0,' + height + ')')
+    .call(xAxis);
+
+//draw yAxis, apply styles defined above
 svg.append('g')
     .attr('class', 'axis')
     .call(yAxis);
 
+//draw legend box, set styles here
 svg.append('rect')
-    .attr('fill', 'yellow')
+    .attr('fill', 'khaki')
     .attr('width', 160)
     .attr('height', 30 * dataset.length)
     .attr('x', width + margins.left)
     .attr('y', 0);
 
+//fill legend box with actual legend
 series.forEach(function (s, i) {
     svg.append('text')
         .attr('fill', 'black')
@@ -292,6 +335,8 @@ series.forEach(function (s, i) {
     </p>
 </div>
 
+<div id = 'member-names'>    <p><span id="value">100</span>
+    </p>names go here</div>
 
 
 {% endblock content %}
