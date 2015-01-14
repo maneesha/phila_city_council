@@ -121,6 +121,9 @@ d3.gantt = function() {
      .on('mouseover', function(d){
         tip.show(d);
      })
+     .on('mouseout', function(d){
+        tip.hide(d);
+     })
 
       ;
 
