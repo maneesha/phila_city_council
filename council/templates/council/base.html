@@ -25,6 +25,25 @@
 
     <!-- Load site-wide styles  -->
     <link rel="stylesheet" href="{{ STATIC_URL }}/static/base.css" />
+
+<!--     System wide chart colors -->
+
+<script>
+
+// Set color scale.  To be customized for each chart.
+// See: https://github.com/mbostock/d3/wiki/Ordinal-Scales
+//Need to lock these to race fields
+var race_color = d3.scale.ordinal()
+  .range(["#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#66A61E"]);
+
+var party_color = d3.scale.ordinal()
+  .range(["#377EB8", "#E41A1C"]);
+
+var gender_color = d3.scale.ordinal()
+  .range(["#BAB827", "#E16C00"]);
+
+</script>
+
 {% block scripts %}
 
 {% endblock %}

@@ -9,24 +9,6 @@ var getAngle = function (d) {
   return (180 / Math.PI * (d.startAngle + d.endAngle) / 2 - 90);
   };
 
-
-
-///////////////////////
-//COLORS
-///////////////////////
-
-// Set color scale.  To be customized for each chart.
-// See: https://github.com/mbostock/d3/wiki/Ordinal-Scales
-//Need to lock these to race fields
-var race_color = d3.scale.ordinal()
-  .range(["#2ECCFA", "#AC58FA" , "#86B404", "#FA5858", "#E0F8F7"]);
-
-var party_color = d3.scale.ordinal()
-  .range(["blue", "red"]);
-
-var gender_color = d3.scale.category20b();
-
-
 ///////////////////////
 //Race chart
 ///////////////////////
