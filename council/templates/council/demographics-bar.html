@@ -147,6 +147,7 @@ dataset = [
    
 series = dataset.map(function (d) {
         //define what you're counting by 
+        //used only for the legend
         return d.councilperson_id_id__race;
     }),
 
@@ -174,11 +175,12 @@ stack(dataset);  //d3 stack function on the dataset defined & modified above
 var dataset = dataset.map(function (group) {
     return group.map(function (d) {
         // Invert the x and y values, and y0 becomes x0
+        //Trying NOT TO invert values - keep x as x and y as y
         return {
             //all the data that's going to be used in the chart
-            x: d.y,
-            y: d.x,
-            x0: d.y0,
+            x: d.x,
+            y: d.y,
+            y0: d.y0,
             n: d.n
 
         };
@@ -198,31 +200,39 @@ svg = d3.select('body')
 
 _ = console.log('svg is: ', svg)
 
-xMax = d3.max(dataset, function (group) {
+//change this from xMax to yMax
+yMax = d3.max(dataset, function (group) {
     return d3.max(group, function (d) {
-        return d.x + d.x0;
+        return d.y + d.y0;
     });
 }),
 
-_ = console.log('xMax is: ', xMax), //prints 17
+_ = console.log('NOW yMax is: ', yMax), //prints 17 -- STILL 17 after switching y
 
-xScale = d3.scale.linear()
-    .domain([0, xMax])
+
+//change this to represent yScale using yMax
+yScale = d3.scale.linear()
+    .domain([0, yMax])
     .range([0, width]),
 
-_ = console.log('xScale is: ', xScale), //prints function i()
+_ = console.log('yScale is: ', yScale), //prints function i()  -- STILL same after switching y
 
+//years is now represented by x
 years = dataset[0].map(function (d) {
-    return d.y;
+    return d.x;
 }),
 
-_ = console.log('years is: ', years), //prints array of years [1980, 1984 ... ]
+_ = console.log('years is: ', years), //prints array of years [1980, 1984 ... ] -- STILL get array of years
 
-yScale = d3.scale.ordinal()
+//set this to xScale
+xScale = d3.scale.ordinal()
     .domain(years)
     .rangeRoundBands([0, height], .1),
 
-_ = console.log('yScale is: ', yScale), //prints function e()
+_ = console.log('xScale is: ', xScale), //prints function e()  //still same
+
+
+//leaving these xAxis & yAxis defs alone
 
 xAxis = d3.svg.axis()
     .scale(xScale)
@@ -236,7 +246,7 @@ yAxis = d3.svg.axis()
 
 _ = console.log('yAxis is: ', yAxis) //prints function n()
 
-
+//leaving color defs alone
 colours = d3.scale.category10(),
 
 _ = console.log('colours is: ', colours), //prints function e()
@@ -258,16 +268,19 @@ rects = groups.selectAll('rect')
     .enter()
     .append('rect')
     .attr('x', function (d) {
-        return xScale(d.x0);
+        return xScale(d.x);
         })
     .attr('y', function (d, i) {
-        return yScale(d.y);
+        return yScale(d.y0);
         })
     .attr('height', function (d) {
-        return yScale.rangeBand();
+        //return yScale.rangeBand();
+        return yScale(d.y);
+
         })
     .attr('width', function (d) {
-        return xScale(d.x);
+        //return xScale(d.x);
+        return xScale.rangeBand();
         })
     .on('mouseover', function (d) {
         // var xPos = parseFloat(d3.select(this).attr('x'))  / 2 + width  / 2;
@@ -294,12 +307,13 @@ _ = console.log('rects is: ', rects) // array of 5 objects, each is a array of 9
 //draw xAxis, apply styles defined above
 svg.append('g')
     .attr('class', 'axis')
-    .attr('transform', 'translate(0,' + height + ')')
+    //.attr('transform', 'translate(0,' + height + ')')
     .call(xAxis);
 
 //draw yAxis, apply styles defined above
 svg.append('g')
     .attr('class', 'axis')
+    .attr('transform', 'translate(0,' + height + ')')
     .call(yAxis);
 
 //draw legend box, set styles here
