@@ -12,15 +12,15 @@ d3.gantt = function() {
     top : 20,
     right : 40,
     bottom : 20,
-    left : 150
+    left : 50
     };
     var timeDomainStart = d3.time.day.offset(new Date(),-3);
     var timeDomainEnd = d3.time.hour.offset(new Date(),+3);
     var timeDomainMode = FIT_TIME_DOMAIN_MODE;// fixed or fit
     var councilmembers = [];
     var departedStyle = [];
-    var height = document.body.clientHeight - margin.top - margin.bottom-5;
-    var width = document.body.clientWidth - margin.right - margin.left-5;
+    var height = 400; //document.body.clientHeight - margin.top - margin.bottom-5;
+    var width = 800; //document.body.clientWidth - margin.right - margin.left-5;
 
     var tickFormat = "%H:%M";
 
@@ -99,11 +99,7 @@ d3.gantt = function() {
 
     svg.call(tip);
 
-
-
-
-
-      svg.selectAll(".chart")
+    svg.selectAll(".chart")
      .data(members, keyFunction).enter()
      .append("rect")
      .attr("rx", 5)
@@ -134,11 +130,24 @@ d3.gantt = function() {
      .transition()
      .call(xAxis);
      
-     svg.append("g").attr("class", "y axis").transition().call(yAxis);
+     svg.append("svg:g").attr("class", "y axis").transition().call(yAxis);
      
+
+
+    svg.append("text")
+        .attr("transform", "translate(-200, 0) rotate(-90)")
+        .attr("y", 160)
+        .attr("x", -190)
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .style("font-size", "16px")
+        .text("District Number");
+
+
      return gantt;
 
     };
+
     
     gantt.redraw = function(members) {
 

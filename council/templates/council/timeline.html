@@ -108,6 +108,8 @@
 {% block content %}
 
     <h2>Timeline of City Council Terms of Service</h2>
+    <p>Check out some of the shortest and longest council terms.<br>
+    Look for gaps to see when districts have gone unrepresented.</p>
 
 <script>
 var members = {{ members|safe }};
@@ -156,7 +158,7 @@ var minDate = members[0].actual_start_date;
 //format date as mm/dd/yyyy
 //see for more info:
 //https://github.com/mbostock/d3/wiki/Time-Formatting
-var dateFormat = "%x"
+var dateFormat = "%b %Y"
 
 var gantt = d3.gantt().councilmembers(districtNames).departedStyle(departedStyle).tickFormat(dateFormat);
 
