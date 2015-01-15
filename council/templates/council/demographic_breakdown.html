@@ -19,6 +19,11 @@
 
 
 {% block styles %}
+<style>
+#gender-chart { float:left;}
+#party-chart { float: left;position: relative; top: -22px; margin: 10px;}
+#race-chart { float:left;position: relative; top: -38px}
+</style>
 
 {% endblock %}
 
@@ -58,7 +63,7 @@
 </form>
 
 <br>
-
+<div id = 'search-form'>
 {% if search %}
 
 City Council Demographics for the year: {{ search }}
@@ -69,11 +74,15 @@ City Council Demographics for the year: {{ search }}
 {{ message }}
 {% endif %}
 <br><br><br><br>
+</div>
 
-<div id="gender-chart"></div><br>
-<div id="party-chart"></div><br>
-<div id="race-chart"></div><br>
-
+<div id="chart-container">
+    <div id="gender-chart"></div><br>
+    <div id="party-chart"></div><br>
+    <div id="race-chart"></div><br>
+</div>
 <!-- Load race code -->
 <script src="../static/demographics.js"></script>
+
+
 {% endblock %}
