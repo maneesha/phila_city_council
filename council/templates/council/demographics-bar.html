@@ -248,7 +248,8 @@ yAxis = d3.svg.axis()
 _ = console.log('yAxis is: ', yAxis) //prints function n()
 
 //leaving color defs alone
-colours = d3.scale.category10(),
+colours = d3.scale.ordinal()
+  .range(["#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#66A61E"]),
 
 _ = console.log('colours is: ', colours), //prints function e()
 
