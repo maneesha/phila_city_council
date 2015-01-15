@@ -112,9 +112,9 @@ function InitChart() {
     WIDTH = 500,
     HEIGHT = 250,
     MARGINS = {
-      top: 20,
-      right: 20,
-      bottom: 20,
+      top: 50,
+      right: 50,
+      bottom: 50,
       left: 50
       },
 
@@ -162,6 +162,25 @@ function InitChart() {
       .attr('transform', 'translate(' + (MARGINS.left) + ',0)')
       .call(yAxis);
 
+
+/*    //Create Y axis label*/
+    vis.append("text")
+        .attr("transform", "translate(60, 0) rotate(-90)")
+        .attr("y", 0-MARGINS.left)
+        .attr("x",0 - (HEIGHT / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Count");
+
+/*
+    //Create X axis label */  
+    vis.append("text")
+    .attr("transform", "translate(0, -60)")
+    .attr("x", WIDTH / 2 )
+        .attr("y",  HEIGHT + MARGINS.bottom)
+        .style("text-anchor", "middle")
+        .text("District Number");
+
     vis.selectAll('rect')
       .data(uniqueMembers)
       .enter()
@@ -197,5 +216,7 @@ InitChart();
 
 </script>
 
+
+<p>How many different people have represented your district since 1980?</p>
 {% endblock content %}
 
