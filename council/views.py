@@ -26,7 +26,7 @@ def all_councilmembers(request):
     #This is how I'd get the object if I was making the table myself
     #members = Term.objects.all()#.order_by('councilperson_id__last_name')
     members = MemberTable(Term.objects.all())
-    RequestConfig(request, paginate={"per_page": 100}).configure(members)
+    RequestConfig(request, paginate={"per_page": 500}).configure(members)
     page = "council/all_members.html"
     return render(request, page, {'members':members})
 
