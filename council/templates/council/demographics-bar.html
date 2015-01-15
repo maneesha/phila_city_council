@@ -172,23 +172,6 @@ stack = d3.layout.stack();
 
 stack(dataset);  //d3 stack function on the dataset defined & modified above
 
-// var dataset = dataset.map(function (group) {
-//     return group.map(function (d) {
-//         // Invert the x and y values, and y0 becomes x0
-//         //Trying NOT TO invert values - keep x as x and y as y
-//         return {
-//             //all the data that's going to be used in the chart
-//             x: d.x,
-//             y: d.y,
-//             y0: d.y0,
-//             n: d.n
-
-//         };
-//     });
-// }),
-
-
-// _ = console.log('dataset is: ', dataset),
 
 var svg = d3.select('body')
     .append('svg')
@@ -207,7 +190,7 @@ yMax = d3.max(dataset, function (group) {
     });
 }),
 
-_ = console.log('NOW yMax is: ', yMax), //prints 17 -- STILL 17 after switching y
+_ = console.log('NOW yMax is: ', yMax), //prints 17
 
 
 //change this to represent yScale using yMax
@@ -215,28 +198,26 @@ yScale = d3.scale.linear()
     .domain([0, yMax])
     .range([height, 0]),
 
-_ = console.log('yScale is: ', yScale), //prints function i()  -- STILL same after switching y
+_ = console.log('yScale is: ', yScale), //prints function i()
 
 //years is now represented by x
 years = dataset[0].map(function (d) {
     return d.x;
 }),
 
-_ = console.log('years is: ', years), //prints array of years [1980, 1984 ... ] -- STILL get array of years
+_ = console.log('years is: ', years), //prints array of years [1980, 1984 ... ] 
 
 //set this to xScale
 xScale = d3.scale.ordinal()
     .domain(years)
     .rangeRoundBands([0, width], .1),
 
-_ = console.log('xScale is: ', xScale), //prints function e()  //still same
+_ = console.log('xScale is: ', xScale), //prints function e() 
 
 
-//leaving these xAxis & yAxis defs alone
 
 xAxis = d3.svg.axis()
     .scale(xScale)
-     //.attr("transform", "translate(0," + (height - 15) + ")")
     .orient('bottom'),
 
 _ = console.log('xAxis is: ', xAxis),  //prints function n()
@@ -276,21 +257,14 @@ rects = groups.selectAll('rect')
         return height - yScale(d.y0);
         })
     .attr('height', function (d) {
-        //return yScale.rangeBand();
         return height - yScale(d.y);
 
         })
     .attr('width', function (d) {
-        //return xScale(d.x);
         return xScale.rangeBand();
         })
     .on('mouseover', function (d) {
-        // var xPos = parseFloat(d3.select(this).attr('x'))  / 2 + width  / 2;
-        // var yPos = parseFloat(d3.select(this).attr('y')) + yScale.rangeBand() *3.5;
-
         d3.select('#member-names')
-            // .style('left', xPos + 'px')
-            // .style('top', yPos + 'px')
             .select('#value')
             .text("Councilmembers: " + d.n);
 
@@ -302,10 +276,6 @@ rects = groups.selectAll('rect')
 
 _ = console.log('rects is: ', rects) // array of 5 objects, each is a array of 9 objects
 
-
-//end next set of variables drawing graph itself
-
-
 //draw xAxis, apply styles defined above
 svg.append('g')
     .attr('class', 'axis')
@@ -316,7 +286,6 @@ svg.append('g')
 //draw yAxis, apply styles defined above
 svg.append('g')
     .attr('class', 'axis')
-    //.attr('transform', 'translate(0,' + (height + 10) + ')')
     .call(yAxis);
 
 //draw legend box, set styles here
@@ -345,15 +314,15 @@ series.forEach(function (s, i) {
 </script>
 
 
-<div id='bar-chart'>bar chart div</div>
+<div id='bar-chart'></div>
 
 <div id="tooltip" class="hidden">
-    <p><span id="value">100</span>
-    </p>
+    <p><span id="value"></span></p>
 </div>
 
-<div id = 'member-names'>    <p><span id="value">placeholder text</span>
-    </p>names go here</div>
+<div id = 'member-names'> 
+  <p><span id="value"></span></p>
+</div>
 
 
 {% endblock content %}
