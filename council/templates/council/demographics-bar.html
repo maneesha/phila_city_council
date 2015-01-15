@@ -172,25 +172,25 @@ stack = d3.layout.stack();
 
 stack(dataset);  //d3 stack function on the dataset defined & modified above
 
-var dataset = dataset.map(function (group) {
-    return group.map(function (d) {
-        // Invert the x and y values, and y0 becomes x0
-        //Trying NOT TO invert values - keep x as x and y as y
-        return {
-            //all the data that's going to be used in the chart
-            x: d.x,
-            y: d.y,
-            y0: d.y0,
-            n: d.n
+// var dataset = dataset.map(function (group) {
+//     return group.map(function (d) {
+//         // Invert the x and y values, and y0 becomes x0
+//         //Trying NOT TO invert values - keep x as x and y as y
+//         return {
+//             //all the data that's going to be used in the chart
+//             x: d.x,
+//             y: d.y,
+//             y0: d.y0,
+//             n: d.n
 
-        };
-    });
-}),
+//         };
+//     });
+// }),
 
 
-_ = console.log('dataset is: ', dataset),
+// _ = console.log('dataset is: ', dataset),
 
-svg = d3.select('body')
+var svg = d3.select('body')
     .append('svg')
     .attr('width', width + margins.left + margins.right + legendPanel.width)
     .attr('height', height + margins.top + margins.bottom)
@@ -213,7 +213,7 @@ _ = console.log('NOW yMax is: ', yMax), //prints 17 -- STILL 17 after switching 
 //change this to represent yScale using yMax
 yScale = d3.scale.linear()
     .domain([0, yMax])
-    .range([0, height]),
+    .range([height, 0]),
 
 _ = console.log('yScale is: ', yScale), //prints function i()  -- STILL same after switching y
 
@@ -273,11 +273,11 @@ rects = groups.selectAll('rect')
         return xScale(d.x);
         })
     .attr('y', function (d) {
-        return yScale(d.y0);
+        return height - yScale(d.y0);
         })
     .attr('height', function (d) {
         //return yScale.rangeBand();
-        return yScale(d.y);
+        return height - yScale(d.y);
 
         })
     .attr('width', function (d) {
