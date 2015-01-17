@@ -109,56 +109,37 @@ var svg = d3.select('body')
 
 _ = console.log('svg is: ', svg)
 
-//change this from xMax to yMax
+
 yMax = d3.max(dataset, function (group) {
     return d3.max(group, function (d) {
         return d.y + d.y0;
     });
 }),
 
-_ = console.log('NOW yMax is: ', yMax), //prints 17
 
-
-//change this to represent yScale using yMax
 yScale = d3.scale.linear()
     .domain([0, yMax])
     .range([height, 0]),
 
-_ = console.log('yScale is: ', yScale), //prints function i()
 
-//years is now represented by x
 years = dataset[0].map(function (d) {
     return d.x;
 }),
 
-_ = console.log('years is: ', years), //prints array of years [1980, 1984 ... ] 
-
-//set this to xScale
 xScale = d3.scale.ordinal()
     .domain(years)
     .rangeRoundBands([0, width], .1),
-
-_ = console.log('xScale is: ', xScale), //prints function e() 
-
-
 
 xAxis = d3.svg.axis()
     .scale(xScale)
     .orient('bottom'),
 
-_ = console.log('xAxis is: ', xAxis),  //prints function n()
-
 yAxis = d3.svg.axis()
     .scale(yScale)
     .orient('left'),
 
-_ = console.log('yAxis is: ', yAxis) //prints function n()
-
-//leaving color defs alone
 colours = d3.scale.ordinal()
   .range(["#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#66A61E"]),
-
-_ = console.log('colours is: ', colours), //prints function e()
 
 groups = svg.selectAll('g')
     .data(dataset)
@@ -168,32 +149,21 @@ groups = svg.selectAll('g')
     return colours(i);
 }),
 
-_ = console.log('groups is: ', groups),  //prints array of 5 objects
+//Create Y axis label
+svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0-margins.left)
+    .attr("x",0 - (height / 2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .text("Count");
 
-
-
-
-    //Create Y axis label
-    svg.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0-margins.left)
-        .attr("x",0 - (height / 2))
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .text("Count");
-
-
-    //Create X axis label   
-    svg.append("text")
-    .attr("x", width / 2 )
-        .attr("y",  height + margins.bottom)
-        .style("text-anchor", "middle")
-        .text("Year");
-
-
-
-
-
+//Create X axis label   
+svg.append("text")
+.attr("x", width / 2 )
+    .attr("y",  height + margins.bottom)
+    .style("text-anchor", "middle")
+    .text("Year");
 
 rects = groups.selectAll('rect')
     .data(function (d) {
@@ -209,7 +179,6 @@ rects = groups.selectAll('rect')
         })
     .attr('height', function (d) {
         return yScale(d.y0) - yScale(d.y0 + d.y);
-
         })
     .attr('width', function (d) {
         return xScale.rangeBand();
@@ -218,20 +187,16 @@ rects = groups.selectAll('rect')
         d3.select('#member-names')
             .select('#value')
             .text("Councilmembers: " + d.n);
-
         d3.select('#member-names').classed('hidden', false);
         })
     .on('mouseout', function () {
         d3.select('#member-names').classed('hidden', true);
     })
 
-_ = console.log('rects is: ', rects) // array of 5 objects, each is a array of 9 objects
-
 //draw xAxis, apply styles defined above
 svg.append('g')
     .attr('class', 'axis')
     .attr("transform", "translate(0," + (height) + ")")
-    //.attr('transform', 'translate(0,' + (height) + ')')
     .call(xAxis);
 
 //draw yAxis, apply styles defined above
@@ -285,7 +250,6 @@ series = dataset.map(function (d) {
         return d.councilperson_id_id__gender;
     }),
 
-
 dataset = dataset.map(function (d) {
         return d.values.map(function (o, i) {
             // Structure it so that your numeric
@@ -311,59 +275,35 @@ var svg = d3.select('body')
     .append('g')
     .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')'),
 
-
-_ = console.log('svg is: ', svg)
-
-//change this from xMax to yMax
 yMax = d3.max(dataset, function (group) {
     return d3.max(group, function (d) {
         return d.y + d.y0;
     });
 }),
 
-_ = console.log('NOW yMax is: ', yMax), //prints 17
-
-
-//change this to represent yScale using yMax
 yScale = d3.scale.linear()
     .domain([0, yMax])
     .range([height, 0]),
 
-_ = console.log('yScale is: ', yScale), //prints function i()
 
-//years is now represented by x
 years = dataset[0].map(function (d) {
     return d.x;
 }),
 
-_ = console.log('years is: ', years), //prints array of years [1980, 1984 ... ] 
-
-//set this to xScale
 xScale = d3.scale.ordinal()
     .domain(years)
     .rangeRoundBands([0, width], .1),
-
-_ = console.log('xScale is: ', xScale), //prints function e() 
-
-
 
 xAxis = d3.svg.axis()
     .scale(xScale)
     .orient('bottom'),
 
-_ = console.log('xAxis is: ', xAxis),  //prints function n()
-
 yAxis = d3.svg.axis()
     .scale(yScale)
     .orient('left'),
 
-_ = console.log('yAxis is: ', yAxis) //prints function n()
-
-//leaving color defs alone
 colours = d3.scale.ordinal()
   .range(["#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#66A61E"]),
-
-_ = console.log('colours is: ', colours), //prints function e()
 
 groups = svg.selectAll('g')
     .data(dataset)
@@ -372,8 +312,6 @@ groups = svg.selectAll('g')
     .style('fill', function (d, i) {
     return colours(i);
 }),
-
-_ = console.log('groups is: ', groups),  //prints array of 5 objects
 
 rects = groups.selectAll('rect')
     .data(function (d) {
@@ -404,8 +342,6 @@ rects = groups.selectAll('rect')
     .on('mouseout', function () {
         d3.select('#member-names').classed('hidden', true);
     })
-
-_ = console.log('rects is: ', rects) // array of 5 objects, each is a array of 9 objects
 
 //draw xAxis, apply styles defined above
 svg.append('g')
@@ -457,7 +393,6 @@ series = dataset.map(function (d) {
         return d.party;
     }),
 
-
 dataset = dataset.map(function (d) {
         return d.values.map(function (o, i) {
             // Structure it so that your numeric
@@ -483,59 +418,34 @@ var svg = d3.select('body')
     .append('g')
     .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')'),
 
-
-_ = console.log('svg is: ', svg)
-
-//change this from xMax to yMax
 yMax = d3.max(dataset, function (group) {
     return d3.max(group, function (d) {
         return d.y + d.y0;
     });
 }),
 
-_ = console.log('NOW yMax is: ', yMax), //prints 17
-
-
-//change this to represent yScale using yMax
 yScale = d3.scale.linear()
     .domain([0, yMax])
     .range([height, 0]),
 
-_ = console.log('yScale is: ', yScale), //prints function i()
-
-//years is now represented by x
 years = dataset[0].map(function (d) {
     return d.x;
 }),
 
-_ = console.log('years is: ', years), //prints array of years [1980, 1984 ... ] 
-
-//set this to xScale
 xScale = d3.scale.ordinal()
     .domain(years)
     .rangeRoundBands([0, width], .1),
-
-_ = console.log('xScale is: ', xScale), //prints function e() 
-
-
 
 xAxis = d3.svg.axis()
     .scale(xScale)
     .orient('bottom'),
 
-_ = console.log('xAxis is: ', xAxis),  //prints function n()
-
 yAxis = d3.svg.axis()
     .scale(yScale)
     .orient('left'),
 
-_ = console.log('yAxis is: ', yAxis) //prints function n()
-
-//leaving color defs alone
 colours = d3.scale.ordinal()
   .range(["#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#66A61E"]),
-
-_ = console.log('colours is: ', colours), //prints function e()
 
 groups = svg.selectAll('g')
     .data(dataset)
@@ -544,8 +454,6 @@ groups = svg.selectAll('g')
     .style('fill', function (d, i) {
     return colours(i);
 }),
-
-_ = console.log('groups is: ', groups),  //prints array of 5 objects
 
 rects = groups.selectAll('rect')
     .data(function (d) {
@@ -576,8 +484,6 @@ rects = groups.selectAll('rect')
     .on('mouseout', function () {
         d3.select('#member-names').classed('hidden', true);
     })
-
-_ = console.log('rects is: ', rects) // array of 5 objects, each is a array of 9 objects
 
 //draw xAxis, apply styles defined above
 svg.append('g')
