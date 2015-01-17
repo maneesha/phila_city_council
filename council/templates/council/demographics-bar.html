@@ -53,7 +53,7 @@ var margins = {
     top: 12,
     left: 48,
     right: 60,
-    bottom: 24
+    bottom: 44
 },
 
 legendPanel = {
@@ -160,6 +160,31 @@ groups = svg.selectAll('g')
 }),
 
 _ = console.log('groups is: ', groups),  //prints array of 5 objects
+
+
+
+
+    //Create Y axis label
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0-margins.left)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Count");
+
+
+    //Create X axis label   
+    svg.append("text")
+    .attr("x", width / 2 )
+        .attr("y",  height + margins.bottom)
+        .style("text-anchor", "middle")
+        .text("Year");
+
+
+
+
+
 
 rects = groups.selectAll('rect')
     .data(function (d) {
