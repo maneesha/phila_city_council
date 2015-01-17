@@ -68,7 +68,7 @@ height = 400 - margins.top - margins.bottom
 </script>
 
 
-
+<!-- Now comes some highly repetitive javascript -->
 <!-- RACE CHART  -->
 
 <script>    
@@ -79,7 +79,6 @@ series = dataset.map(function (d) {
         //used only for the legend
         return d.councilperson_id_id__race;
     }),
-
 
 dataset = dataset.map(function (d) {
         return d.values.map(function (o, i) {
@@ -106,21 +105,15 @@ var svg = d3.select('body')
     .append('g')
     .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')'),
 
-
-_ = console.log('svg is: ', svg)
-
-
 yMax = d3.max(dataset, function (group) {
     return d3.max(group, function (d) {
         return d.y + d.y0;
     });
 }),
 
-
 yScale = d3.scale.linear()
     .domain([0, yMax])
     .range([height, 0]),
-
 
 years = dataset[0].map(function (d) {
     return d.x;
@@ -149,21 +142,7 @@ groups = svg.selectAll('g')
     return colours(i);
 }),
 
-//Create Y axis label
-svg.append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 0-margins.left)
-    .attr("x",0 - (height / 2))
-    .attr("dy", "1em")
-    .style("text-anchor", "middle")
-    .text("Count");
 
-//Create X axis label   
-svg.append("text")
-.attr("x", width / 2 )
-    .attr("y",  height + margins.bottom)
-    .style("text-anchor", "middle")
-    .text("Year");
 
 rects = groups.selectAll('rect')
     .data(function (d) {
@@ -204,6 +183,22 @@ svg.append('g')
     .attr('class', 'axis')
     .call(yAxis);
 
+//Create Y axis label
+svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0-margins.left)
+    .attr("x",0 - (height / 2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .text("Count");
+
+//Create X axis label   
+svg.append("text")
+.attr("x", width / 2 )
+    .attr("y",  height + margins.bottom)
+    .style("text-anchor", "middle")
+    .text("Year");
+
 //draw legend box, set styles here
 svg.append('rect')
     .attr('fill', 'khaki')
@@ -229,9 +224,6 @@ series.forEach(function (s, i) {
 
 </script>
 
-
-<div id='bar-chart'></div>
-
 <div id="tooltip" class="hidden">
     <p><span id="value"></span></p>
 </div>
@@ -240,6 +232,8 @@ series.forEach(function (s, i) {
   <p><span id="value"></span></p>
 </div>
 
+
+<!-- GENDER CHART  -->
 <script>
 
 var dataset = {{ genders|safe }};
@@ -355,6 +349,22 @@ svg.append('g')
     .attr('class', 'axis')
     .call(yAxis);
 
+//Create Y axis label
+svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0-margins.left)
+    .attr("x",0 - (height / 2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .text("Count");
+
+//Create X axis label   
+svg.append("text")
+.attr("x", width / 2 )
+    .attr("y",  height + margins.bottom)
+    .style("text-anchor", "middle")
+    .text("Year");
+
 //draw legend box, set styles here
 svg.append('rect')
     .attr('fill', 'khaki')
@@ -380,9 +390,7 @@ series.forEach(function (s, i) {
 
 </script>
 
-Some placeholder text here
-
-
+<!-- PARTY CHART  -->
 <script>
 
 var dataset = {{ parties|safe }};
@@ -496,6 +504,22 @@ svg.append('g')
 svg.append('g')
     .attr('class', 'axis')
     .call(yAxis);
+
+//Create Y axis label
+svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0-margins.left)
+    .attr("x",0 - (height / 2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .text("Count");
+
+//Create X axis label   
+svg.append("text")
+.attr("x", width / 2 )
+    .attr("y",  height + margins.bottom)
+    .style("text-anchor", "middle")
+    .text("Year");
 
 //draw legend box, set styles here
 svg.append('rect')
