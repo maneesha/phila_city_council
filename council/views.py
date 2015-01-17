@@ -271,12 +271,18 @@ def demographics_stacked_bar(request):
 
 ##############
     get_stackedbar_format(genders, 'councilperson_id_id__gender')
+    get_stackedbar_format(parties, 'party')
     print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
     print(genders)
     print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+
+    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    print(parties)
+    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
 
 
-
-    variables = {'races':races, 'genders':genders}
+    variables = {'races':races, 'genders':genders, 'parties':parties}
     page = "council/demographics-bar.html"
     return render(request, page, variables)
