@@ -167,7 +167,7 @@ def demographics_stacked_bar(request):
     # [{'councilperson_id_id__race': 'White'}, {'councilperson_id_id__race': 'Black'}, {'councilperson_id_id__race': 'Hispanic'}, {'councilperson_id_id__race': 'Asian'}, {'councilperson_id_id__race': 'unknown'}]
     races = Term.objects.values('councilperson_id_id__race').distinct()
     parties = Term.objects.values('party').distinct()
-    genders = Term.objects.values('councilperson_id_id__gender').distinct
+    genders = Term.objects.values('councilperson_id_id__gender').distinct()
 
     #Make query value set into a real list & iterate through it
     races = list(races)
@@ -216,6 +216,67 @@ def demographics_stacked_bar(request):
                 i['values'].append({'count':0, 'year':q, 'names_list':[]})
         i['values'] = sorted(i['values'], key=itemgetter('year'))
 
-    variables = {'races':races}
+
+
+
+
+##############
+
+    def get_stackedbar_format(category, fieldname):
+
+        for c in category:  #c is a dictionary
+
+            #Add an item to each dictionary: Key = 'values', Value = empty list
+            c['values'] = []
+            years = [1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012]
+
+            for year in years:
+                #Add a dict for each year in years to the empty list assigned to values
+
+                #all members that were active that year
+                active_in_year = Term.objects.filter(effective_end_year__gte=year).filter(effective_start_year__lte=year)
+
+                #Race & count for that year
+                query = active_in_year.values(fieldname).annotate(Count('councilperson_id_id'))
+
+                #first name, last name, race for each query count
+                query_with_names = query.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', fieldname)
+
+                query = list(query)
+
+                #List to be populated in following for loop
+                names_list = []
+
+                for qn in query_with_names:
+                    if qn[fieldname] == c[fieldname]:
+                        names_list.append(qn['councilperson_id_id__first_name'] + " " + qn['councilperson_id_id__last_name'])
+
+
+                for q in query:
+                    #Go through query, if race matches, add year, count, & names list to dictionary
+                    if q[fieldname] == c[fieldname]:
+                        c['values'].append({'year':year, 'count':q['councilperson_id_id__count'], 'names_list':names_list})
+
+        #Go through each race dictionary
+        #Find years that are not represented
+        #Give them zero counts and empty names list            
+        for i in category:
+            y = [v['year'] for v in i['values']]
+            for q in years:
+                if q not in y:
+                    i['values'].append({'count':0, 'year':q, 'names_list':[]})
+            i['values'] = sorted(i['values'], key=itemgetter('year'))
+
+
+
+##############
+    get_stackedbar_format(genders, 'councilperson_id_id__gender')
+    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    print(genders)
+    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+
+
+
+    variables = {'races':races, 'genders':genders}
     page = "council/demographics-bar.html"
     return render(request, page, variables)
