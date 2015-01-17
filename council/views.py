@@ -161,7 +161,6 @@ def demographics_stacked_bar(request):
     d3  requires zero values to be explicity stated.  How to fix this?
     """
     years = [1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012]
-    demographic_list = []
     
     #SELECT distinct(race) FROM Council JOIN Term
     #Returns this (a list of dictionaries):
@@ -203,7 +202,6 @@ def demographics_stacked_bar(request):
                 if q['councilperson_id_id__race'] == r['councilperson_id_id__race']:
                     r['values'].append({'year':year, 'count':q['councilperson_id_id__count'], 'names_list':names_list})
 
-
     #Go through each race dictionary
     #Find years that are not represented
     #Give them zero counts and empty names list            
@@ -213,11 +211,6 @@ def demographics_stacked_bar(request):
             if q not in y:
                 i['values'].append({'count':0, 'year':q, 'names_list':[]})
         i['values'] = sorted(i['values'], key=itemgetter('year'))
-
-
-
-
-
 
     variables = {'races':races}
     page = "council/demographics-bar.html"
