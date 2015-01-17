@@ -166,9 +166,13 @@ def demographics_stacked_bar(request):
     #Returns this (a list of dictionaries):
     # [{'councilperson_id_id__race': 'White'}, {'councilperson_id_id__race': 'Black'}, {'councilperson_id_id__race': 'Hispanic'}, {'councilperson_id_id__race': 'Asian'}, {'councilperson_id_id__race': 'unknown'}]
     races = Term.objects.values('councilperson_id_id__race').distinct()
+    parties = Term.objects.values('party').distinct()
+    genders = Term.objects.values('councilperson_id_id__gender').distinct
 
     #Make query value set into a real list & iterate through it
     races = list(races)
+    parties = list(parties)
+    genders = list(genders)
 
     for r in races:  #r is a dictionary
 
