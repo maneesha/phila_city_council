@@ -45,15 +45,9 @@
 </style>
 {% endblock styles %}
 
-
-
 {% block content %}
 
-
 <script>
-var races = {{ races|safe }};
-console.log(races);
-
 
 var margins = {
     top: 12,
@@ -69,81 +63,7 @@ legendPanel = {
 width = 700 - margins.left - margins.right - legendPanel.width,
 height = 400 - margins.top - margins.bottom,
     
-   
-dataset = [
-    //Data is hardcoded until I figure out what to do with zero values
-
-    {'councilperson_id_id__race': 'White',
-    'values': 
-    [
-        {'count': 9, 'names_list': ['Ann Land', 'Anna Verna', "Brian O'Neill", 'David Cohen', 'George Schwartz', 'James Tayoun', 'Joan Krajewski', 'Joan Specter', 'Louis Johanson'], 'year': 1980}, 
-        {'count': 8, 'names_list': ['Ann Land', 'Anna Verna', "Brian O'Neill", 'David Cohen', 'Joan Krajewski', 'Joan Specter', 'Leland Beloff', 'William Longstreth'], 'year': 1984}, 
-        {'count': 9, 'names_list': ['Ann Land', 'Anna Verna', "Brian O'Neill", 'David Cohen', 'Jack Kelly', 'James Tayoun', 'Joan Krajewski', 'Joan Specter', 'William Longstreth'], 'year': 1988}, 
-        {'count': 10, 'names_list': ['Anna Verna', "Brian O'Neill", 'Daniel McElhatton', 'David Cohen', 'Happy Fernandez', 'James Kenney', 'Joan Krajewski', 'Joan Specter', 'Joseph Vignola', 'William Longstreth'], 'year': 1992}, 
-        {'count': 10, 'names_list': ['Anna Verna', "Brian O'Neill", 'David Cohen', 'Frank DiCicco', 'Frank Rizzo', 'Happy Fernandez', 'James Kenney', 'Joan Krajewski', 'Richard Mariano', 'William Longstreth'], 'year': 1996}, 
-        {'count': 9, 'names_list': ['Anna Verna', "Brian O'Neill", 'David Cohen', 'Frank DiCicco', 'Frank Rizzo', 'James Kenney', 'Joan Krajewski', 'Richard Mariano', 'William Longstreth'], 'year': 2000}, 
-        {'count': 9, 'names_list': ['Anna Verna', "Brian O'Neill", 'David Cohen', 'Frank DiCicco', 'Frank Rizzo', 'Jack Kelly', 'James Kenney', 'Joan Krajewski', 'Richard Mariano'], 'year': 2004}, 
-        {'count': 9, 'names_list': ['Anna Verna', 'Bill Green', "Brian O'Neill", 'Frank DiCicco', 'Frank Rizzo', 'Jack Kelly', 'James Kenney', 'Joan Krajewski', 'William Greenlee'], 'year': 2008}, 
-        {'count': 7, 'names_list': ['Bill Green', 'Bobby Henon', "Brian O'Neill", "Denny O'Brien", 'James Kenney', 'Mark Squilla', 'William Greenlee'], 'year': 2012}
-    ]},
-    
-    {'councilperson_id_id__race': 'Black', 
-     'values': 
-    [
-       {'count': 5, 'names_list': ['Augusta Clark', 'John Anderson', 'John Street', 'Joseph Coleman', 'Lucien Blackwell'], 'year': 1980},
-       {'count': 5, 'names_list': ['Augusta Clark', 'John Street', 'John White', 'Joseph Coleman', 'Lucien Blackwell'], 'year': 1984}, 
-       {'count': 6, 'names_list': ['Augusta Clark', 'George Burrell', 'John Street', 'Joseph Coleman', 'Lucien Blackwell', 'Marian Tasco'], 'year': 1988}, 
-       {'count': 5, 'names_list': ['Augusta Clark', 'Jannie Blackwell', 'John Street', 'Marian Tasco', 'Michael Nutter'], 'year': 1992}, 
-       {'count': 6, 'names_list': ['Augusta Clark', 'Donna Miller', 'Jannie Blackwell', 'John Street', 'Marian Tasco', 'Michael Nutter'  ], 'year': 1996}, 
-       {'count': 7, 'names_list': ['Blondell Brown', 'Darrell Clarke', 'Donna Miller', 'Jannie Blackwell', 'Marian Tasco', 'Michael Nutter', 'W Goode'], 'year': 2000}, 
-       {'count': 7, 'names_list': ['Blondell Brown', 'Darrell Clarke', 'Donna Miller', 'Jannie Blackwell', 'Marian Tasco', 'Michael Nutter', 'W Goode'], 'year': 2004}, 
-       {'count': 7, 'names_list': ['Blondell Brown', 'Curtis Jones', 'Darrell Clarke', 'Donna Miller', 'Jannie Blackwell', 'Marian Tasco', 'W Goode'], 'year': 2008}, 
-       {'count': 8, 'names_list': ['Blondell Brown', 'Cindy Bass', 'Curtis Jones', 'Darrell Clarke', 'Jannie Blackwell', 'Kenyatta Johnson', 'Marian Tasco', 'W Goode'], 'year': 2012}
-    ]},
-    
-    {'councilperson_id_id__race': 'Hispanic', 
-     'values':
-     [
-      {'count': 0, 'names_list': [], 'year': 1980},
-      {'count': 0, 'names_list': [], 'year': 1984},     
-      {'count': 1, 'names_list': ['Angel Ortiz'], 'year': 1988}, 
-      {'count': 1, 'names_list': ['Angel Ortiz'], 'year': 1992}, 
-      {'count': 1, 'names_list': ['Angel Ortiz'], 'year': 1996}, 
-      {'count': 1, 'names_list': ['Angel Ortiz'], 'year': 2000}, 
-      {'count': 1, 'names_list': ['Juan Ramos'], 'year': 2004}, 
-      {'count': 1, 'names_list': ['Maria Quinonez-Sanchez'], 'year': 2008}, 
-      {'count': 1, 'names_list': ['Maria Quinonez-Sanchez'], 'year': 2012}
-    ]},
-
-    {'councilperson_id_id__race': 'Asian', 
-     'values':
-     [
-      {'count': 0, 'names_list': [], 'year': 1980},
-      {'count': 0, 'names_list': [], 'year': 1984},     
-      {'count': 0, 'names_list': [], 'year': 1988}, 
-      {'count': 0, 'names_list': [], 'year': 1992}, 
-      {'count': 0, 'names_list': [], 'year': 1996}, 
-      {'count': 0, 'names_list': [], 'year': 2000}, 
-      {'count': 0, 'names_list': [], 'year': 2004}, 
-      {'count': 0, 'names_list': [], 'year': 2008}, 
-      {'count': 1, 'names_list': ['David Oh'], 'year': 2012}
-    ]},
-
-    {'councilperson_id_id__race': 'Unknown', 
-     'values':
-     [
-      {'count': 4, 'names_list': ['Al Pearlman', 'Beatrice Chernock', 'Francis Rafferty', 'Harry Jannotti'], 'year': 1980},
-      {'count': 4, 'names_list': ['Al Pearlman', 'Edward Schwartz', 'Francis Rafferty', 'Patricia Hughes'], 'year': 1984},     
-      {'count': 1, 'names_list': ['Francis Rafferty'], 'year': 1988}, 
-      {'count': 1, 'names_list': ['Herbert DeBeary'], 'year': 1992}, 
-      {'count': 0, 'names_list': [], 'year': 1996}, 
-      {'count': 0, 'names_list': [], 'year': 2000}, 
-      {'count': 0, 'names_list': [], 'year': 2004}, 
-      {'count': 0, 'names_list': [], 'year': 2008}, 
-      {'count': 0, 'names_list': [], 'year': 2012}
-    ]}
- ]//end of dataset
-
+dataset = {{ races|safe }};
    
 series = dataset.map(function (d) {
         //define what you're counting by 
@@ -168,10 +88,7 @@ dataset = dataset.map(function (d) {
 
 stack = d3.layout.stack();
 
-
-
 stack(dataset);  //d3 stack function on the dataset defined & modified above
-
 
 var svg = d3.select('body')
     .append('svg')

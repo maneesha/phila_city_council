@@ -6,6 +6,7 @@ from council.tables import MemberTable
 
 from django.db.models import Count
 
+from operator import itemgetter
 
 import json
 from django.core import serializers
@@ -201,6 +202,22 @@ def demographics_stacked_bar(request):
                 #Go through query, if race matches, add year, count, & names list to dictionary
                 if q['councilperson_id_id__race'] == r['councilperson_id_id__race']:
                     r['values'].append({'year':year, 'count':q['councilperson_id_id__count'], 'names_list':names_list})
+
+
+    #Go through each race dictionary
+    #Find years that are not represented
+    #Give them zero counts and empty names list            
+    for i in races:
+        y = [v['year'] for v in i['values']]
+        for q in years:
+            if q not in y:
+                i['values'].append({'count':0, 'year':q, 'names_list':[]})
+        i['values'] = sorted(i['values'], key=itemgetter('year'))
+
+
+
+
+
 
     variables = {'races':races}
     page = "council/demographics-bar.html"
