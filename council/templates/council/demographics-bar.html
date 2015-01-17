@@ -49,6 +49,8 @@
 
 <script>
 
+//Set up dimensions for all charts
+
 var margins = {
     top: 12,
     left: 48,
@@ -61,9 +63,16 @@ legendPanel = {
 },
 
 width = 700 - margins.left - margins.right - legendPanel.width,
-height = 400 - margins.top - margins.bottom,
-    
-dataset = {{ races|safe }};
+height = 400 - margins.top - margins.bottom
+
+</script>
+
+
+
+<!-- RACE CHART  -->
+
+<script>    
+var dataset = {{ races|safe }};
    
 series = dataset.map(function (d) {
         //define what you're counting by 
@@ -268,21 +277,7 @@ series.forEach(function (s, i) {
 
 <script>
 
-var margins = {
-    top: 12,
-    left: 48,
-    right: 60,
-    bottom: 24
-},
-
-legendPanel = {
-    width: 80
-},
-
-width = 700 - margins.left - margins.right - legendPanel.width,
-height = 400 - margins.top - margins.bottom,
-    
-dataset = {{ genders|safe }};
+var dataset = {{ genders|safe }};
    
 series = dataset.map(function (d) {
         //define what you're counting by 
@@ -454,21 +449,7 @@ Some placeholder text here
 
 <script>
 
-var margins = {
-    top: 12,
-    left: 48,
-    right: 60,
-    bottom: 24
-},
-
-legendPanel = {
-    width: 80
-},
-
-width = 700 - margins.left - margins.right - legendPanel.width,
-height = 400 - margins.top - margins.bottom,
-    
-dataset = {{ parties|safe }};
+var dataset = {{ parties|safe }};
    
 series = dataset.map(function (d) {
         //define what you're counting by 
