@@ -52,7 +52,7 @@
 //Set up dimensions for all charts
 
 var margins = {
-    top: 12,
+    top: 25,
     left: 48,
     right: 100,
     bottom: 44
@@ -67,13 +67,22 @@ height = 400 - margins.top - margins.bottom
 
 </script>
 
+<div id = 'race'>
+  <div id = 'race-chart' style = "width: 60%; float: left; margin: 20px 10px;"></div>
+  <div id = 'race-names' style = "width: 30%; float: left; margin: 20px 10px;">Names for race chart.</div>
+</div>
 
-<div id = 'race-chart' style = "border:solid;">This is the race chart.</div>
-<div id = 'race-names' style = "border:dotted;">Names for race chart.</div>
-<div id = 'gender-chart' style = "border:solid;">This is the gender chart.</div>
-<div id = 'gender-names' style = "border:dotted;">Names for gender chart.</div>
-<div id = 'party-chart' style = "border:solid;">This is the party chart.</div>
-<div id = 'party-names' style = "border:dotted;">Names for party chart.</div>
+
+<div id = 'gender'>
+  <div id = 'gender-chart' style = "width: 60%; float: left; margin: 20px 10px;"></div>
+  <div id = 'gender-names' style = "width: 30%; float: left; margin: 20px 10px;">Names for gender chart.</div>
+</div>
+
+<div id = 'party'>
+  <div id = 'party-chart' style = "width: 60%; float: left; margin: 20px 10px;"></div>
+  <div id = 'party-names' style = "width: 30%; float: left; margin: 20px 10px;">Names for party chart.</div>
+</div>
+
 
 <div id="tooltip" class="hidden">
     <p><span id="value"></span></p>
@@ -216,6 +225,15 @@ svg.append("text")
     .attr("y",  height + margins.bottom)
     .style("text-anchor", "middle")
     .text("Year");
+
+
+//Create Title 
+svg.append("text")
+.attr("x", width / 2 )
+    .attr("y", height/2 - 175)
+    .attr("class", "title")
+    .style("text-anchor", "middle")
+    .text("Councilmembers by Race");
 
 //draw legend box, set styles here
 svg.append('rect')
@@ -375,6 +393,15 @@ svg.append("text")
     .style("text-anchor", "middle")
     .text("Year");
 
+
+//Create Title 
+svg.append("text")
+.attr("x", width / 2 )
+    .attr("y", height/2 - 175)
+    .attr("class", "title")
+    .style("text-anchor", "middle")
+    .text("Councilmembers by Gender");
+
 //draw legend box, set styles here
 svg.append('rect')
     .attr('fill', 'khaki')
@@ -530,6 +557,15 @@ svg.append("text")
     .style("text-anchor", "middle")
     .text("Year");
 
+//Create Title 
+svg.append("text")
+.attr("x", width / 2 )
+    .attr("y", height/2 - 175)
+    .attr("class", "title")
+    .style("text-anchor", "middle")
+    .text("Councilmembers by Party");
+
+
 //draw legend box, set styles here
 svg.append('rect')
     .attr('fill', 'khaki')
@@ -554,17 +590,5 @@ series.forEach(function (s, i) {
 });
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
 
 {% endblock content %}
