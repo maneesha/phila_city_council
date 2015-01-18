@@ -7,16 +7,12 @@
 
 {% block scripts %}
 
-<!-- Load tooltips -->
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-
 <!-- initialize json data -->
 <script>
 var uniqueMembers = {{ unique_list|safe }};
 </script>
 
 {% endblock scripts %}
-
 
 {% block styles %}
 <!-- Styling the bar graph -->

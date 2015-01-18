@@ -1,10 +1,8 @@
 {% extends 'council/base.html' %}
 
-
 {% block title %} 
     <title>Philadelphia City Council Demographics</title>
 {% endblock %}
-
 
 
 {% block scripts %}
@@ -24,7 +22,6 @@
 #party-chart { float: left;position: relative; top: -22px; margin: 10px;}
 #race-chart { float:left;position: relative; top: -38px}
 </style>
-
 {% endblock %}
 
 
@@ -83,6 +80,5 @@ City Council Demographics for the year: {{ search }}
 </div>
 <!-- Load race code -->
 <script src="../static/demographics.js"></script>
-
 
 {% endblock %}
