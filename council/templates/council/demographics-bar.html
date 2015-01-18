@@ -54,7 +54,7 @@
 var margins = {
     top: 12,
     left: 48,
-    right: 60,
+    right: 100,
     bottom: 44
 },
 
@@ -66,6 +66,25 @@ width = 700 - margins.left - margins.right - legendPanel.width,
 height = 400 - margins.top - margins.bottom
 
 </script>
+
+
+<div id = 'race-chart' style = "border:solid;">This is the race chart.</div>
+<div id = 'race-names' style = "border:dotted;">Names for race chart.</div>
+<div id = 'gender-chart' style = "border:solid;">This is the gender chart.</div>
+<div id = 'gender-names' style = "border:dotted;">Names for gender chart.</div>
+<div id = 'party-chart' style = "border:solid;">This is the party chart.</div>
+<div id = 'party-names' style = "border:dotted;">Names for party chart.</div>
+
+<div id="tooltip" class="hidden">
+    <p><span id="value"></span></p>
+</div>
+
+<div id = 'member-names'> 
+  <p><span id="value"></span></p>
+</div>
+
+
+
 
 
 <!-- Now comes some highly repetitive javascript -->
@@ -98,7 +117,7 @@ stack = d3.layout.stack();
 
 stack(dataset);  //d3 stack function on the dataset defined & modified above
 
-var svg = d3.select('body')
+var svg = d3.select('#race-chart')
     .append('svg')
     .attr('width', width + margins.left + margins.right + legendPanel.width)
     .attr('height', height + margins.top + margins.bottom)
@@ -163,13 +182,12 @@ rects = groups.selectAll('rect')
         return xScale.rangeBand();
         })
     .on('mouseover', function (d) {
-        d3.select('#member-names')
-            .select('#value')
+        d3.select('#race-names')
             .text("Councilmembers: " + d.n);
-        d3.select('#member-names').classed('hidden', false);
+        d3.select('#race-names').classed('hidden', false);
         })
     .on('mouseout', function () {
-        d3.select('#member-names').classed('hidden', true);
+        d3.select('#race-names').classed('hidden', true);
     })
 
 //draw xAxis, apply styles defined above
@@ -218,19 +236,12 @@ series.forEach(function (s, i) {
         .attr('fill', colours(i))
         .attr('width', 50)
         .attr('height', 20)
-        .attr('x', width + margins.left +  40)
+        .attr('x', width + margins.left +  55)
         .attr('y', i * 24 + 6);
 });
 
 </script>
 
-<div id="tooltip" class="hidden">
-    <p><span id="value"></span></p>
-</div>
-
-<div id = 'member-names'> 
-  <p><span id="value"></span></p>
-</div>
 
 
 <!-- GENDER CHART  -->
@@ -262,7 +273,7 @@ stack = d3.layout.stack();
 
 stack(dataset);  //d3 stack function on the dataset defined & modified above
 
-var svg = d3.select('body')
+var svg = d3.select('#gender-chart')
     .append('svg')
     .attr('width', width + margins.left + margins.right + legendPanel.width)
     .attr('height', height + margins.top + margins.bottom)
@@ -327,14 +338,13 @@ rects = groups.selectAll('rect')
         return xScale.rangeBand();
         })
     .on('mouseover', function (d) {
-        d3.select('#member-names')
-            .select('#value')
+        d3.select('#gender-names')
             .text("Councilmembers: " + d.n);
 
-        d3.select('#member-names').classed('hidden', false);
+        d3.select('#gender-names').classed('hidden', false);
         })
     .on('mouseout', function () {
-        d3.select('#member-names').classed('hidden', true);
+        d3.select('#gender-names').classed('hidden', true);
     })
 
 //draw xAxis, apply styles defined above
@@ -384,7 +394,7 @@ series.forEach(function (s, i) {
         .attr('fill', colours(i))
         .attr('width', 50)
         .attr('height', 20)
-        .attr('x', width + margins.left +  40)
+        .attr('x', width + margins.left +  55)
         .attr('y', i * 24 + 6);
 });
 
@@ -419,7 +429,7 @@ stack = d3.layout.stack();
 
 stack(dataset);  //d3 stack function on the dataset defined & modified above
 
-var svg = d3.select('body')
+var svg = d3.select('#party-chart')
     .append('svg')
     .attr('width', width + margins.left + margins.right + legendPanel.width)
     .attr('height', height + margins.top + margins.bottom)
@@ -483,14 +493,13 @@ rects = groups.selectAll('rect')
         return xScale.rangeBand();
         })
     .on('mouseover', function (d) {
-        d3.select('#member-names')
-            .select('#value')
+        d3.select('#party-names')
             .text("Councilmembers: " + d.n);
 
-        d3.select('#member-names').classed('hidden', false);
+        d3.select('#party-names').classed('hidden', false);
         })
     .on('mouseout', function () {
-        d3.select('#member-names').classed('hidden', true);
+        d3.select('#party-names').classed('hidden', true);
     })
 
 //draw xAxis, apply styles defined above
@@ -524,7 +533,7 @@ svg.append("text")
 //draw legend box, set styles here
 svg.append('rect')
     .attr('fill', 'khaki')
-    .attr('width', 250)
+    .attr('width', 175)
     .attr('height', 30 * dataset.length)
     .attr('x', width + margins.left - 35)
     .attr('y', 0);
@@ -540,7 +549,7 @@ series.forEach(function (s, i) {
         .attr('fill', colours(i))
         .attr('width', 50)
         .attr('height', 20)
-        .attr('x', width + margins.left +  40)
+        .attr('x', width + margins.left + 55)
         .attr('y', i * 24 + 6);
 });
 
