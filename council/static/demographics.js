@@ -73,8 +73,6 @@ arcs.on('mouseover', function(d){
       .on('mouseout', function(d){
         race_tip.hide(d);})
 
-
-
 ///////////////////////
 //Party Chart
 ///////////////////////
@@ -93,8 +91,6 @@ console.log("PARTY arc: ", arc);
 // select paths, use arc generator to draw
 var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
 
-
-
 //define what goes in the tooltip and call it to the vis
 party_tip = d3.tip().attr('class', 'd3-tip').offset([0,0])
   .html(function(d){
@@ -109,7 +105,6 @@ party_tip = d3.tip().attr('class', 'd3-tip').offset([0,0])
 
 arcs.call(party_tip);
 
-
 arcs.append("svg:path")
     .attr("fill", function(d, i){
         return party_color(i);
@@ -119,14 +114,6 @@ arcs.append("svg:path")
         console.log(arc(d));
         return arc(d);
     })
-    // .on('mouseover', function(d) {d3.select(this).attr('fill', 'grey');})
-    // .on('mouseout', 
-    //     function(d) {
-    //         d3.select(this).attr('fill', function(d,i) {return color(i)}
-    //     )})
-    .append("title").text(function(d, i)
-        {return party_list[i].allnames}
-        );
 
 // add the text labels to each slice
 arcs.append("svg:text")
@@ -148,9 +135,6 @@ arcs.on('mouseover', function(d){
         party_tip.show(d);})
       .on('mouseout', function(d){
         party_tip.hide(d);})
-
-
-
 
 
 ///////////////////////
@@ -194,10 +178,6 @@ arcs.append("svg:path")
         console.log(arc(d));
         return arc(d);
     })
-
-    .append("title").text(function(d, i)
-        {return gender_list[i].allnames}
-        );
 
 // add the text labels to each slice
 arcs.append("svg:text")
