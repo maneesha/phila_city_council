@@ -6,10 +6,27 @@
 {% endblock title %}  
 
 {% block scripts %}
-<!--     Load tooltip library available here under MIT license:
-    http://labratrevenge.com/d3-tip/ 
-    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
- -->{% endblock scripts %}
+{% endblock scripts %}
+
+{% block styles %}
+<style>
+.d3-tip {
+  font: 12px arial, sans-serif;
+  line-height: 1;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 5px;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+</style>
+{% endblock styles %}
+
 
 {% block content %}
 
@@ -26,24 +43,24 @@ var w = 400;
 var h = 400;
 var r = h/2;
 
-//Gets angle of arc
-//Used to position pie slice labels below
+/*Gets angle of arc
+Used to position pie slice labels below*/
 var getAngle = function (d) {
   return (180 / Math.PI * (d.startAngle + d.endAngle) / 2 - 90);
   };
 
-// Set color scale.
-// See: https://github.com/mbostock/d3/wiki/Ordinal-Scales
+/*Set color scale.
+See: https://github.com/mbostock/d3/wiki/Ordinal-Scales*/
 var color = d3.scale.category10();
 
-//Give the chart a div to go into, root svg element, a data source, attr of width, attr height, g element (groups svg shapes to work with them as if a single element), translate is a transform function that moves object x, y units
+/*Give the chart a div to go into, root svg element, a data source, attr of width, attr height, g element (groups svg shapes to work with them as if a single element), translate is a transform function that moves object x, y units*/
 var vis = d3.select('#departed-chart').append("svg:svg").data([departed_list]).attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + r + ") rotate(1.6)");
 var pie = d3.layout.pie().value(function(d){return d.councilperson_id_id__count;});
 
-// declare an arc generator function
+/*declare an arc generator function*/
 var arc = d3.svg.arc().outerRadius(r);
 
-// select paths, use arc generator to draw
+/*select paths, use arc generator to draw*/
 var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
 arcs.append("svg:path")
     .attr("fill", function(d, i){
@@ -54,12 +71,22 @@ arcs.append("svg:path")
         console.log(arc(d));
         return arc(d);
     })
-    //Hover text using browser defaults
-    .append("title").text(function(d, i)
-        {return departed_list[i].allnames}
-        );
 
-// add the text labels to each slice
+/*define what goes in the tooltip and call it to the vis*/
+tip = d3.tip().attr('class', 'd3-tip').offset([r,0])
+  .html(function(d){
+     var names_list = "";
+     for (i=0; i<d.data.councilperson_id_id__count; i++){
+        names_list = names_list + d.data.allnames[i] + "<br> "
+    }
+
+    names_list = "<span style='font-weight: bold;'>" +  d.data.departed + ": Total " + d.data.councilperson_id_id__count + "</span><br>" + names_list;
+    return names_list;
+    });
+
+arcs.call(tip);
+
+/*add the text labels to each slice*/
 arcs.append("svg:text")
     .attr("transform", function(d){
             d.innerRadius = 0;
@@ -68,7 +95,13 @@ arcs.append("svg:text")
 
     .attr("text-anchor", "middle")
     .text( function(d, i) {
-        return departed_list[i].departed + ": " + departed_list[i].councilperson_id_id__count;});
+        return departed_list[i].departed + "- " + departed_list[i].councilperson_id_id__count;});
+
+arcs.on('mouseover', function(d){
+        tip.show(d);})
+      .on('mouseout', function(d){
+        tip.hide(d);})
+
 </script>
 
 {% endblock content %}
