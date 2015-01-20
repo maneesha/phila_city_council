@@ -7,7 +7,7 @@ class TermInline(admin.TabularInline):
     #https://docs.djangoproject.com/en/1.7/ref/contrib/admin/#working-with-a-model-with-two-or-more-foreign-keys-to-the-same-parent-model
     model = Term #what model does this class refer to?
     fk_name = "councilperson_id" #what field in this model is used for foreign key? (as there are multiple foriegn keys)
-    fields = ('predecessor_id', 'successor_id', 'district', 'actual_start_date', 'actual_end_date')#what fields should display
+    fields = ('predecessor_id', 'successor_id', 'district', 'actual_start_date', 'actual_end_date', 'departed', 'effective_start_year', 'effective_end_year', 'party')#what fields should display
     extra = 0 #should blank rows for any extra fields display?
 
 class CouncilmemberAdmin(admin.ModelAdmin):
