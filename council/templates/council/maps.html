@@ -36,12 +36,38 @@
         float: left;
     }
 
-    #buttons {
-      width: 250px;
+    #option-buttons {
+      width: 350px;
       height: 550px;
       margin: 10px;
       float: left;
     }
+
+
+    button, input[type=submit], select {
+      display: inline-block;
+      margin: 3px;
+      padding: 3px;
+      font-size: 14px;
+      font-family: "Arial",sans-serif;
+      line-height: 1.8;
+      appearance: none;
+      box-shadow: none;
+      border-radius: 15px;
+    }
+
+    button:focus {
+      outline: none
+    }
+
+    button:hover {
+      background-color: #808080;
+      font-size: 15px;
+      cursor:pointer;
+    }
+
+
+
 
     .info {
         padding: 6px 8px;
@@ -77,7 +103,7 @@
 
 <h2>City Council by race, gender, party</h2>
 
-<form method="GET">
+<!-- <form method="GET">
     YEAR: <select name="search">
     <option value="0" style="display:none">Choose a year</option>
     <option value="1980">1980</option>
@@ -106,11 +132,57 @@
   {% endif %}
 
 </div>
-
+ -->
 
 <div id = "map"></div>
-<div id = "buttons">
+<div id = "option-buttons">
 <ul>
+<li>
+<form method="GET">
+    <select name="search">
+    <option value="0" style="display:none">Choose a year</option>
+    <option value="1980">1980</option>
+    <option value="1984">1984</option>
+    <option value="1988">1988</option>
+    <option value="1992">1992</option>
+    <option value="1996">1996</option>
+    <option value="2000">2000</option>
+    <option value="2004">2004</option>   
+    <option value="2008">2008</option>
+    <option value="2012">2012</option>
+</select>
+    <input type="submit" value="Submit" />
+</form>
+</li>
+
+<li>
+<div id = 'search-form'>
+  {% if search %}
+    City Council Demographics for the year: {{ search }}
+
+  {% else %}
+      Select a year.
+  {% endif %}
+
+  {% if message %}
+    {{ message }}
+  {% endif %}
+
+</div>
+
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
 <li><button id="change-gender">View by Gender</button></li>
 <li><button id="change-party">View by Party</button></li>
 <li><button id="change-race">View by Race</button></li>
