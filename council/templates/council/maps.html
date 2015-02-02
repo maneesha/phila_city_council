@@ -7,7 +7,15 @@ This is where the maps will go.{% extends 'council/base.html' %}
 
 {% block scripts %}
     <!-- Initialize demographics lists as json -->
+
     <script>
+        <script src="../static/districts.js"></script>
+
+        var demographics = {{ query_with_names|safe }};
+        console.log("DEMOGRAPHICS IS: ");
+        console.log(demographics);
+ console.log("MAPS IS: ");
+        console.log(districts);
         // var race_list = {{ race_list|safe }};
         // var gender_list = {{ gender_list|safe }};
         // var party_list = {{ party_list|safe }};
@@ -55,6 +63,7 @@ This is where the maps will go.{% extends 'council/base.html' %}
 
 
 {% block content %}
+
 <div style="display:none">
 <!-- 
     {% for i in party_list %}
