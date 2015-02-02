@@ -229,7 +229,8 @@ def demographic_maps(request):
     """
     Maps by year by race, gender, party
     """
-    search = message = None
+    search = message = query_with_names = None
+
 
     if request.GET.get('search'): #check to see if there was any input
         try:  #Try this 

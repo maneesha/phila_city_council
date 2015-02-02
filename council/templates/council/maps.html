@@ -27,9 +27,12 @@
 
     <style type="text/css">
     #map{
-        border:solid blue;
         width: 600px;
         height: 550px;
+        border-radius: 15px;
+        box-shadow: 10px 10px 5px #888888;
+        z-index: 0;
+        margin: 10px;
     }
 
     .info {
@@ -85,6 +88,9 @@
 <div id = 'search-form'>
   {% if search %}
     City Council Demographics for the year: {{ search }}
+
+  {% else %}
+      Select a year.
   {% endif %}
 
   {% if message %}
