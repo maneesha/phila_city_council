@@ -5,11 +5,18 @@ This is where the maps will go.{% extends 'council/base.html' %}
 {% endblock %}
 
 
+
+
+
+
+
 {% block scripts %}
     <!-- Initialize demographics lists as json -->
-
-    <script>
         <script src="../static/districts.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+   <script>
 
         var demographics = {{ query_with_names|safe }};
         console.log("DEMOGRAPHICS IS: ");
@@ -25,6 +32,8 @@ This is where the maps will go.{% extends 'council/base.html' %}
 
 
 {% block styles %}
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <style>
 /*#gender-chart { float:left;}
 #party-chart { float: left;position: relative; top: -22px; margin: 10px;}
@@ -119,7 +128,10 @@ City Council Demographics for the year: {{ search }}
 <!-- Load race code -->
 <!-- <script src="../static/demographics.js"></script>
  -->
-
+You searched for {{ search }}
  {{ query_with_names }}
+
+
+
 {% endblock %}
 
