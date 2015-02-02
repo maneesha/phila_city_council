@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^departed$', views.departed, name='departed'),
     url(r'^timeline$', views.timeline, name='timeline'),
     url(r'^demographics_stacked_bar$', views.demographics_stacked_bar, name="stacked-bar"),
+    url(r'^maps$', views.demographic_maps, name="demographic_maps"),
     #Remember the trailing comma
 
     )

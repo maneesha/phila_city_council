@@ -1,0 +1,116 @@
+This is where the maps will go.{% extends 'council/base.html' %}
+
+{% block title %} 
+    <title>Philadelphia City Council Demographics Maps</title>
+{% endblock %}
+
+
+{% block scripts %}
+    <!-- Initialize demographics lists as json -->
+    <script>
+        // var race_list = {{ race_list|safe }};
+        // var gender_list = {{ gender_list|safe }};
+        // var party_list = {{ party_list|safe }};
+        // var year = "{{ search|safe }}";
+    </script>
+{% endblock %}
+
+
+{% block styles %}
+<style>
+/*#gender-chart { float:left;}
+#party-chart { float: left;position: relative; top: -22px; margin: 10px;}
+#race-chart { float:left;position: relative; top: -38px}*/
+
+.d3-tip {
+  font: 12px arial, sans-serif;
+  line-height: 1;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 5px;
+}
+
+/*/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;}
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div style="display:none">
+<!-- 
+    {% for i in party_list %}
+
+        <p>
+        {{ i.party }}: {{ i.allnames }}
+        TOTAL: {{ i.councilperson_id_id__count}}
+        </p>
+        <br>
+
+    {% endfor %} -->
+
+</div>
+
+
+<h2>City Council by race, gender, party</h2>
+
+<form method="GET">
+    YEAR: <select name="search">
+    <option value="0" style="display:none">Choose a year</option>
+    <option value="1980">1980</option>
+    <option value="1984">1984</option>
+    <option value="1988">1988</option>
+    <option value="1992">1992</option>
+    <option value="1996">1996</option>
+    <option value="2000">2000</option>
+    <option value="2004">2004</option>   
+    <option value="2008">2008</option>
+    <option value="2012">2012</option>
+</select>
+    <input type="submit" value="Submit" />
+</form>
+
+<br>
+<div id = 'search-form'>
+{% if search %}
+
+City Council Demographics for the year: {{ search }}
+<script></script>
+{% endif %}
+
+{% if message %}
+{{ message }}
+{% endif %}
+<br><br><br><br>
+</div>
+
+<div id="chart-container">
+    <div id="gender-chart"></div><br>
+    <div id="party-chart"></div><br>
+    <div id="race-chart"></div><br>
+</div>
+<!-- Load race code -->
+<!-- <script src="../static/demographics.js"></script>
+ -->
+
+ {{ query_with_names }}
+{% endblock %}
+

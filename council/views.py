@@ -224,3 +224,16 @@ def demographics_stacked_bar(request):
     variables = {'races':races, 'genders':genders, 'parties':parties}
     page = "council/demographics-bar.html"
     return render(request, page, variables)
+
+def demographic_maps(request):
+    """
+    Maps by year by race, gender, party
+    """
+    active_in_2012 = Term.objects.filter(effective_end_year__gte='2012').filter(effective_start_year__lte='2012')
+
+    query_with_names = active_in_2012.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race', 'councilperson_id_id__gender', 'party')
+
+
+    print(active_in_2012)
+    print(query_with_names)
+    return render(request, 'council/maps.html', {'query_with_names':query_with_names})
