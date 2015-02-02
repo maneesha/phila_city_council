@@ -33,6 +33,14 @@
         box-shadow: 10px 10px 5px #888888;
         z-index: 0;
         margin: 10px;
+        float: left;
+    }
+
+    #buttons {
+      width: 250px;
+      height: 550px;
+      margin: 10px;
+      float: left;
     }
 
     .info {
@@ -99,11 +107,16 @@
 
 </div>
 
-<button id="change-gender">View by Gender</button>
-<button id="change-party">View by Party</button>
-<button id="change-race">View by Race</button>
-<button id="plain-style">Plain map</button>
+
 <div id = "map"></div>
+<div id = "buttons">
+<ul>
+<li><button id="change-gender">View by Gender</button></li>
+<li><button id="change-party">View by Party</button></li>
+<li><button id="change-race">View by Race</button></li>
+<li><button id="plain-style">Plain map</button></li>
+</ul>
+</div>
 
 <script>
 
