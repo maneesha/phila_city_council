@@ -273,12 +273,12 @@ function merge_styles(base, new_styles){
 function getColor(d) {
     return d == 'Democrat' ? 'blue':
            d == 'Republican' ? 'red' : 
-           d == 'male' ? 'green' :
-           d == 'female' ? 'yellow' :
-           d == 'white' ? 'purple' :
-           d == 'black' ? 'orange' :
-           d == 'hispanic' ? 'coral' :
-           d == 'asian' ? 'magenta' :
+           d == 'M' ? 'green' :
+           d == 'F' ? 'yellow' :
+           d == 'White' ? 'purple' :
+           d == 'Black' ? 'orange' :
+           d == 'Hispanic' ? 'coral' :
+           d == 'Asian' ? 'magenta' :
               'gray';
 };
 
@@ -340,6 +340,122 @@ var geojson = L.geoJson(districts, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(map);
+
+//create an initial legend for the map style on load
+var legend;
+
+//click to change color style to gender categories
+document.getElementById("change-gender")
+        .addEventListener('click', function () {
+          style_target = function(f) { return f.properties.gender };
+          geojson.setStyle(style);
+
+          if (legend instanceof L.Control) { map.removeControl(legend); }
+
+          legend = L.control({position: 'topright'});
+
+          legend.onAdd = function (map) {
+
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = ['M', 'F'],
+                labels = [];
+
+            // loop through categories and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColor(grades[i]) + '"></i> ' +
+                    grades[i]  + '<br>' ;
+            }
+            console.log("DIV FOR CHANGE GENDER: ", div.innerHTML);
+            div.innerHTML += "<i style='background:gray'></i> unknown<br>"
+            return div;
+          };
+           legend.addTo(map);
+       });
+
+//click to change color style to party categories
+document.getElementById("change-party")
+        .addEventListener('click', function () {
+          style_target = function(f) { return f.properties.party };
+          geojson.setStyle(style);
+
+          if (legend instanceof L.Control) { map.removeControl(legend); }
+
+          legend = L.control({position: 'topright'});
+
+          legend.onAdd = function (map) {
+
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = ["Democrat", "Republican"],
+                labels = [];
+
+            // loop through categories and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColor(grades[i]) + '"></i> ' +
+                    grades[i]  + '<br>' ;
+            }
+            div.innerHTML += "<i style='background:gray'></i> unknown<br>"
+
+            return div;
+          };
+           legend.addTo(map);
+       });
+
+
+
+//click to change color style to race categories
+document.getElementById("change-race")
+        .addEventListener('click', function () {
+          style_target = function(f) { return f.properties.race };
+          geojson.setStyle(style);
+
+          if (legend instanceof L.Control) { map.removeControl(legend); }
+
+          legend = L.control({position: 'topright'});
+
+          legend.onAdd = function (map) {
+
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = ["Asian", "Black", "Hispanic", "White"],
+                labels = [];
+
+            // loop through categories and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColor(grades[i]) + '"></i> ' +
+                    grades[i]  + '<br>' ;
+            }
+            div.innerHTML += "<i style='background:gray'></i> unknown<br>"
+
+            return div;
+          };
+           legend.addTo(map);
+       });
+
+//click to change color style to race categories
+document.getElementById("plain-style")
+        .addEventListener('click', function () {
+          style_target = function(f) { return f.properties.genderx };
+          geojson.setStyle(style);
+
+          if (legend instanceof L.Control) { map.removeControl(legend); }
+
+          legend = L.control({position: 'topright'});
+
+          legend.onAdd = function (map) {
+
+            //had to create a dummy div to get add/remove to work.
+            var div = L.DomUtil.create('div', 'info legend')//,
+            return div;
+          };
+          legend.addTo(map);
+
+       });
+
+
+
+
 
 
 
