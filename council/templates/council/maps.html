@@ -49,7 +49,30 @@ This is where the maps will go.{% extends 'council/base.html' %}
 /*#gender-chart { float:left;}
 #party-chart { float: left;position: relative; top: -22px; margin: 10px;}
 #race-chart { float:left;position: relative; top: -38px}*/
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
 
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
 
 
 
@@ -158,6 +181,56 @@ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18
 }).addTo(map);
+
+
+
+
+
+//initialize an info control
+var info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+
+// method that we will use to update the control based on feature properties passed
+info.update = function (props) {
+
+    this._div.innerHTML = '<h4>City Council</h4>' +  
+        //ternary 
+        (props ? 
+        
+        //if hovering on a district    
+
+         "District: " + props.dist_num + 
+         "<br>Name: " + props.councilperson + 
+         "<br>Party:" + props.party + 
+         "<br>Gender: " + props.gender + 
+         "<br>Race: " + props.race
+
+        //if not hovering on a district
+
+        : 'Hover over a district'); 
+};
+
+//add info to map
+info.addTo(map);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 {% endblock %}
 
