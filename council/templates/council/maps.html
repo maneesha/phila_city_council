@@ -218,6 +218,41 @@ info.update = function (props) {
 //add info to map
 info.addTo(map);
 
+console.log("DEMOGRAPHICS: is this mark? party");
+console.log(demographics[0].party);
+console.log("demographics LENGTH");
+console.log(demographics.length);
+console.log("districts LENGTH");
+console.log(districts.features.length);
+
+
+//merge the two data sets
+for (i=0; i<districts.features.length; i++) {
+    console.log("districts.features[i].properties ", typeof districts.features[i].properties);
+
+    console.log("districts.features.properties.dist_num ", districts.features[i].properties.dist_num);
+    console.log("xxxxxxxxxxxxxxxxxxxxxxx")
+    for (j=0; j<demographics.length; j++) {
+        if (districts.features[i].properties.dist_num == demographics[j].district) {
+            console.log("IN DISTRICTS", districts.features[i].properties.dist_num, "IN TEST DATA", demographics[j].dist_num);
+            console.log("INSIDE LOOP::::::");
+            console.log("district is: ", demographics[j].district);
+
+            districts.features[i].properties.party = demographics[j].party;
+            districts.features[i].properties.first_name = demographics[j].councilperson_id_id__first_name;
+            districts.features[i].properties.last_name = demographics[j].councilperson_id_id__last_name;
+            districts.features[i].properties.gender = demographics[j].councilperson_id_id__gender;
+            districts.features[i].properties.race = demographics[j].councilperson_id_id__race;
+        }
+    }
+
+    districts.features[i].properties.anotherItem = "Whatever";
+    //console.log('districts.features.properties.anotherItem', districts.features[i].properties.anotherItem);
+};
+console.log("AFTER LOOP THROUGH");
+console.log(districts);
+
+
 
 
 
