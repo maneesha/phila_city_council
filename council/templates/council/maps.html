@@ -34,10 +34,25 @@ This is where the maps will go.{% extends 'council/base.html' %}
 {% block styles %}
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-<style>
+
+
+
+
+
+<style type="text/css">
+#map{
+    border:solid blue;
+    width: 75%;
+    height: 100%;
+}
+
 /*#gender-chart { float:left;}
 #party-chart { float: left;position: relative; top: -22px; margin: 10px;}
 #race-chart { float:left;position: relative; top: -38px}*/
+
+
+
+
 
 .d3-tip {
   font: 12px arial, sans-serif;
@@ -125,13 +140,24 @@ City Council Demographics for the year: {{ search }}
     <div id="party-chart"></div><br>
     <div id="race-chart"></div><br>
 </div>
+
+<div id = "map"></div>
 <!-- Load race code -->
 <!-- <script src="../static/demographics.js"></script>
  -->
 You searched for {{ search }}
  {{ query_with_names }}
 
+<script>
 
+//Initialize a map inside a div called map
+var map = L.map('map').setView([39.955, -75.1647], 11);
 
+//add a maplayer to map
+L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 18
+}).addTo(map);
+</script>
 {% endblock %}
 
