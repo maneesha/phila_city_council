@@ -12,7 +12,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     #Include the urls defined in council.urls
-    #Their urls will all start with council/
-    url(r'^council/', include('council.urls')),
+    url(r'^', include('council.urls')),
+  
     #Remember the trailing comma
 )
