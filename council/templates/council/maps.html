@@ -65,7 +65,7 @@
 {% block content %}
 
 <h2>City Council by race, gender, party</h2>
-<p>Year selector does not yet work, data is for 2012</p>
+
 <form method="GET">
     YEAR: <select name="search">
     <option value="0" style="display:none">Choose a year</option>
@@ -83,16 +83,16 @@
 </form>
 
 <div id = 'search-form'>
-{% if search %}
+  {% if search %}
+    City Council Demographics for the year: {{ search }}
+  {% endif %}
 
-City Council Demographics for the year: {{ search }}
-<script></script>
-{% endif %}
+  {% if message %}
+    {{ message }}
+  {% endif %}
 
 </div>
 
-
-This is a test map.
 <button id="change-gender">Change to Gender colors</button>
 <button id="change-party">Change to party colors</button>
 <button id="change-race">Change to race colors</button>

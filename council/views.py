@@ -229,14 +229,37 @@ def demographic_maps(request):
     """
     Maps by year by race, gender, party
     """
-    active_in_2012 = Term.objects.filter(effective_end_year__gte='2012').filter(effective_start_year__lte='2012')
+    search = message = None
 
-    query_with_names = active_in_2012.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race', 'councilperson_id_id__gender', 'party', 'district')
     if request.GET.get('search'): #check to see if there was any input
-        # try:  #Try this 
-        search = int(request.GET.get('search')) #if it can't be converted to int, ValueError exception below
+        try:  #Try this 
+            search = int(request.GET.get('search')) #if it can't be converted to int, ValueError exception below
+
+            if 1980 <= search <= 2015: #if date falls in range, else return message below
+
+                active_that_year = Term.objects.filter(effective_end_year__gte=search).filter(effective_start_year__lte=search)
+
+                query_with_names = active_that_year.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race', 'councilperson_id_id__gender', 'party', 'district')
+
+            else: #if date is not in range 1980-2015
+                search = None
+                message = "Year must be a four digit number between 1980 and 2015. Please try again."
+
+        except ValueError:
+            search = None
+            message = "Year must be a four digit number between 1980 and 2015. Please try again."
 
 
-    print(active_in_2012)
+
+
+    # active_in_2012 = Term.objects.filter(effective_end_year__gte='2012').filter(effective_start_year__lte='2012')
+
+    # query_with_names = active_in_2012.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race', 'councilperson_id_id__gender', 'party', 'district')
+    # if request.GET.get('search'): #check to see if there was any input
+    #     # try:  #Try this 
+    #     search = int(request.GET.get('search')) #if it can't be converted to int, ValueError exception below
+
+
+    #print(active_in_2012)
     print(query_with_names)
-    return render(request, 'council/maps.html', {'query_with_names':query_with_names, 'search':search})
+    return render(request, 'council/maps.html', {'query_with_names':query_with_names, 'search':search, 'message':message})
