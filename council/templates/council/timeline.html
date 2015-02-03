@@ -120,15 +120,15 @@ for (i=0; i<members.length; i++)
     }
 
 
-//members has the following fields:
-// actual_end_date
-// departed
-// actual_start_date
-// district
-// councilperson_id_id__last_name
-// councilperson_id_id__first_name
+/*members has the following fields:
+actual_end_date
+departed
+actual_start_date
+district
+councilperson_id_id__last_name
+councilperson_id_id__first_name*/
 
-//connects with css styles
+/*connects with css styles*/
 var departedStyle = {
     "defeated": "defeated",
     "scandal": "scandal",
@@ -137,10 +137,10 @@ var departedStyle = {
     "died":"died"
     }
 
-//sets up y axis 
+/*sets up y axis */
 var districtNames = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-//get max & min values for x axis based on max/min dates
+/*get max & min values for x axis based on max/min dates*/
 members.sort(function(a,b){
     return a.actual_end_date - b.actual_end_date;
 });
@@ -153,9 +153,9 @@ members.sort(function(a,b){
 
 var minDate = members[0].actual_start_date;
 
-//format date as mm/dd/yyyy
-//see for more info:
-//https://github.com/mbostock/d3/wiki/Time-Formatting
+/*format date as mm/dd/yyyy*/
+/*see for more info:*/
+/*https://github.com/mbostock/d3/wiki/Time-Formatting*/
 var dateFormat = "%b %Y"
 
 var gantt = d3.gantt().councilmembers(districtNames).departedStyle(departedStyle).tickFormat(dateFormat);
