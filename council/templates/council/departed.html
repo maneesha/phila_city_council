@@ -23,7 +23,7 @@
 .d3-tip.n:after {
   margin: -1px 0 0 0;
   top: 100%;
-  left: 0;
+  left: 0;}
 </style>
 {% endblock styles %}
 
@@ -49,9 +49,16 @@ var getAngle = function (d) {
   return (180 / Math.PI * (d.startAngle + d.endAngle) / 2 - 90);
   };
 
-/*Set color scale.
-See: https://github.com/mbostock/d3/wiki/Ordinal-Scales*/
-var color = d3.scale.category10();
+/*Set color scale.*/
+var color = {
+    "defeated": "#F2C249", /* light orange*/
+    "resigned" : "#E6772E",  /* orange */
+    "retired": "#4DB3B3",  /* light blue */
+    "died": "#E64A45", /* pinkish red */
+    "scandal": "#3D4C53", /* blue-gray */
+    "incumbent": "#888888"
+    }
+
 
 /*Give the chart a div to go into, root svg element, a data source, attr of width, attr height, g element (groups svg shapes to work with them as if a single element), translate is a transform function that moves object x, y units*/
 var vis = d3.select('#departed-chart').append("svg:svg").data([departed_list]).attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + r + ") rotate(1.6)");
@@ -64,7 +71,7 @@ var arc = d3.svg.arc().outerRadius(r);
 var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
 arcs.append("svg:path")
     .attr("fill", function(d, i){
-        return color(i);
+        return color[departed_list[i].departed]
     })
     .attr("d", function (d) {
         // log the result of the arc generator to show how cool it is :)
