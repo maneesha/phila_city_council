@@ -140,19 +140,6 @@ var departedStyle = {
 /*sets up y axis */
 var districtNames = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-/*get max & min values for x axis based on max/min dates*/
-members.sort(function(a,b){
-    return a.actual_end_date - b.actual_end_date;
-});
-
-var maxDate = members[members.length-1].actual_end_date;
-
-members.sort(function(a,b){
-    return a.actual_start_date - b.actual_start_date;
-});
-
-var minDate = members[0].actual_start_date;
-
 /*format date as mm/dd/yyyy*/
 /*see for more info:*/
 /*https://github.com/mbostock/d3/wiki/Time-Formatting*/

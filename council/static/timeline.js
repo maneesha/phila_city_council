@@ -55,7 +55,8 @@ d3.gantt = function() {
         members.sort(function(a, b) {
         return a.actual_start_date - b.actual_start_date;
         });
-        timeDomainStart = members[0].actual_start_date;
+        timeDomainStart = new Date('1979/01/01');
+
     }
     };
 
