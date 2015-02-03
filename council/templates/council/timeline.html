@@ -21,12 +21,12 @@
         height: 100%;
         margin: 0px;
     }
-     
+
     .chart {
         font-family: Arial, sans-serif;
         font-size: 12px;
     }
-     
+
     .axis path,.axis line {
         fill: none;
         stroke: #000;
@@ -114,11 +114,10 @@ var members = {{ members|safe }};
 
 for (i=0; i<members.length; i++)
     {
-    //convert date strings to js date format
+    /*convert date strings to js date format*/
     members[i].actual_end_date = new Date(members[i].actual_end_date);
     members[i].actual_start_date = new Date(members[i].actual_start_date);
     }
-
 
 /*members has the following fields:
 actual_end_date
@@ -135,15 +134,15 @@ var departedStyle = {
     "resigned":"resigned",
     "retired":"retired",
     "died":"died"
-    }
+    };
 
 /*sets up y axis */
-var districtNames = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+var districtNames = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 /*format date as mm/dd/yyyy*/
 /*see for more info:*/
 /*https://github.com/mbostock/d3/wiki/Time-Formatting*/
-var dateFormat = "%b %Y"
+var dateFormat = "%b %Y";
 
 var gantt = d3.gantt().councilmembers(districtNames).departedStyle(departedStyle).tickFormat(dateFormat);
 
