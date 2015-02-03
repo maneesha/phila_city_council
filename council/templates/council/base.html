@@ -33,17 +33,25 @@
 
 <script>
 
-// Set color scale.  To be customized for each chart.
-// See: https://github.com/mbostock/d3/wiki/Ordinal-Scales
-//Need to lock these to race fields
-var race_color = d3.scale.ordinal()
-  .range(["#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#66A61E"]);
+// Set color scale to be used throughout site.  To be customized for each chart.
 
-var party_color = d3.scale.ordinal()
-  .range(["#377EB8", "#E41A1C"]);
+var race_color = {
+    'Black'   : '#1B9E77',  /*teal*/
+    'White'   : '#D95F02',  /*orange*/
+    'Asian'   : '#7570B3', /*purple*/
+    'Hispanic': '#E7298A', /*bright pink*/
+    'unknown' : '#66A61E' /*green*/
+};
 
-var gender_color = d3.scale.ordinal()
-  .range(["#BAB827", "#E16C00"]);
+var party_color = {
+    'Democrat':"#377EB8", /*blue*/
+    "Republican":"#E41A1C" /*red*/
+};
+
+var gender_color = {
+    "M": "#CCCC33", /*yellow*/
+    "F": "#009933" /*green*/
+};
 
 </script>
 

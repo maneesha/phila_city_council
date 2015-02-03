@@ -39,12 +39,12 @@ race_tip = d3.tip().attr('class', 'd3-tip').offset([0,0])
 arcs.call(race_tip);
  
 arcs.append("svg:path")
-    .attr("fill", function(d, i){
-        return race_color(i);
-    })
-    .attr("d", function (d) {
-        return arc(d);
-    })
+.attr("fill", function(d, i){
+    return race_color[d.data.councilperson_id_id__race];
+})
+.attr("d", function (d) {
+    return arc(d);
+})
 
 // add the text labels to each slice
 arcs.append("svg:text")
@@ -97,7 +97,7 @@ arcs.call(party_tip);
 
 arcs.append("svg:path")
     .attr("fill", function(d, i){
-        return party_color(i);
+        return party_color[d.data.party];    
     })
     .attr("d", function (d) {
         return arc(d);
@@ -155,7 +155,7 @@ arcs.call(gender_tip);
 
 arcs.append("svg:path")
     .attr("fill", function(d, i){
-        return gender_color(i);
+        return gender_color[d.data.councilperson_id_id__gender];
     })
     .attr("d", function (d) {
         return arc(d);
