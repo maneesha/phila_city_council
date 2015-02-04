@@ -78,7 +78,7 @@ d3.gantt = function() {
         var svg = d3.select("body")
         .append("svg")
         .attr("class", "chart")
-        .attr("width", width + margin.left + margin.right)
+        .attr("width", width + margin.left + margin.right + 200)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
             .attr("class", "gantt-chart")
@@ -141,9 +141,52 @@ d3.gantt = function() {
             .style("text-anchor", "middle")
             .style("font-size", "16px")
             .text("District Number");
-        
-        return gantt;
 
+
+
+            //draw legend box, set styles here
+
+        svg.append('rect')
+            .attr('rx', 5)
+            .attr('ry', 5)
+            .attr('fill', 'khaki')
+            .attr('width', 170)
+            .attr('height', 190)
+            .attr('x', width + 20)
+            .attr('y', 10);
+
+        var color = {
+            "defeated": "#F2C249", /* light orange*/
+            "resigned" : "#E6772E",  /* orange */
+            "retired": "#4DB3B3",  /* light blue */
+            "died": "#E64A45", /* pinkish red */
+            "scandal": "#3D4C53", /* blue-gray */
+            "incumbent": "#888888"
+            };
+
+        start_y = 20
+
+        for (i in color) {
+            svg.append('rect')
+                .attr('rx', 5)
+                .attr('ry', 5)
+                .attr('width', 50)
+                .attr('height', 20)
+                .attr('x', width + 30)
+                .attr('y', start_y)
+                .attr('fill', color[i]);
+
+            svg.append('text')
+                .attr('width', 250)
+                .attr('height', 20)
+                .attr('x', width + 85)
+                .attr('y', start_y + 15)
+                .style("font-size", "16px") 
+                .text(i);
+            start_y = start_y + 30;
+        }
+
+        return gantt;
         };
 
     
