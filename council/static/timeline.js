@@ -90,11 +90,14 @@ d3.gantt = function() {
         tip = d3.tip().attr('class', 'd3-tip').offset([-10, 0])
           .html(function(d){    
             var formatDate = d3.time.format("%x");
+            var termSpan =  ((d.actual_end_date) - (d.actual_start_date))/1000/60/60/24/365
+            termSpan = Math.round(termSpan*10)/10
             return (d.councilperson_id_id__first_name + " " + 
                     d.councilperson_id_id__last_name + ": " + 
                     formatDate(d.actual_start_date) + " to " + 
-                    formatDate(d.actual_end_date) + 
-                    " (" + d.departed +  ")");
+                    formatDate(d.actual_end_date) + "<br>" +
+                    termSpan + " years"
+                    );
            });
         svg.call(tip);
 
