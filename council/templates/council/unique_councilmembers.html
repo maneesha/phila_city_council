@@ -68,7 +68,7 @@ var uniqueMembers = {{ unique_list|safe }};
 .d3-tip.n:after {
   margin: -1px 0 0 0;
   top: 100%;
-  left: 0;
+  left: 0;}
 
 </style>
 
@@ -101,20 +101,20 @@ View raw data in html table -->
     {% endfor %}
 </table>
 
-<svg id="visualisation" width="500" height="250"></svg>
+<svg id="visualisation" width="800" height="400"></svg>
 
 <script>
 
 function InitChart() {
  
   var vis = d3.select('#visualisation'),
-    WIDTH = 500,
-    HEIGHT = 250,
+    WIDTH = 600,
+    HEIGHT = 325,
     MARGINS = {
-      top: 50,
-      right: 50,
-      bottom: 50,
-      left: 50
+      top: 25,
+      right: 25,
+      bottom: 25,
+      left: 25
       },
 
     xRange = d3.scale.ordinal().rangeRoundBands([MARGINS.left, WIDTH - MARGINS.right], 0.1).domain(uniqueMembers.map(function(d){
@@ -153,19 +153,19 @@ function InitChart() {
  
     vis.append('svg:g')
       .attr('class', 'x axis')
-      .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
+      .attr('transform', 'translate(50,' + (HEIGHT - MARGINS.bottom) + ')')
       .call(xAxis);
  
     vis.append('svg:g')
       .attr('class', 'y axis')
-      .attr('transform', 'translate(' + (MARGINS.left) + ',0)')
+      .attr('transform', 'translate(' + (MARGINS.left + 50) + ',0)')
       .call(yAxis);
 
 
 /*    //Create Y axis label*/
     vis.append("text")
         .attr("transform", "translate(60, 0) rotate(-90)")
-        .attr("y", 0-MARGINS.left)
+        .attr("y", MARGINS.left - 50)
         .attr("x",0 - (HEIGHT / 2))
         .attr("dy", "1em")
         .style("text-anchor", "middle")
@@ -176,7 +176,7 @@ function InitChart() {
     vis.append("text")
     .attr("transform", "translate(0, -60)")
     .attr("x", WIDTH / 2 )
-        .attr("y",  HEIGHT + MARGINS.bottom)
+        .attr("y",  HEIGHT + MARGINS.bottom + 50)
         .style("text-anchor", "middle")
         .text("District Number");
 
@@ -186,7 +186,7 @@ function InitChart() {
       .append('rect')
       .attr('x', function(d) { 
 /*        // sets the x position of the bar*/
-        return xRange(d.district);
+        return xRange(d.district) + 50;
        })
       .attr('y', function(d) { /*// sets the y position of the bar*/
         return yRange(d.councilperson_id_id__count);
@@ -198,7 +198,7 @@ function InitChart() {
       .attr('fill', 'grey')   // fills the bar with grey color
       .on('mouseover', function(d){
         tip.show(d);
-         d3.select(this).attr('fill', 'blue');})
+         d3.select(this).attr('fill', '#2F4F4F');})
 /*     //.on('mouseover', tip.show)*/
 
 
