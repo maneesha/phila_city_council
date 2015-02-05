@@ -264,3 +264,9 @@ def demographic_maps(request):
     #print(active_in_2012)
     print(query_with_names)
     return render(request, 'council/maps.html', {'query_with_names':query_with_names, 'search':search, 'message':message})
+
+def about(request):
+    """
+    Landing page
+    """
+    return render(request, 'council/about.html')
