@@ -12,3 +12,14 @@ ul {
     margin: 0px;
     line-height: 150%;
 }
+
+body p {
+    margin-right: 150px;
+}
+
+a {text-decoration:none}
+
+a:link    { color: #2E1532; }
+a:visited { color: #044F55; }
+a:hover   { color: #CE5044; }
+a:active  { color: #9F2820; }
