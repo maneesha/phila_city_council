@@ -162,8 +162,8 @@ d3.gantt = function() {
             "defeated": "#F2C249", /* light orange*/
             "resigned" : "#E6772E",  /* orange */
             "retired": "#4DB3B3",  /* light blue */
-            "died": "#E64A45", /* pinkish red */
-            "scandal": "#3D4C53", /* blue-gray */
+            "scandal": "#E64A45", /* pinkish red */
+            "died": "#3D4C53", /* blue-gray */
             "incumbent": "#888888"
             };
 
