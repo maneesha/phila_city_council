@@ -250,18 +250,6 @@ def demographic_maps(request):
             search = None
             message = "Year must be a four digit number between 1980 and 2015. Please try again."
 
-
-
-
-    # active_in_2012 = Term.objects.filter(effective_end_year__gte='2012').filter(effective_start_year__lte='2012')
-
-    # query_with_names = active_in_2012.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race', 'councilperson_id_id__gender', 'party', 'district')
-    # if request.GET.get('search'): #check to see if there was any input
-    #     # try:  #Try this 
-    #     search = int(request.GET.get('search')) #if it can't be converted to int, ValueError exception below
-
-
-    #print(active_in_2012)
     print(query_with_names)
     return render(request, 'council/maps.html', {'query_with_names':query_with_names, 'search':search, 'message':message})
 
