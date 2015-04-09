@@ -179,7 +179,15 @@ series.forEach(function (s, i) {
 
 
 var councilperson_id_id__race = 'councilperson_id_id__race';   
+var councilperson_id_id__gender = 'councilperson_id_id__gender';  
+var party = 'party';  
+
 make_bar_chart(race_dataset, councilperson_id_id__race, '#race-chart', race_colors, '#race-names', 'Race');
+
+
+
+
+
 
 /*
 
