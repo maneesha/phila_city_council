@@ -184,9 +184,10 @@ var party = 'party';
 
 make_bar_chart(race_dataset, councilperson_id_id__race, '#race-chart', race_colors, '#race-names', 'Race');
 
+make_bar_chart(gender_dataset, councilperson_id_id__gender, '#gender-chart', gender_colors, '#gender-names', 'Gender');
 
 
-
+make_bar_chart(party_dataset, party, "#party-chart", party_colors, "#party-names", "Party");
 
 
 /*
