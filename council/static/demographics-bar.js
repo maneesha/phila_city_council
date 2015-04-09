@@ -6,7 +6,14 @@ var race_colors = d3.scale.ordinal()
   .range(["#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#888888"])
 
 
-var make_bar_chart = function(demographic_data, django_var, chart_id, demographic_colors, infobox_id) {
+var gender_colors = d3.scale.ordinal()
+  .range(["#CCCC33", "#009933", "#888888"])
+
+
+var party_colors = d3.scale.ordinal()
+  .range(["#377EB8", "#E41A1C", '#888888'])
+
+var make_bar_chart = function(demographic_data, django_var, chart_id, demographic_colors, infobox_id, demographic_string) {
 
 series = demographic_data.map(function (d) {
         //define what you're counting by 
@@ -142,7 +149,7 @@ svg.append("text")
     .attr("y", height/2 - 175)
     .attr("class", "title")
     .style("text-anchor", "middle")
-    .text("Councilmembers by ");
+    .text("Councilmembers by " + demographic_string);
 
 //draw legend box, set styles here
 svg.append('rect')
@@ -172,7 +179,7 @@ series.forEach(function (s, i) {
 
 
 var councilperson_id_id__race = 'councilperson_id_id__race';   
-make_bar_chart(race_dataset, councilperson_id_id__race, '#race-chart', race_colors, '#race-names');
+make_bar_chart(race_dataset, councilperson_id_id__race, '#race-chart', race_colors, '#race-names', 'Race');
 
 /*
 
