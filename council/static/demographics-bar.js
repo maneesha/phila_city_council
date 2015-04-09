@@ -6,9 +6,8 @@ var race_colors = d3.scale.ordinal()
   .range(["#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#888888"])
 
 
+var make_bar_chart = function(demographic_data, django_var, chart_id, demographic_colors, infobox_id) {
 
-
-var make_bar_chart = function(demographic_data, django_var, chart_id, demographic_colors) {
 series = demographic_data.map(function (d) {
         //define what you're counting by 
         //used only for the legend
@@ -100,12 +99,12 @@ rects = groups.selectAll('rect')
         return xScale.rangeBand();
         })
     .on('mouseover', function (d) {
-        d3.select('#race-names')
+        d3.select(infobox_id)
             .text("Councilmembers: " + d.n);
-        d3.select('#race-names').classed('hidden', false);
+        d3.select(infobox_id).classed('hidden', false);
         })
     .on('mouseout', function (d) {
-        d3.select('#race-names')
+        d3.select(infobox_id)
         .text("Councilmembers: ")
     })
 
@@ -173,7 +172,7 @@ series.forEach(function (s, i) {
 
 
 var councilperson_id_id__race = 'councilperson_id_id__race';   
-make_bar_chart(race_dataset, councilperson_id_id__race, '#race-chart', race_colors);
+make_bar_chart(race_dataset, councilperson_id_id__race, '#race-chart', race_colors, '#race-names');
 
 /*
 
