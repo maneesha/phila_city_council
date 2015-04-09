@@ -7,8 +7,13 @@
 
 {% block scripts %}
 
+
+
+
     <!-- Load script for this page -->
     <script src="../static/timeline.js"></script>
+
+
 
 {% endblock scripts %}
 
@@ -57,6 +62,14 @@
       fill: #888888;
     }
 
+
+    .female  {        fill: green;
+}
+    .male   { fill: yellow;
+} 
+
+
+
 </style>
 
 {% endblock styles %}
@@ -69,8 +82,14 @@
     Look for gaps to see when districts have gone unrepresented.</p>
     <p>Only district seats are represented here as at-large seats do not have direct successors.</p>
 
+
 <script>
 var members = {{ members|safe }};
+
+
+console.log("MEMBERS");
+console.log(members);
+console.log("END MEMBERS");
 
 for (i=0; i<members.length; i++)
     {
@@ -96,6 +115,10 @@ var departedStyle = {
     "died":"died"
     };
 
+var genderStyle = {'M':"male", 'F':"female"};
+
+
+
 /*sets up y axis */
 var districtNames = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -104,10 +127,26 @@ var districtNames = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 /*https://github.com/mbostock/d3/wiki/Time-Formatting*/
 var dateFormat = "%b %Y";
 
-var gantt = d3.gantt().councilmembers(districtNames).departedStyle(departedStyle).tickFormat(dateFormat);
-
+//var gantt = d3.gantt().councilmembers(districtNames).departedStyle(departedStyle).tickFormat(dateFormat);
+var gantt = d3.gantt().councilmembers(districtNames).genderStyle(genderStyle).tickFormat(dateFormat);
 gantt(members);
 
 </script>
+
+
+
+
+
+
+<!-- <button onclick="gantt(members)">Click me</button> -->
+
+<!-- 
+// <script>
+// function myFunction() {
+//     document.getElementById("demo").innerHTML = "Hello World";
+// }
+// </script>
+
+ -->
 
 {% endblock content %}

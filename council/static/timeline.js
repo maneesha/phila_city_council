@@ -8,28 +8,24 @@ d3.gantt = function() {
     var FIT_TIME_DOMAIN_MODE = "fit";
     var FIXED_TIME_DOMAIN_MODE = "fixed";
     
-    var margin = {
-    top : 20,
-    right : 40,
-    bottom : 20,
-    left : 50
-    };
+    var margin = {top : 20, right : 40, bottom : 20, left : 50};
     var timeDomainStart = d3.time.day.offset(new Date(),-3);
     var timeDomainEnd = d3.time.hour.offset(new Date(),+3);
     var timeDomainMode = FIT_TIME_DOMAIN_MODE;// fixed or fit
     var councilmembers = [];
-    var departedStyle = [];
+
+    //var departedStyle = [];
     var height = 450;
     var width = 800;
 
     var tickFormat = "%H:%M";
 
     var keyFunction = function(d) {
-    return d.actual_start_date + d.district + d.actual_end_date;
+        return d.actual_start_date + d.district + d.actual_end_date;
     };
 
     var rectTransform = function(d) {
-    return "translate(" + x(d.actual_start_date) + "," + y(d.district) + ")";
+        return "translate(" + x(d.actual_start_date) + "," + y(d.district) + ")";
     };
 
     var x = d3.time.scale().domain([ timeDomainStart, timeDomainEnd ]).range([ 0, width ]).clamp(true);
@@ -59,17 +55,16 @@ d3.gantt = function() {
         }
     };
 
+    
     var initAxis = function() {
         x = d3.time.scale().domain([ timeDomainStart, timeDomainEnd ]).range([ 0, width ]).clamp(true);
         y = d3.scale.ordinal().domain(councilmembers).rangeRoundBands([ 0, height - margin.top - margin.bottom ], .1);
         xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(d3.time.format(tickFormat)).tickSubdivide(true)
             .tickSize(8).tickPadding(8);
-
         yAxis = d3.svg.axis().scale(y).orient("left").tickSize(0);
     };
     
     function gantt(members) {
-    
         initTimeDomain();
         initAxis();
         
@@ -99,6 +94,7 @@ d3.gantt = function() {
                     termSpan + " years"
                     );
            });
+        
         svg.call(tip);
 
         //select chart, add rectangles & tooltips
@@ -109,8 +105,10 @@ d3.gantt = function() {
          .attr("rx", 5)
              .attr("ry", 5)
          .attr("class", function(d){ 
-             if(departedStyle[d.departed] == null){ return "incumbent";}
-             return departedStyle[d.departed];
+             /////////////////if(departedStyle[d.departed] == null){ return "incumbent";}
+             if (genderStyle[d.councilperson_id_id__gender] == null) { return "F"; }
+             //////////////return departedStyle[d.departed];
+             return genderStyle[d.councilperson_id_id__gender];
              }) 
          .attr("y", 0)
          .attr("transform", rectTransform)
@@ -158,13 +156,16 @@ d3.gantt = function() {
             .attr('x', width + 20)
             .attr('y', 10);
 
+        //for the legend box
         var color = {
             "defeated": "#F2C249", /* light orange*/
             "resigned" : "#E6772E",  /* orange */
             "retired": "#4DB3B3",  /* light blue */
             "scandal": "#E64A45", /* pinkish red */
             "died": "#3D4C53", /* blue-gray */
-            "incumbent": "#888888"
+            "incumbent": "#888888",
+            "M":"yellow",
+            "F":"green"
             };
 
         start_y = 20
@@ -207,9 +208,15 @@ d3.gantt = function() {
             .attr("rx", 5)
             .attr("ry", 5)
             .attr("class", function(d){ 
-            if(departedStyle[d.departed] == null)
-               { return "incumbent";}
-            return departedStyle[d.departed];
+            /////////////////if(departedStyle[d.departed] == null)
+            ///////////////////   { return "incumbent";}
+            //////////////////return departedStyle[d.departed];
+            if (genderStyle[d.councilperson_id_id__gender] == null)
+                {return "M";}
+            return genderStyle[d.councilperson_id_id__gender];
+
+
+
             }) 
             .transition()
             .attr("y", 0)
@@ -231,7 +238,7 @@ d3.gantt = function() {
         svg.select(".y").transition().call(yAxis);
     
         return gantt;
-    };
+    };//end gantt.redraw
 
     gantt.margin = function(value) {
        if (!arguments.length)
@@ -266,10 +273,17 @@ d3.gantt = function() {
         return gantt;
     };
     
-    gantt.departedStyle = function(value) {
+    //////////////////// gantt.departedStyle = function(value) {
+    //     if (!arguments.length)
+    //         return departedStyle;
+    //     departedStyle = value;
+    //     return gantt;
+    ///////////////// };
+
+    gantt.genderStyle = function(value) {
         if (!arguments.length)
-            return departedStyle;
-        departedStyle = value;
+            return genderStyle
+        genderStyle = value;
         return gantt;
     };
 
@@ -296,3 +310,5 @@ d3.gantt = function() {
 
     return gantt;
 };
+
+
