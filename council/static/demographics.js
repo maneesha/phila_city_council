@@ -9,175 +9,71 @@ var getAngle = function (d) {
   return (180 / Math.PI * (d.startAngle + d.endAngle) / 2 - 90);
   };
 
-///////////////////////
-//Race chart
-///////////////////////
-
-//Give the chart a div to go into, root svg element, a data source, attr of width, attr height, g element (groups svg shapes to work with them as if a single element), translate is a transform function that moves object x, y units
-var vis = d3.select('#race-chart').append("svg:svg").data([race_list]).attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + (r+30) + ") rotate(1.6)");
 var pie = d3.layout.pie().value(function(d){return d.councilperson_id_id__count;});
 
 // declare an arc generator function
 var arc = d3.svg.arc().outerRadius(r);
 
-// select paths, use arc generator to draw
-var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
 
 
-//define what goes in the tooltip and call it to the vis
-race_tip = d3.tip().attr('class', 'd3-tip').offset([0,0])
-  .html(function(d){
-    var names_list = "";
-    for (i=0; i<d.data.councilperson_id_id__count; i++){
-       names_list = names_list + d.data.allnames[i] + "<br> "
-    }
+//Function to make each demographic chart
+var make_chart = function(chart_id, demographic_data_array, demographic_color, django_var, demographic_string) {
+    var vis = d3.select(chart_id).append("svg:svg").data(demographic_data_array).attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + (r+30) + ") rotate(1.6)");
+    // select paths, use arc generator to draw
+    var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
+    //define what goes in the tooltip and call it to the vis
+    var demographic_tip = d3.tip().attr('class', 'd3-tip').offset([0,0])
+      .html(function(d){
+        var names_list = "";
+        for (i=0; i<d.data.councilperson_id_id__count; i++){
+           names_list = names_list + d.data.allnames[i] + "<br> "
+        }
 
-    names_list = "<span style='font-weight: bold;'>" +  d.data.councilperson_id_id__race + ": Total " + d.data.councilperson_id_id__count + "</span><br>" + names_list;
-    return names_list;
-    });
+        names_list = "<span style='font-weight: bold;'>" +  d.data[django_var] + ": Total " + d.data.councilperson_id_id__count + "</span><br>" + names_list;
+        return names_list;
+        });
 
-arcs.call(race_tip);
- 
-arcs.append("svg:path")
-.attr("fill", function(d, i){
-    return race_color[d.data.councilperson_id_id__race];
-})
-.attr("d", function (d) {
-    return arc(d);
-})
+    arcs.call(demographic_tip);
 
-// add the text labels to each slice
-arcs.append("svg:text")
-    .attr("transform", function(d){
-            d.innerRadius = 0;
-            d.outerRadius = r;
-            return "translate(" + arc.centroid(d) + ") rotate(" + getAngle(d) + ")";})
-
-    .attr("text-anchor", "middle")
-    .text( function(d, i) {
-        return race_list[i].councilperson_id_id__race + ": " + race_list[i].councilperson_id_id__count;});
-
-arcs.append("svg:text")
-.attr("transform", "translate(-20, -160)")
-.style("font-weight", "bold")
-.text("RACE");
-
-arcs.on('mouseover', function(d){
-        race_tip.show(d);})
-      .on('mouseout', function(d){
-        race_tip.hide(d);})
-
-///////////////////////
-//Party Chart
-///////////////////////
-
-//Give the chart a div to go into, root svg element, a data source, attr of width, attr height, g element (groups svg shapes to work with them as if a single element), translate is a transform function that moves object x, y units
-var vis = d3.select('#party-chart').append("svg:svg").data([party_list]).attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + (r+30) + ") rotate(1.6)");
-var pie = d3.layout.pie().value(function(d){return d.councilperson_id_id__count;});
-
-// declare an arc generator function
-var arc = d3.svg.arc().outerRadius(r);
-
-// select paths, use arc generator to draw
-var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
-
-//define what goes in the tooltip and call it to the vis
-party_tip = d3.tip().attr('class', 'd3-tip').offset([0,0])
-  .html(function(d){
-    var names_list = "";
-    for (i=0; i<d.data.councilperson_id_id__count; i++){
-       names_list = names_list + d.data.allnames[i] + "<br> "
-    }
-
-    names_list = "<span style='font-weight: bold;'>" +  d.data.party + ": Total " + d.data.councilperson_id_id__count + "</span><br>" + names_list;
-    return names_list;
-    });
-
-arcs.call(party_tip);
-
-arcs.append("svg:path")
+    arcs.append("svg:path")
     .attr("fill", function(d, i){
-        return party_color[d.data.party];    
+        return demographic_color[d.data[django_var]];
     })
     .attr("d", function (d) {
         return arc(d);
     })
 
-// add the text labels to each slice
-arcs.append("svg:text")
-    .attr("transform", function(d){
-            d.innerRadius = 0;
-            d.outerRadius = r;
-            return "translate(" + arc.centroid(d) + ") rotate(" + getAngle(d) + ")";})
 
-    .attr("text-anchor", "middle")
-    .text( function(d, i) {
-        return party_list[i].party + ": " + party_list[i].councilperson_id_id__count;});
+    // add the text labels to each slice
+    arcs.append("svg:text")
+        .attr("transform", function(d){
+                d.innerRadius = 0;
+                d.outerRadius = r;
+                return "translate(" + arc.centroid(d) + ") rotate(" + getAngle(d) + ")";})
 
-arcs.append("svg:text")
-.attr("transform", "translate(-20, -160)")
-.style("font-weight", "bold")
-.text("PARTY");
+        .attr("text-anchor", "middle")
+        .text( function(d, i) {
+            return demographic_data_array[0][i][django_var];});
 
-arcs.on('mouseover', function(d){
-        party_tip.show(d);})
-      .on('mouseout', function(d){
-        party_tip.hide(d);})
+    arcs.append("svg:text")
+    .attr("transform", "translate(-20, -160)")
+    .style("font-weight", "bold")
+    .text(demographic_string);
+
+    arcs.on('mouseover', function(d){
+            demographic_tip.show(d);})
+          .on('mouseout', function(d){
+            demographic_tip.hide(d);});
+
+};
 
 
-///////////////////////
-//Gender Chart
-///////////////////////
+//define variable from django data
+councilperson_id_id__race = "councilperson_id_id__race";
+councilperson_id_id__gender = "councilperson_id_id__gender";
+party = "party"
 
-//Give the chart a div to go into, root svg element, a data source, attr of width, attr height, g element (groups svg shapes to work with them as if a single element), translate is a transform function that moves object x, y units
-var vis = d3.select('#gender-chart').append("svg:svg").data([gender_list]).attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + (r+30) + ") rotate(1.6)");
-var pie = d3.layout.pie().value(function(d){return d.councilperson_id_id__count;});
-
-// declare an arc generator function
-var arc = d3.svg.arc().outerRadius(r);
-
-// select paths, use arc generator to draw
-var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
-
-//define what goes in the tooltip and call it to the vis
-gender_tip = d3.tip().attr('class', 'd3-tip').offset([0,0])
-  .html(function(d){
-    var names_list = "";
-    for (i=0; i<d.data.councilperson_id_id__count; i++){
-       names_list = names_list + d.data.allnames[i] + "<br> "
-    } 
-
-    names_list = "<span style='font-weight: bold;'>" +  d.data.councilperson_id_id__gender + ": Total " + d.data.councilperson_id_id__count + "</span><br>" + names_list;
-    return names_list;
-    });
-
-arcs.call(gender_tip);
-
-arcs.append("svg:path")
-    .attr("fill", function(d, i){
-        return gender_color[d.data.councilperson_id_id__gender];
-    })
-    .attr("d", function (d) {
-        return arc(d);
-    })
-
-// add the text labels to each slice
-arcs.append("svg:text")
-    .attr("transform", function(d){
-            d.innerRadius = 0;
-            d.outerRadius = r;
-            return "translate(" + arc.centroid(d) + ") rotate(" + getAngle(d) + ")";})
-
-    .attr("text-anchor", "middle")
-    .text( function(d, i) {
-        return gender_list[i].councilperson_id_id__gender + ": " + gender_list[i].councilperson_id_id__count;});
-
-arcs.append("svg:text")
-.attr("transform", "translate(-20, -160)")
-.style("font-weight", "bold")
-.text("GENDER");
-
-arcs.on('mouseover', function(d){
-        gender_tip.show(d);})
-      .on('mouseout', function(d){
-        gender_tip.hide(d);})
+//call function 3x, once for each data set
+make_chart('#party-chart', [party_list], party_color, party, "PARTY");
+make_chart('#race-chart', [race_list], race_color, councilperson_id_id__race, "RACE");
+make_chart('#gender-chart', [gender_list], gender_color, councilperson_id_id__gender, "GENDER");
