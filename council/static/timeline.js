@@ -4,7 +4,44 @@
 //under the Apache License:
 //http://www.apache.org/licenses/LICENSE-2.0
 
-d3.gantt = function() {
+var departed_color = {
+   "defeated": "#F2C249", /* light orange*/
+   "resigned" : "#E6772E",/* orange */
+   "retired": "#4DB3B3",  /* light blue */
+   "scandal": "#E64A45",  /*pinkish red */
+    "died": "#3D4C53", /* blue-gray */
+    "incumbent": "#888888",
+    };
+
+var gender_color = {
+
+    "M":"#CCCC33",
+    "F":"#009933"
+    };
+
+var party_color = {
+
+    "Democrat":"#377EB8",
+    "Republican":"#E41A1C"
+    };
+
+var race_color = {
+    'asian':'#7570B3',
+    'black': '#1B9E77',
+    'hispanic': '#E7298A',
+    'white':'#D95F02',
+    'unknown':'#888888'
+
+}
+
+
+
+var departed_color_length = Object.keys(departed_color).length;
+var gender_color_length = Object.keys(gender_color).length;
+var party_color_length = Object.keys(party_color).length;
+var race_color_length = Object.keys(race_color).length;
+
+d3.gantt = function(demographicStyle, demographic, demographic_color, demographic_color_length) {
     var FIT_TIME_DOMAIN_MODE = "fit";
     var FIXED_TIME_DOMAIN_MODE = "fixed";
     
@@ -67,11 +104,12 @@ d3.gantt = function() {
     function gantt(members) {
         initTimeDomain();
         initAxis();
-        
+        $("#chart-holder").empty();
         //in body, create class chart with a width & height
         //create class gantt-chart, give it a width, height, transform
-        var svg = d3.select("body")
+        var svg = d3.select("#chart-holder")
         .append("svg")
+
         .attr("class", "chart")
         .attr("width", width + margin.left + margin.right + 200)
         .attr("height", height + margin.top + margin.bottom)
@@ -105,10 +143,11 @@ d3.gantt = function() {
          .attr("rx", 5)
              .attr("ry", 5)
          .attr("class", function(d){ 
+            //adds a class to each rectangle for gender, departed, etc.
              /////////////////if(departedStyle[d.departed] == null){ return "incumbent";}
-             if (genderStyle[d.councilperson_id_id__gender] == null) { return "F"; }
+             if (demographicStyle[d[demographic]] == null) { return "XXX"; }
              //////////////return departedStyle[d.departed];
-             return genderStyle[d.councilperson_id_id__gender];
+             return demographicStyle[d[demographic]];
              }) 
          .attr("y", 0)
          .attr("transform", rectTransform)
@@ -152,25 +191,16 @@ d3.gantt = function() {
             .attr('ry', 5)
             .attr('fill', 'khaki')
             .attr('width', 170)
-            .attr('height', 190)
+            .attr('height', demographic_color_length*32)
             .attr('x', width + 20)
             .attr('y', 10);
 
         //for the legend box
-        var color = {
-            "defeated": "#F2C249", /* light orange*/
-            "resigned" : "#E6772E",  /* orange */
-            "retired": "#4DB3B3",  /* light blue */
-            "scandal": "#E64A45", /* pinkish red */
-            "died": "#3D4C53", /* blue-gray */
-            "incumbent": "#888888",
-            "M":"yellow",
-            "F":"green"
-            };
+
 
         start_y = 20
 
-        for (i in color) {
+        for (i in demographic_color) {
             svg.append('rect')
                 .attr('rx', 5)
                 .attr('ry', 5)
@@ -178,7 +208,7 @@ d3.gantt = function() {
                 .attr('height', 20)
                 .attr('x', width + 30)
                 .attr('y', start_y)
-                .attr('fill', color[i]);
+                .attr('fill', demographic_color[i]);
 
             svg.append('text')
                 .attr('width', 250)
@@ -211,9 +241,9 @@ d3.gantt = function() {
             /////////////////if(departedStyle[d.departed] == null)
             ///////////////////   { return "incumbent";}
             //////////////////return departedStyle[d.departed];
-            if (genderStyle[d.councilperson_id_id__gender] == null)
-                {return "M";}
-            return genderStyle[d.councilperson_id_id__gender];
+            if (demographicStyle[d[demographic]] == null)
+                {return "XXX";}
+            return demographicStyle[d[demographic]];
 
 
 
@@ -280,10 +310,10 @@ d3.gantt = function() {
     //     return gantt;
     ///////////////// };
 
-    gantt.genderStyle = function(value) {
+    gantt.myChartStyle = function(value) {
         if (!arguments.length)
-            return genderStyle
-        genderStyle = value;
+            return demographicStyle
+        demographicStyle = value;
         return gantt;
     };
 

@@ -63,11 +63,19 @@
     }
 
 
-    .female  {        fill: green;
+    .female  {        fill: #009933;
 }
-    .male   { fill: yellow;
+    .male   { fill: #CCCC33;
 } 
 
+.Republican {fill: #E41A1C;}
+.Democrat {fill: #377EB8;}
+
+.asian {fill:#7570B3;}
+.black {fill:#1B9E77;}
+.hispanic {fill:#E7298A;}
+.white {fill:#D95F02;}
+.unknown {fill: #888888 ;}
 
 
 </style>
@@ -78,14 +86,23 @@
 {% block content %}
 
     <h2>Timeline of City Council Terms of Service</h2>
-    <p>Check out some of the shortest and longest council terms.<br>
-    Look for gaps to see when districts have gone unrepresented.</p>
+    <p>Click a button to see a timeline of councilmembers by that category.</p>
+    <p>Check out some of the shortest and longest council terms. Look for gaps to see when districts have gone unrepresented.  Check out what districts have been represented only by white men.  </p>
     <p>Only district seats are represented here as at-large seats do not have direct successors.</p>
+<button onclick="departed_gantt(members)">Departed</button> 
+<button onclick="gender_gantt(members)">Gender</button> 
+<button onclick="party_gantt(members)">Party</button> 
+<button onclick="race_gantt(members)">Race</button> 
+    <div id = "chart-holder"></div>
 
 
 <script>
 var members = {{ members|safe }};
 
+var councilperson_id_id__gender = "councilperson_id_id__gender"; 
+var departed = "departed";
+var party = "party";
+var councilperson_id_id__race = "councilperson_id_id__race";
 
 console.log("MEMBERS");
 console.log(members);
@@ -112,12 +129,15 @@ var departedStyle = {
     "scandal": "scandal",
     "resigned":"resigned",
     "retired":"retired",
-    "died":"died"
+    "died":"died",
+    "incumbent":"incumbent"
     };
 
 var genderStyle = {'M':"male", 'F':"female"};
 
+var partyStyle = {"Democrat":"Democrat", "Republican":"Republican"};
 
+var raceStyle = {'Asian':'asian', 'Black':'black', 'Hispanic':'hispanic', 'White':'white', 'unknown':"unknown"}
 
 /*sets up y axis */
 var districtNames = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -127,12 +147,21 @@ var districtNames = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 /*https://github.com/mbostock/d3/wiki/Time-Formatting*/
 var dateFormat = "%b %Y";
 
-//var gantt = d3.gantt().councilmembers(districtNames).departedStyle(departedStyle).tickFormat(dateFormat);
-var gantt = d3.gantt().councilmembers(districtNames).genderStyle(genderStyle).tickFormat(dateFormat);
-gantt(members);
+var departed_gantt = d3.gantt(departedStyle, departed, departed_color, departed_color_length).councilmembers(districtNames).myChartStyle(departedStyle).tickFormat(dateFormat);
+
+
+
+
+var gender_gantt = d3.gantt(genderStyle, councilperson_id_id__gender, gender_color, gender_color_length).councilmembers(districtNames).myChartStyle(genderStyle).tickFormat(dateFormat);
+
+var party_gantt = d3.gantt(partyStyle, party, party_color, party_color_length).councilmembers(districtNames).myChartStyle(partyStyle).tickFormat(dateFormat);
+
+var race_gantt = d3.gantt(raceStyle, councilperson_id_id__race, race_color, race_color_length).councilmembers(districtNames).myChartStyle(raceStyle).tickFormat(dateFormat);
+
+
+//gantt(members);
 
 </script>
-
 
 
 
