@@ -77,7 +77,7 @@
 .white {fill:#D95F02;}
 .unknown {fill: #888888 ;}
 
-
+.XXX {fill: #888888;}
 </style>
 
 {% endblock styles %}
@@ -93,6 +93,7 @@
 <button onclick="gender_gantt(members)">Gender</button> 
 <button onclick="party_gantt(members)">Party</button> 
 <button onclick="race_gantt(members)">Race</button> 
+<button onclick="monochrome_gantt(members)">Monochrome chart</button> 
     <div id = "chart-holder"></div>
 
 
@@ -139,6 +140,7 @@ var partyStyle = {"Democrat":"Democrat", "Republican":"Republican"};
 
 var raceStyle = {'Asian':'asian', 'Black':'black', 'Hispanic':'hispanic', 'White':'white', 'unknown':"unknown"}
 
+var noStyle = {"None":"None"}
 /*sets up y axis */
 var districtNames = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -158,8 +160,9 @@ var party_gantt = d3.gantt(partyStyle, party, party_color, party_color_length).c
 
 var race_gantt = d3.gantt(raceStyle, councilperson_id_id__race, race_color, race_color_length).councilmembers(districtNames).myChartStyle(raceStyle).tickFormat(dateFormat);
 
+var monochrome_gantt = d3.gantt(noStyle, councilperson_id_id__race, no_color, no_color_length).councilmembers(districtNames).myChartStyle(noStyle).tickFormat(dateFormat);
 
-//gantt(members);
+monochrome_gantt(members);
 
 </script>
 

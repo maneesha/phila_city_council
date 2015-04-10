@@ -34,12 +34,14 @@ var race_color = {
 
 }
 
-
+var no_color = {'Uncategorized':"#888888"}
 
 var departed_color_length = Object.keys(departed_color).length;
 var gender_color_length = Object.keys(gender_color).length;
 var party_color_length = Object.keys(party_color).length;
 var race_color_length = Object.keys(race_color).length;
+
+var no_color_length = Object.keys(no_color).length;
 
 d3.gantt = function(demographicStyle, demographic, demographic_color, demographic_color_length) {
     var FIT_TIME_DOMAIN_MODE = "fit";
@@ -190,8 +192,8 @@ d3.gantt = function(demographicStyle, demographic, demographic_color, demographi
             .attr('rx', 5)
             .attr('ry', 5)
             .attr('fill', 'khaki')
-            .attr('width', 170)
-            .attr('height', demographic_color_length*32)
+            .attr('width', 190)
+            .attr('height', demographic_color_length*32+5)
             .attr('x', width + 20)
             .attr('y', 10);
 
