@@ -1,5 +1,5 @@
 var race_colors = d3.scale.ordinal()
-  .range(["#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#888888"])
+  .range(["#D95F02", "#1B9E77", "#E7298A", "#7570B3", "#888888"])
 
 var gender_colors = d3.scale.ordinal()
   .range(["#CCCC33", "#009933", "#888888"])

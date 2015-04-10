@@ -77,10 +77,13 @@ var gender_color = {
 
 <body>
 
-<h1>Philadelphia City Council</h1>
+<div id = "one"><h1>Philadelphia City Council</h1></div>
 
+<div id = "two">
 {% url 'index' as home_url %}
 {% if not request.get_full_path == home_url %}<a href = "/">Home</a>{% endif %}
+</div>
+
 
 
 {% block content %}
