@@ -96,7 +96,13 @@ var make_bar_chart = function(demographic_data, django_var, chart_id, demographi
             })
         .on('mouseover', function (d) {
             d3.select(infobox_id)
-                .text("Councilmembers: " + d.n);
+                .text(function() {
+                    var x = "";
+                    for (var i in d.n) {
+                        x = x + d.n[i] + ", "
+                    }
+                    x = x.replace(/, +$/, "");
+                    return "Councilmembers: " + x});
             d3.select(infobox_id).classed('hidden', false);
             })
         .on('mouseout', function (d) {
