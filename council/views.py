@@ -207,6 +207,10 @@ def demographics_stacked_bar(request):
                     if q[fieldname] == c[fieldname]:
                         c['values'].append({'year':year, 'count':q['councilperson_id_id__count'], 'names_list':names_list})
 
+                #sort names_list by last name
+                names_list = names_list.sort(key=lambda s: s.split()[1])
+
+
         #Go through each race dictionary
         #Find years that are not represented
         #Give them zero counts and empty names list            
