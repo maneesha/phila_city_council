@@ -90,7 +90,7 @@ d3.gantt = function(demographicStyle, demographic, demographic_color, demographi
             members.sort(function(a, b) {
             return a.actual_start_date - b.actual_start_date;
             });
-            timeDomainStart = new Date('1979/01/01');
+            timeDomainStart = new Date('1980/01/01');
         }
     };
 
