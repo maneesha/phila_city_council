@@ -242,9 +242,17 @@ def demographic_maps(request):
 
             if 1980 <= search <= 2015: #if date falls in range, else return message below
 
-                active_that_year = Term.objects.filter(effective_end_year__gte=search).filter(effective_start_year__lte=search)
+                #active_that_year = Term.objects.filter(effective_end_year__gte=search).filter(effective_start_year__lte=search)
+                active_that_year = Term.objects.filter(effective_end_year__gte=1980).filter(effective_start_year__lte=2012)
+                query_with_names = active_that_year.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race', 'councilperson_id_id__gender', 'party', 'district', 'effective_end_year', 'effective_start_year')
+                query_with_names = list(query_with_names)
 
-                query_with_names = active_that_year.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race', 'councilperson_id_id__gender', 'party', 'district')
+                # for q in query_with_names:
+                #     q['year'] = search
+
+                print("*****query_with_names is of type:***** ")
+                print(type(query_with_names))
+                print("*******************")
 
             else: #if date is not in range 1980-2015
                 search = None
@@ -254,7 +262,12 @@ def demographic_maps(request):
             search = None
             message = "Year must be a four digit number between 1980 and 2015. Please try again."
 
-    print(query_with_names)
+    for q in query_with_names:
+        print(q)
+        print
+        
+
+
     return render(request, 'council/maps.html', {'query_with_names':query_with_names, 'search':search, 'message':message})
 
 def about(request):
