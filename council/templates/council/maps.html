@@ -218,7 +218,7 @@ info.onAdd = function (map) {
     return this._div;
 };
 
-// method that we will use to update the control based on feature properties passed
+// method that we will use to update the infobox control based on feature properties passed
 info.update = function (props, members) {
 
     this._div.innerHTML = '<h4>City Council</h4>' +  
@@ -238,53 +238,14 @@ info.update = function (props, members) {
         : 'Hover over a district'); 
 };
 
-//add info to map
+//add infobox to map
 info.addTo(map);
-
-// console.log("***DISTRICTS ORIGINALLY WAS: ***");
-// // console.log(districts.features[0].properties.dist_num);
-// // console.log(districts.features[0].geometry)
-// console.log(districts);
-// console.log("***END DISTRICTS DISPLAY***")
-
-console.log("***DEMOGRAPHICS ORIGINALLY WAS: ***");
-console.log(demographics);
-console.log("***END DEMOGRAPHICS DISPLAY***")
-
-// for (i=0; i<demographics.length; i++) {
-//     for (j=0; j<districts.features.length; j++) {
-//       if (demographics[i].district == districts.features[j].properties.dist_num) {
-//         console.log("DISTRICT ", districts.features[j].properties.dist_num, "REPRESENTED BY ", demographics[i].councilperson_id_id__last_name)
-//       }
-//       else {console.log('no match')}
-
-//     }
-//   console.log("END LOOP")
-// }
-
-
-
-// //merge the two data sets
-// for (i=0; i<districts.features.length; i++) {
-//     for (j=0; j<demographics.length; j++) {
-//         if (districts.features[i].properties.dist_num == demographics[j].district) {            
-//                 districts.features[i].properties.party = demographics[j].party;
-//                 districts.features[i].properties.first_name = demographics[j].councilperson_id_id__first_name;
-//                 districts.features[i].properties.last_name = demographics[j].councilperson_id_id__last_name;
-//                 districts.features[i].properties.gender = demographics[j].councilperson_id_id__gender;
-//                 districts.features[i].properties.race = demographics[j].councilperson_id_id__race;
-//                 //districts.features[i].properties.year = demographics[j].year;
-//         }
-//     }
-// };
-
-
-
 
 var geojson;
 
 var style_override = {};
-var style_target = function(f) { return f.properties.genderx };
+// var style_target = function(f) { return f.properties.genderx };
+var style_target = function(f) {return f};
 
 function merge_styles(base, new_styles){
     for (var attrname in new_styles) { base[attrname] = new_styles[attrname]; }
@@ -331,34 +292,13 @@ function highlightFeature(e) {
     console.log("CURRENT VALUE ON HOVER::::", current_value);
 
         for (i in demographics) 
-
             {
-
-
               if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value && demographics[i].district == layer.feature.properties.dist_num) {
                   console.log(" INSIDE HOVER YEAR::::::: ", demographics[i].councilperson_id_id__last_name,  demographics[i].effective_start_year, demographics[i].district, layer.feature.properties.dist_num);
-
-
-                       //on hover change infobox
-    info.update(layer.feature.properties, demographics[i]);
-              }
-
-
-
-            }
-        //   if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value ) {
-        //     console.log("ON HOVER" + demographics[i].effective_start_year)
-
-             // + 
-             //  " " + 
-             //  demographics[i].effective_end_year + 
-             //  " " + 
-             //  demographics[i].councilperson_id_id__last_name + 
-             //  " " + 
-             //  demographics[i].district )
-         //}
-
-
+                  //on hover change infobox
+                  info.update(layer.feature.properties, demographics[i]);
+              }//close if
+            }//close for
 
     //on hover change color from what was defined in function style(feature)
     style_override = {
@@ -373,8 +313,6 @@ function highlightFeature(e) {
         layer.bringToFront();
     }
 
-     //on hover change infobox
-    //info.update(layer.feature.properties, demographics);
 }
 
 
@@ -464,7 +402,14 @@ document.getElementById("change-party")
 //click to change color style to race categories
 document.getElementById("change-race")
         .addEventListener('click', function () {
-          style_target = function(f) { return f.properties.race };
+          style_target = function(f) {
+            //why does f call the geojson - how can i make it call demographics?
+            //this keeps happening, not just once on click
+            console.log("RACE BUTTON WAS CLICKED");
+            console.log(f);
+            //return f.properties.race ;
+            return f.councilperson_id_id__race;
+          };
           geojson.setStyle(style);
 
           if (legend instanceof L.Control) { map.removeControl(legend); }
@@ -490,7 +435,7 @@ document.getElementById("change-race")
            legend.addTo(map);
        });
 
-//click to change color style to race categories
+//click to change color style to plain categories
 document.getElementById("plain-style")
         .addEventListener('click', function () {
           style_target = function(f) { return f.properties.genderx };
@@ -510,9 +455,6 @@ document.getElementById("plain-style")
 
        });
 
-
-
-
 var add_to_page = function( event, ui ) {
         //WHATEVER I WANT TO DO ON SLIDE GOES IN HERE
         ///set the value of the #amount element to this value
@@ -521,33 +463,26 @@ var add_to_page = function( event, ui ) {
         console.log("INSIDE THE SLIDE FUNCTION", ui.value);
         current_value = ui.value;
         console.log("CURRENT VALUE INSIDE SLIDE FUNCTION: ", current_value);
-     for (i in demographics) {
-          //console.log("YEAR: ", demographics[i].effective_start_year)
-          if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value ) {
-            console.log(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name, demographics[i].district)
-            $('#results-box').append(
-              demographics[i].effective_start_year + 
-              " " + 
-              demographics[i].effective_end_year + 
-              " " + 
-              demographics[i].councilperson_id_id__last_name + 
-              " " + 
-              demographics[i].district + 
-              "<br>"
-              )
-
-          } //end if
+        for (i in demographics) {
+              //Temp just to check -- display results in a div
+              if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value ) {
+                console.log(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name, demographics[i].district)
+                $('#results-box').append(
+                  demographics[i].effective_start_year + 
+                  " " + 
+                  demographics[i].effective_end_year + 
+                  " " + 
+                  demographics[i].councilperson_id_id__last_name + 
+                  " " + 
+                  demographics[i].district + 
+                  "<br>"
+                  )
+            } //end if
         } //end for
       };//end add_to_page()
 
 
-
-
-
-
-
-
-
+//Slider function
   $(function() {
     $( "#slider-range-min" ).slider({
       //See http://api.jqueryui.com/slider/ for all options & methods slider can take
@@ -557,15 +492,11 @@ var add_to_page = function( event, ui ) {
       max: 2012,
       //step: 4,
       change: add_to_page,
-      // change: function (event, ui) {
-      // }
     });
     //initialize slider to slider("value")
     $( "#amount" ).val($( "#slider-range-min" ).slider( "value" ) );
 
     }) //closes $function
-
-
 
 
 </script>
