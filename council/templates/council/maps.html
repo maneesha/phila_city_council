@@ -471,6 +471,42 @@ document.getElementById("plain-style")
 
 
 
+
+var add_to_page = function( event, ui ) {
+        ///set the value of the #amount element to this value
+        $( "#amount" ).val(ui.value );
+        $('#results-box').text("");
+        console.log("INSIDE THE SLIDE FUNCTION", ui.value);
+        current_value = ui.value;
+        console.log("CURRENT VALUE INSIDE SLIDE FUNCTION: ", current_value);
+        //WHATEVER I WANT TO DO ON SLIDE GOES IN HERE
+        for (i in demographics) {
+          //console.log("YEAR: ", demographics[i].effective_start_year)
+          if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value ) {
+            console.log(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name, demographics[i].district)
+            $('#results-box').append(
+              demographics[i].effective_start_year + 
+              " " + 
+              demographics[i].effective_end_year + 
+              " " + 
+              demographics[i].councilperson_id_id__last_name + 
+              " " + 
+              demographics[i].district + 
+              "<br>"
+              )
+
+          }
+        }
+      };
+
+
+
+
+
+
+
+
+
   $(function() {
     $( "#slider-range-min" ).slider({
       //See http://api.jqueryui.com/slider/ for all options & methods slider can take
@@ -479,23 +515,7 @@ document.getElementById("plain-style")
       min: 1980,
       max: 2012,
       //step: 4,
-      change: function( event, ui ) {
-        ///set the value of the #amount element to this value
-        $( "#amount" ).val(ui.value );
-        console.log("INSIDE THE SLIDE FUNCTION", ui.value);
-        current_value = ui.value;
-        console.log("CURRENT VALUE INSIDE SLIDE FUNCTION: ", current_value);
-        map.setView([37.718590, -80.156250], 11);
-        //WHATEVER I WANT TO DO ON SLIDE GOES IN HERE
-        for (i in demographics) {
-          //console.log("YEAR: ", demographics[i].effective_start_year)
-          if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value ) {
-            console.log(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name, demographics[i].district)
-            $('#results-box').append(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name, demographics[i].district)
-
-          }
-        }
-      },
+      change: add_to_page,
       // change: function (event, ui) {
       // }
     });
