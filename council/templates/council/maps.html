@@ -199,7 +199,7 @@
 ///////
 
 
-
+var current_value = 2012;
 //Initialize a map inside a div called map
 var map = L.map('map').setView([39.999, -75.1087], 11);
 
@@ -219,7 +219,7 @@ info.onAdd = function (map) {
 };
 
 // method that we will use to update the control based on feature properties passed
-info.update = function (props) {
+info.update = function (props, members) {
 
     this._div.innerHTML = '<h4>City Council</h4>' +  
         //ternary 
@@ -228,10 +228,10 @@ info.update = function (props) {
         //if hovering on a district    
 
          "District: " + props.dist_num + 
-         "<br>Name: " + props.first_name + " " + props.last_name +  
-         "<br>Party:" + props.party + 
-         "<br>Gender: " + props.gender + 
-         "<br>Race: " + props.race
+         "<br>Name: " + members.councilperson_id_id__first_name + " " + members.councilperson_id_id__last_name +  
+         "<br>Party:" + members.party + 
+         "<br>Gender: " + members.councilperson_id_id__gender + 
+         "<br>Race: " + members.councilperson_id_id__race
 
         //if not hovering on a district
 
@@ -325,6 +325,41 @@ L.geoJson(districts).addTo(map);
 
 function highlightFeature(e) {
     var layer = e.target;
+    console.log("LAYER ON HOVER:::::::: ", layer);
+    console.log("LAYER district ON HOVER:::::::: ", layer.feature.properties.dist_num);    
+    console.log("DEMOGRAPHICSS ON HOVER:::: ", demographics);
+    console.log("CURRENT VALUE ON HOVER::::", current_value);
+
+        for (i in demographics) 
+
+            {
+
+
+              if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value && demographics[i].district == layer.feature.properties.dist_num) {
+                  console.log(" INSIDE HOVER YEAR::::::: ", demographics[i].councilperson_id_id__last_name,  demographics[i].effective_start_year, demographics[i].district, layer.feature.properties.dist_num);
+
+
+                       //on hover change infobox
+    info.update(layer.feature.properties, demographics[i]);
+              }
+
+
+
+            }
+        //   if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value ) {
+        //     console.log("ON HOVER" + demographics[i].effective_start_year)
+
+             // + 
+             //  " " + 
+             //  demographics[i].effective_end_year + 
+             //  " " + 
+             //  demographics[i].councilperson_id_id__last_name + 
+             //  " " + 
+             //  demographics[i].district )
+         //}
+
+
+
     //on hover change color from what was defined in function style(feature)
     style_override = {
         weight: 3,
@@ -339,7 +374,7 @@ function highlightFeature(e) {
     }
 
      //on hover change infobox
-    info.update(layer.feature.properties);
+    //info.update(layer.feature.properties, demographics);
 }
 
 
@@ -479,14 +514,14 @@ document.getElementById("plain-style")
 
 
 var add_to_page = function( event, ui ) {
+        //WHATEVER I WANT TO DO ON SLIDE GOES IN HERE
         ///set the value of the #amount element to this value
         $( "#amount" ).val(ui.value );
         $('#results-box').text("");
         console.log("INSIDE THE SLIDE FUNCTION", ui.value);
         current_value = ui.value;
         console.log("CURRENT VALUE INSIDE SLIDE FUNCTION: ", current_value);
-        //WHATEVER I WANT TO DO ON SLIDE GOES IN HERE
-        for (i in demographics) {
+     for (i in demographics) {
           //console.log("YEAR: ", demographics[i].effective_start_year)
           if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value ) {
             console.log(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name, demographics[i].district)
@@ -501,9 +536,9 @@ var add_to_page = function( event, ui ) {
               "<br>"
               )
 
-          }
-        }
-      };
+          } //end if
+        } //end for
+      };//end add_to_page()
 
 
 
