@@ -252,8 +252,10 @@ def demographic_maps(request):
                 #     q['year'] = search
 
                 print("*****query_with_names is of type:***** ")
-                print(type(query_with_names))
+                print(query_with_names)
                 print("*******************")
+
+                query_with_names = sorted(query_with_names, key=lambda k: k['district']) 
 
             else: #if date is not in range 1980-2015
                 search = None
