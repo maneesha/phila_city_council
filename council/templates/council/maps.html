@@ -479,7 +479,7 @@ document.getElementById("plain-style")
       min: 1980,
       max: 2012,
       //step: 4,
-      slide: function( event, ui ) {
+      change: function( event, ui ) {
         ///set the value of the #amount element to this value
         $( "#amount" ).val(ui.value );
         console.log("INSIDE THE SLIDE FUNCTION", ui.value);
@@ -490,12 +490,14 @@ document.getElementById("plain-style")
         for (i in demographics) {
           //console.log("YEAR: ", demographics[i].effective_start_year)
           if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value ) {
-            console.log(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name)
+            console.log(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name, demographics[i].district)
+            $('#results-box').append(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name, demographics[i].district)
+
           }
         }
       },
-      change: function (event, ui) {
-      }
+      // change: function (event, ui) {
+      // }
     });
     //initialize slider to slider("value")
     $( "#amount" ).val($( "#slider-range-min" ).slider( "value" ) );
