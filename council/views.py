@@ -244,6 +244,7 @@ def demographic_maps(request):
 
                 #active_that_year = Term.objects.filter(effective_end_year__gte=search).filter(effective_start_year__lte=search)
                 active_that_year = Term.objects.filter(effective_end_year__gte=1980).filter(effective_start_year__lte=2012)
+                active_that_year = active_that_year.filter(district__gte=1)
                 query_with_names = active_that_year.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race', 'councilperson_id_id__gender', 'party', 'district', 'effective_end_year', 'effective_start_year')
                 query_with_names = list(query_with_names)
 
