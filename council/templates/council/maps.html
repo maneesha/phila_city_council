@@ -268,8 +268,17 @@ function getColor(d) {
 
 //attach color palatte to category
 function style(feature, color) {
-    var target = style_target(feature);
+  //trying to get this to get from demographics not geojson data
+    var target = style_target(demographics);
+    console.log("TARGET::::::::::",  target, "END TARGET::::::");
+    for (z in target) {console.log(target[z].councilperson_id_id__race)}
+
+
+
     var fillColor = (!color) ? getColor(target) : color;
+    //var fillColor = (!color) ? getColor(function() {return})
+
+
     var default_style = {
         fillColor: fillColor,
         weight: 2,
@@ -479,6 +488,10 @@ var add_to_page = function( event, ui ) {
                   )
             } //end if
         } //end for
+        //Do some more stuff here
+
+
+
       };//end add_to_page()
 
 
