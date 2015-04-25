@@ -484,7 +484,7 @@ var add_to_page = function( event, ui ) {
         for (i in demographics) {
               //Temp just to check -- display results in a div
               if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value ) {
-                console.log(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name, demographics[i].district)
+                console.log(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name, demographics[i].district, demographics[i].councilperson_id_id__race, demographics[i].councilmember_id_id__gender)
                 $('#results-box').append(
                   demographics[i].effective_start_year + 
                   " " + 
@@ -493,8 +493,13 @@ var add_to_page = function( event, ui ) {
                   demographics[i].councilperson_id_id__last_name + 
                   " " + 
                   demographics[i].district + 
+                  " " +
+                  demographics[i].councilperson_id_id__race + 
+                  " " +
+                  demographics[i].councilperson_id_id__gender + 
                   "<br>"
                   )
+
             } //end if
         } //end for
         //Do some more stuff here
