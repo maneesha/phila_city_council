@@ -278,8 +278,8 @@ function getColor(d) {
 //attach color palatte to category
 function style(feature, color) {
   //trying to get this to get from demographics not geojson data
-    var target = style_target(demographics);
-    console.log("TARGET::::::::::",  target, "END TARGET::::::");
+    var target = style_target(feature);
+    //console.log("TARGET::::::::::",  target, "END TARGET::::::");
     for (z in target) {console.log(target[z].councilperson_id_id__race)}
 
 
@@ -304,15 +304,15 @@ L.geoJson(districts).addTo(map);
 
 function highlightFeature(e) {
     var layer = e.target;
-    console.log("LAYER ON HOVER:::::::: ", layer);
-    console.log("LAYER district ON HOVER:::::::: ", layer.feature.properties.dist_num);    
-    console.log("DEMOGRAPHICSS ON HOVER:::: ", demographics);
-    console.log("CURRENT VALUE ON HOVER::::", current_value);
+    //console.log("LAYER ON HOVER:::::::: ", layer);
+    //console.log("LAYER district ON HOVER:::::::: ", layer.feature.properties.dist_num);    
+    //console.log("DEMOGRAPHICSS ON HOVER:::: ", demographics);
+    //console.log("CURRENT VALUE ON HOVER::::", current_value);
 
         for (i in demographics) 
             {
               if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value && demographics[i].district == layer.feature.properties.dist_num) {
-                  console.log(" INSIDE HOVER YEAR::::::: ", demographics[i].councilperson_id_id__last_name,  demographics[i].effective_start_year, demographics[i].district, layer.feature.properties.dist_num);
+                  console.log(" INSIDE HOVER YEAR::::::: ", demographics[i].councilperson_id_id__last_name,  demographics[i].effective_start_year, demographics[i].district, layer.feature.properties.dist_num, demographics[i].councilperson_id_id__race);
                   //on hover change infobox
                   info.update(layer.feature.properties, demographics[i]);
               }//close if
@@ -418,40 +418,40 @@ document.getElementById("change-party")
 
 
 //click to change color style to race categories
-document.getElementById("change-race")
-        .addEventListener('click', function () {
-          style_target = function(f) {
-            //why does f call the geojson - how can i make it call demographics?
-            //this keeps happening, not just once on click
-            console.log("RACE BUTTON WAS CLICKED");
-            console.log(f);
-            //return f.properties.race ;
-            return f.councilperson_id_id__race;
-          };
-          geojson.setStyle(style);
+// document.getElementById("change-race")
+//         .addEventListener('click', function () {
+//           style_target = function(f) {
+//             //why does f call the geojson - how can i make it call demographics?
+//             //this keeps happening, not just once on click
+//             console.log("RACE BUTTON WAS CLICKED");
+//             console.log(f);
+//             //return f.properties.race ;
+//             return f.councilperson_id_id__race;
+//           };
+//           geojson.setStyle(style);
 
-          if (legend instanceof L.Control) { map.removeControl(legend); }
+//           if (legend instanceof L.Control) { map.removeControl(legend); }
 
-          legend = L.control({position: 'topright'});
+//           legend = L.control({position: 'topright'});
 
-          legend.onAdd = function (map) {
+//           legend.onAdd = function (map) {
 
-            var div = L.DomUtil.create('div', 'info legend'),
-                grades = ["Asian", "Black", "Hispanic", "White"],
-                labels = [];
+//             var div = L.DomUtil.create('div', 'info legend'),
+//                 grades = ["Asian", "Black", "Hispanic", "White"],
+//                 labels = [];
 
-            // loop through categories and generate a label with a colored square for each interval
-            for (var i = 0; i < grades.length; i++) {
-                div.innerHTML +=
-                    '<i style="background:' + getColor(grades[i]) + '"></i> ' +
-                    grades[i]  + '<br>' ;
-            }
-            div.innerHTML += "<i style='background:gray'></i> unknown<br>"
+//             // loop through categories and generate a label with a colored square for each interval
+//             for (var i = 0; i < grades.length; i++) {
+//                 div.innerHTML +=
+//                     '<i style="background:' + getColor(grades[i]) + '"></i> ' +
+//                     grades[i]  + '<br>' ;
+//             }
+//             div.innerHTML += "<i style='background:gray'></i> unknown<br>"
 
-            return div;
-          };
-           legend.addTo(map);
-       });
+//             return div;
+//           };
+//            legend.addTo(map);
+//        });
 
 //click to change color style to plain categories
 document.getElementById("plain-style")
@@ -478,34 +478,173 @@ var add_to_page = function( event, ui ) {
         ///set the value of the #amount element to this value
         $( "#amount" ).val(ui.value );
         $('#results-box').text("");
-        console.log("INSIDE THE SLIDE FUNCTION", ui.value);
+        //console.log("INSIDE THE SLIDE FUNCTION", ui.value);
         current_value = ui.value;
-        console.log("CURRENT VALUE INSIDE SLIDE FUNCTION: ", current_value);
+        //console.log("CURRENT VALUE INSIDE SLIDE FUNCTION: ", current_value);
+        console.log("DEMOGRAPHICSS INSIDE add_to_page: ", demographics);
+        console.log("DISTRCITS INSIDE add_to_page", districts);
+        temp_object = districts;
+        console.log("TEMP OBJ INSIDE add_to_page", temp_object)
         for (i in demographics) {
               //Temp just to check -- display results in a div
               if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value ) {
-                console.log(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name, demographics[i].district, demographics[i].councilperson_id_id__race, demographics[i].councilmember_id_id__gender)
-                $('#results-box').append(
-                  demographics[i].effective_start_year + 
-                  " " + 
-                  demographics[i].effective_end_year + 
-                  " " + 
-                  demographics[i].councilperson_id_id__last_name + 
-                  " " + 
-                  demographics[i].district + 
-                  " " +
-                  demographics[i].councilperson_id_id__race + 
-                  " " +
-                  demographics[i].councilperson_id_id__gender + 
-                  "<br>"
-                  )
+                console.log(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name, demographics[i].district, demographics[i].councilperson_id_id__race, demographics[i].councilperson_id_id__gender)
+
+
+                    $('#results-box').append(
+                      demographics[i].effective_start_year + 
+                      " " + 
+                      demographics[i].effective_end_year + 
+                      " " + 
+                      demographics[i].councilperson_id_id__last_name + 
+                      " " + 
+                      demographics[i].district + 
+                      " " +
+                      demographics[i].councilperson_id_id__race + 
+                      " " +
+                      demographics[i].councilperson_id_id__gender + 
+                      "<br>"
+                      ) //end results box append
+
+                    //iterate through temp_object via dist_num - still inside the for & if
+                    for (j in temp_object.features) {//{console.log(temp_object.features[j].properties.dist_num)};
+                    
+
+                    if (demographics[i].district == temp_object.features[j].properties.dist_num)
+                      {temp_object.features[j].properties.race = demographics[i].councilperson_id_id__race;
+                       temp_object.features[j].properties.party = demographics[i].party;
+
+
+                      }
+
+
+                    }//end for j in temp_object
+
+
+
+
 
             } //end if
-        } //end for
+        } //end for i in demographics
+
+        //TEST: 
+        console.log("TEMP OBJ IS NOW: ", temp_object)
+
+
+        var geojson = L.geoJson(temp_object, {
+            style: style,
+            onEachFeature: onEachFeature
+        }).addTo(map);
+
+///////////////////////////////////////////////
+      //click to change color style to party categories
+      document.getElementById("change-race")
+              .addEventListener('click', function () {
+        // var geojson = L.geoJson(temp_object, {
+        //     style: style,
+        //     onEachFeature: onEachFeature
+        // }).addTo(map);
+
+                //geojson.resetStyle(e.target);
+                style_target = function(f) { return f.properties.race };
+                geojson.setStyle(style);
+
+                if (legend instanceof L.Control) { map.removeControl(legend); }
+
+                legend = L.control({position: 'topright'});
+
+                legend.onAdd = function (map) {
+
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = ["Asian", "Black", "Hispanic", "White"],
+                labels = [];
+
+            // loop through categories and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColor(grades[i]) + '"></i> ' +
+                    grades[i]  + '<br>' ;
+            }
+            div.innerHTML += "<i style='background:gray'></i> unknown<br>"
+
+            return div;
+          };
+           legend.addTo(map);
+             });
+
+///////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////
+
+//click to change color style to party categories
+document.getElementById("change-party")
+        .addEventListener('click', function () {
+          style_target = function(f) { return f.properties.party };
+          geojson.setStyle(style);
+
+          if (legend instanceof L.Control) { map.removeControl(legend); }
+
+          legend = L.control({position: 'topright'});
+
+          legend.onAdd = function (map) {
+
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = ["Democrat", "Republican"],
+                labels = [];
+
+            // loop through categories and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColor(grades[i]) + '"></i> ' +
+                    grades[i]  + '<br>' ;
+            }
+            div.innerHTML += "<i style='background:gray'></i> unknown<br>"
+
+            return div;
+          };
+           legend.addTo(map);
+       });
+
+
+
+
+/////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //Do some more stuff here
+          // $( "#change-race").unbind('click')
 
 
 
+            //     var x = 12;
+            //     document.getElementById("change-race")
+            // .addEventListener('click', function () {
+
+            //   alert("You clicked on race" + x);
+            //    x++; 
+            //         var geojson = L.geoJson(districts, {
+            //             style: {fillColor:'blue'},
+            //             onEachFeature: onEachFeature
+            //         }).addTo(map);
+
+
+
+            //  });
       };//end add_to_page()
 
 
