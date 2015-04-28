@@ -233,45 +233,15 @@ def demographic_maps(request):
     """
     Maps by year by race, gender, party
     """
-    search = message = query_with_names = None
+    query_with_names = None
+    active_that_year = Term.objects.filter(effective_end_year__gte=1980).filter(effective_start_year__lte=2012)
+    active_that_year = active_that_year.filter(district__gte=1)
+    query_with_names = active_that_year.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race', 'councilperson_id_id__gender', 'party', 'district', 'effective_end_year', 'effective_start_year')
+    query_with_names = list(query_with_names)
 
+    query_with_names = sorted(query_with_names, key=lambda k: k['district']) 
 
-    if request.GET.get('search'): #check to see if there was any input
-        try:  #Try this 
-            search = int(request.GET.get('search')) #if it can't be converted to int, ValueError exception below
-
-            if 1980 <= search <= 2015: #if date falls in range, else return message below
-
-                #active_that_year = Term.objects.filter(effective_end_year__gte=search).filter(effective_start_year__lte=search)
-                active_that_year = Term.objects.filter(effective_end_year__gte=1980).filter(effective_start_year__lte=2012)
-                active_that_year = active_that_year.filter(district__gte=1)
-                query_with_names = active_that_year.values('councilperson_id_id__first_name', 'councilperson_id_id__last_name', 'councilperson_id_id__race', 'councilperson_id_id__gender', 'party', 'district', 'effective_end_year', 'effective_start_year')
-                query_with_names = list(query_with_names)
-
-                # for q in query_with_names:
-                #     q['year'] = search
-
-                print("*****query_with_names is of type:***** ")
-                print(query_with_names)
-                print("*******************")
-
-                query_with_names = sorted(query_with_names, key=lambda k: k['district']) 
-
-            else: #if date is not in range 1980-2015
-                search = None
-                message = "Year must be a four digit number between 1980 and 2015. Please try again."
-
-        except ValueError:
-            search = None
-            message = "Year must be a four digit number between 1980 and 2015. Please try again."
-
-    for q in query_with_names:
-        print(q)
-        print
-        
-
-
-    return render(request, 'council/maps.html', {'query_with_names':query_with_names, 'search':search, 'message':message})
+    return render(request, 'council/maps.html', {'query_with_names':query_with_names})
 
 def about(request):
     """
