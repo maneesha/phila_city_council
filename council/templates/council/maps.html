@@ -289,8 +289,8 @@ var add_to_page = function( event, ui ) {
         
         current_value = ui.value;
 
-        temp_object = districts;
-        console.log("TEMP OBJ INSIDE add_to_page", temp_object)
+        demographics_that_year = districts;
+        console.log("TEMP OBJ INSIDE add_to_page", demographics_that_year)
         for (i in demographics) {
               //Temp just to check -- display results in a div
               if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value ) {
@@ -311,22 +311,22 @@ var add_to_page = function( event, ui ) {
                       "<br>"
                       ) //end results box append
 
-                    //iterate through temp_object via dist_num - still inside the for & if
-                    //make a temp_object that adds that year's demographics to the temp district obj
-                    for (j in temp_object.features) {                    
-                      if (demographics[i].district == temp_object.features[j].properties.dist_num)
-                        {temp_object.features[j].properties.race = demographics[i].councilperson_id_id__race;
-                         temp_object.features[j].properties.party = demographics[i].party;
-                         temp_object.features[j].properties.gender = demographics[i].councilperson_id_id__gender
+                    //iterate through demographics_that_year via dist_num - still inside the for & if
+                    //make a demographics_that_year that adds that year's demographics to the temp district obj
+                    for (j in demographics_that_year.features) {                    
+                      if (demographics[i].district == demographics_that_year.features[j].properties.dist_num)
+                        {demographics_that_year.features[j].properties.race = demographics[i].councilperson_id_id__race;
+                         demographics_that_year.features[j].properties.party = demographics[i].party;
+                         demographics_that_year.features[j].properties.gender = demographics[i].councilperson_id_id__gender
                         }
 
-                    }//end for j in temp_object
+                    }//end for j in demographics_that_year
 
            } //end if
         } //end for i in demographics
 
-        //TEST to see the contents of temp_object: 
-        console.log("TEMP OBJ IS NOW: ", temp_object)
+        //TEST to see the contents of demographics_that_year: 
+        console.log("TEMP OBJ IS NOW: ", demographics_that_year)
 
         geojson.setStyle(style);
 
@@ -402,6 +402,10 @@ document.getElementById("change-gender")
 //click to change color style to party categories
 document.getElementById("change-party")
         .addEventListener('click', function () {
+
+          $( "#slider-holder" ).slider( 'enable');
+          //console.log( $( "#slider-holder" ).slider( "option", "disabled" ));
+          console.log("YOU CLICKED THE PARTY BUTTON");
           style_target = function(f) { return f.properties.party };
           // geojson.resetStyle(map);
           geojson.setStyle(style);
@@ -466,12 +470,30 @@ document.getElementById("plain-style")
       min: 1980,
       max: 2012,
       step: 4,
-      slide: add_to_page,
+      slide: add_to_page
     });
     //initialize slider to slider("value")
     $( "#amount" ).val($( "#slider-holder" ).slider( "value" ) );
 
     }) //closes $function
+
+
+
+
+// document.getElementById("plain-style")
+//         .addEventListener('click', function () {console.log("THIS IS ANOTHER LISTENER")})
+
+
+
+// document.getElementById("plain-style").addEventListener('click', function() {alert("THIS IS YET ANOTHER LISTENER!")} )
+
+
+
+
+
+
+
+
 
 
 </script>
