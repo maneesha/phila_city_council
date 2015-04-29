@@ -314,20 +314,55 @@ var create_demographics_that_year = function(year){
 
                     }
 
-
-
                   }//end if
         }//end for
-        console.log("########INSIDE NEW FUNC, demographics_that_year IS: ", demographics_that_year);
 
         return demographics_that_year;
       }//end create_demographics_that_year()
 
 
-
 create_demographics_that_year(2012);
 
+var activate_demographic_style = function(button_id, dem, grades) {
+      //click to change color style to race categories
+      document.getElementById(button_id)
+              .addEventListener('click', function () {
+                style_target = function(f) { return f.properties[dem] };
+                geojson.setStyle(style);
 
+                if (legend instanceof L.Control) { map.removeControl(legend); }
+
+                  legend = L.control({position: 'topright'});
+                  legend.onAdd = function (map) {
+
+                  var div = L.DomUtil.create('div', 'info legend'),
+                      //grades = grades,
+                      labels = [];
+
+                  // loop through categories and generate a label with a colored square for each interval
+                  for (var i = 0; i < grades.length; i++) {
+                      div.innerHTML +=
+                          '<i style="background:' + getColor(grades[i]) + '"></i> ' +
+                          grades[i]  + '<br>' ;
+                  }
+                  //add another square for category "unknown"
+                  div.innerHTML += "<i style='background:gray'></i> unknown<br>"
+                  return div;
+                  }; //end legend.onAdd()
+                  
+                  //add the legend to the map
+                  legend.addTo(map);
+              
+
+              });  //end click function
+
+
+}
+
+activate_demographic_style("change-race", "race", ["Asian", "Black", "Hispanic", "White"])
+activate_demographic_style("change-gender", "gender", ['M', 'F'])
+activate_demographic_style("change-party", "party", ["Democrat", "Republican"])
+activate_demographic_style("plain-style", "xx")
 
 //function that's called when slider slides
 var add_to_page = function( event, ui ) {
@@ -344,175 +379,22 @@ var add_to_page = function( event, ui ) {
         create_demographics_that_year(current_value);
 
 
-
-        // for (i in demographics) {
-        //       //Temp just to check -- display results in a div
-        //       // if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value ) {
-        //       //   console.log(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name, demographics[i].district, demographics[i].councilperson_id_id__race, demographics[i].councilperson_id_id__gender)
-
-        //       //       $('#results-box').append(
-        //       //         demographics[i].effective_start_year + 
-        //       //         " " + 
-        //       //         demographics[i].effective_end_year + 
-        //       //         " " + 
-        //       //         demographics[i].councilperson_id_id__last_name + 
-        //       //         " " + 
-        //       //         demographics[i].district + 
-        //       //         " " +
-        //       //         demographics[i].councilperson_id_id__race + 
-        //       //         " " +
-        //       //         demographics[i].councilperson_id_id__gender + 
-        //       //         "<br>"
-        //       //         ) //end results box append
-
-                  
-
-        //             //iterate through demographics_that_year via dist_num - still inside the for & if
-        //             //make a demographics_that_year that adds that year's demographics to the temp district obj
-        //             for (j in demographics_that_year.features) {                    
-        //               if (demographics[i].district == demographics_that_year.features[j].properties.dist_num)
-        //                 {demographics_that_year.features[j].properties.race = demographics[i].councilperson_id_id__race;
-        //                  demographics_that_year.features[j].properties.party = demographics[i].party;
-        //                  demographics_that_year.features[j].properties.gender = demographics[i].councilperson_id_id__gender
-        //                 }
-
-        //             }//end for j in demographics_that_year
-
-        //   // } //end if
-        // } //end for i in demographics
-
         //TEST to see the contents of demographics_that_year: 
         console.log("TEMP OBJ IS NOW: ", demographics_that_year)
 
         geojson.setStyle(style);
 
-
-///////////////////////////////////////////////
       //click to change color style to race categories
-      document.getElementById("change-race")
-              .addEventListener('click', function () {
+      activate_demographic_style("change-race", "race", ["Asian", "Black", "Hispanic", "White"] )
 
-                style_target = function(f) { return f.properties.race };
-                console.log("$$$$$$$$$GEOJSON IS:", geojson)
-                geojson.setStyle(style);
+      //click to change color style to gender categories
+      activate_demographic_style("change-gender", "gender", ['M', 'F'] )
 
-                if (legend instanceof L.Control) { map.removeControl(legend); }
-                legend = L.control({position: 'topright'});
-                legend.onAdd = function (map) {
+      //click to change color style to party categories
+      activate_demographic_style("change-party", "party", ["Democrat", "Republican"])
 
-                var div = L.DomUtil.create('div', 'info legend'),
-                    grades = ["Asian", "Black", "Hispanic", "White"],
-                    labels = [];
-
-                // loop through categories and generate a label with a colored square for each interval
-                for (var i = 0; i < grades.length; i++) {
-                    div.innerHTML +=
-                        '<i style="background:' + getColor(grades[i]) + '"></i> ' +
-                        grades[i]  + '<br>' ;
-                }
-                //add another square for category "unknown"
-                div.innerHTML += "<i style='background:gray'></i> unknown<br>"
-                return div;
-                }; //end legend.onAdd()
-                
-                //add the legend to the map
-                legend.addTo(map);
-
-              });  //end click function
-
-///////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////
-//click to change color style to gender categories
-document.getElementById("change-gender")
-        .addEventListener('click', function () {
-          style_target = function(f) { return f.properties.gender };
-          geojson.setStyle(style);
-
-          if (legend instanceof L.Control) { map.removeControl(legend); }
-
-          legend = L.control({position: 'topright'});
-
-          legend.onAdd = function (map) {
-
-            var div = L.DomUtil.create('div', 'info legend'),
-                grades = ['M', 'F'],
-                labels = [];
-
-            // loop through categories and generate a label with a colored square for each interval
-            for (var i = 0; i < grades.length; i++) {
-                div.innerHTML +=
-                    '<i style="background:' + getColor(grades[i]) + '"></i> ' +
-                    grades[i]  + '<br>' ;
-            }
-            console.log("DIV FOR CHANGE GENDER: ", div.innerHTML);
-            div.innerHTML += "<i style='background:gray'></i> unknown<br>"
-            return div;
-          };
-           legend.addTo(map);
-       });
-
-////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////
-//click to change color style to party categories
-document.getElementById("change-party")
-        .addEventListener('click', function () {
-
-          $( "#slider-holder" ).slider( 'enable');
-          //console.log( $( "#slider-holder" ).slider( "option", "disabled" ));
-          console.log("YOU CLICKED THE PARTY BUTTON");
-          style_target = function(f) { return f.properties.party };
-          // geojson.resetStyle(map);
-          geojson.setStyle(style);
-
-          if (legend instanceof L.Control) { map.removeControl(legend); }
-
-          legend = L.control({position: 'topright'});
-
-          legend.onAdd = function (map) {
-
-            var div = L.DomUtil.create('div', 'info legend'),
-                grades = ["Democrat", "Republican"],
-                labels = [];
-
-            // loop through categories and generate a label with a colored square for each interval
-            for (var i = 0; i < grades.length; i++) {
-                div.innerHTML +=
-                    '<i style="background:' + getColor(grades[i]) + '"></i> ' +
-                    grades[i]  + '<br>' ;
-            }
-            div.innerHTML += "<i style='background:gray'></i> unknown<br>"
-
-            return div;
-          };
-           legend.addTo(map);
-       });
-
-///////////////////////////////////////////////////////
-
-
-////////////////////////////////////////////////////////////
-document.getElementById("plain-style")
-        .addEventListener('click', function () {
-          style_target = function(f) { return f.properties.genderx };
-          geojson.setStyle(style);
-
-          if (legend instanceof L.Control) { map.removeControl(legend); }
-
-          legend = L.control({position: 'topright'});
-
-          legend.onAdd = function (map) {
-
-            //had to create a dummy div to get add/remove to work.
-            var div = L.DomUtil.create('div', 'info legend')//,
-            return div;
-          };
-          legend.addTo(map);
-
-       });
-
-////////////////////////////////////////////////////////////
+      //click to change color style to monochrome
+      activate_demographic_style("plain-style", "xx")
 
 };//end add_to_page()
 
@@ -526,32 +408,12 @@ document.getElementById("plain-style")
       min: 1980,
       max: 2012,
       step: 4,
-      //disabled: true,
       slide: add_to_page
     });
     //initialize slider to slider("value")
     $( "#amount" ).val($( "#slider-holder" ).slider( "value" ) );
 
     }) //closes $function
-
-
-
-
-// document.getElementById("plain-style")
-//         .addEventListener('click', function () {console.log("THIS IS ANOTHER LISTENER")})
-
-
-
-// document.getElementById("plain-style").addEventListener('click', function() {alert("THIS IS YET ANOTHER LISTENER!")} )
-
-
-//document.getElementById("change-race").addEventListener('click', function () {$( "#slider-holder" ).slider( "option", "disabled", false );})
-
-
-
-
-
-
 
 </script>
 
