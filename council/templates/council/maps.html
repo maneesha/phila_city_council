@@ -324,34 +324,41 @@ var create_demographics_that_year = function(year){
 create_demographics_that_year(2012);
 
 var activate_demographic_style = function(button_id, dem, grades) {
+
       //click to change color style to race categories
       document.getElementById(button_id)
               .addEventListener('click', function () {
                 style_target = function(f) { return f.properties[dem] };
                 geojson.setStyle(style);
 
-                if (legend instanceof L.Control) { map.removeControl(legend); }
+                console.log("#########LEGEND IS: ", legend)
+
+                if (legend instanceof L.Control) { map.removeControl(legend)}; 
 
                   legend = L.control({position: 'topright'});
                   legend.onAdd = function (map) {
 
-                  var div = L.DomUtil.create('div', 'info legend'),
-                      //grades = grades,
-                      labels = [];
+                      var div = L.DomUtil.create('div', 'info legend'),
+                          //grades = grades,
+                          labels = [];
 
-                  // loop through categories and generate a label with a colored square for each interval
-                  for (var i = 0; i < grades.length; i++) {
-                      div.innerHTML +=
-                          '<i style="background:' + getColor(grades[i]) + '"></i> ' +
-                          grades[i]  + '<br>' ;
-                  }
-                  //add another square for category "unknown"
-                  div.innerHTML += "<i style='background:gray'></i> unknown<br>"
-                  return div;
+                      // loop through categories and generate a label with a colored square for each interval
+                      for (var i = 0; i < grades.length; i++) {
+                          div.innerHTML +=
+                              '<i style="background:' + getColor(grades[i]) + '"></i> ' +
+                              grades[i]  + '<br>' ;
+                      }
+                      //add another square for category "unknown"
+                      if (grades.length>1){
+
+
+                      div.innerHTML += "<i style='background:gray'></i> unknown<br>"}
+                      return div;
                   }; //end legend.onAdd()
                   
                   //add the legend to the map
-                  legend.addTo(map);
+
+                  if (grades.length>=1)  {legend.addTo(map)};
               
 
               });  //end click function
@@ -359,10 +366,21 @@ var activate_demographic_style = function(button_id, dem, grades) {
 
 }
 
-activate_demographic_style("change-race", "race", ["Asian", "Black", "Hispanic", "White"])
-activate_demographic_style("change-gender", "gender", ['M', 'F'])
-activate_demographic_style("change-party", "party", ["Democrat", "Republican"])
-activate_demographic_style("plain-style", "xx")
+
+// var activate_unstyled_map = function(button_id) {
+//   document.getElementById(button_id)
+//     .addEventListener('click', function() {
+//       style_target = function(f) {return f.properties.xx};
+//       geojson.setStyle(style);
+//       if (legend instanceof L.Control) {map.removeControl(legend)};
+//     })
+// }
+
+activate_demographic_style("change-race", "race", ["Asian", "Black", "Hispanic", "White"]);
+activate_demographic_style("change-gender", "gender", ['M', 'F']);
+activate_demographic_style("change-party", "party", ["Democrat", "Republican"]);
+activate_demographic_style("plain-style", "x", ["Plain map"]);
+
 
 //function that's called when slider slides
 var add_to_page = function( event, ui ) {
@@ -394,7 +412,7 @@ var add_to_page = function( event, ui ) {
       activate_demographic_style("change-party", "party", ["Democrat", "Republican"])
 
       //click to change color style to monochrome
-      activate_demographic_style("plain-style", "xx")
+      activate_demographic_style("plain-style", "x", ["Monochrome map"]);
 
 };//end add_to_page()
 
@@ -414,6 +432,9 @@ var add_to_page = function( event, ui ) {
     $( "#amount" ).val($( "#slider-holder" ).slider( "value" ) );
 
     }) //closes $function
+
+
+
 
 </script>
 
