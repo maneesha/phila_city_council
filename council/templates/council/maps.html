@@ -105,8 +105,8 @@
     }
 
     #results-box {
-      height: 300px;
-      width: 250px;
+      height: 375px;
+      width: 400px;
       border: solid gray;
     }
 label {
@@ -117,7 +117,11 @@ label {
     margin-right:15px;
 }
 
+td, th {
+    padding: 2px;
+}
 
+#slider-holder {margin: 3px;}
 
 
     </style>
@@ -128,20 +132,16 @@ label {
 {% block content %}
 
 <h2>City Council by race, gender, party</h2>
-<p>Note: Council boundaries are from the year 2000 regardless of what year you choose. </p>
+<p>Note: District boundaries are from the year 2000 regardless of year you choose.</p>
 
 <div id = "map"></div>
 <div id = "option-buttons">
   <ul>  
 
-    <li>Choose a demographic category to activate the slider and see a color coded map.</li>
-     <li><button id="change-gender">View by Gender</button><button id="change-party">View by Party</button><button id="change-race">View by Race</button></li>
-<!--     <li><button id="change-gender">View by Gender</button></li>
-    <li><button id="change-party">View by Party</button></li>
-    <li><button id="change-race">View by Race</button></li> -->
-    <li><button id="plain-style">Plain map</button></li>
-    <li><div id = "slider-holder"</div></li>
-    <li>
+    <li style="margin-top:-55px;">Choose a demographic category to activate the slider and see a color coded map.</li>
+
+
+        <li>
 
       <p>
       <label for="amount">Year</label>
@@ -149,6 +149,16 @@ label {
       </p>
 
     </li>
+
+
+        <li><div id = "slider-holder"</div></li>
+
+     <li><button id="change-gender">View by Gender</button><button id="change-party">View by Party</button><button id="change-race">View by Race</button></li>
+<!--     <li><button id="change-gender">View by Gender</button></li>
+    <li><button id="change-party">View by Party</button></li>
+    <li><button id="change-race">View by Race</button></li> -->
+    <li><button id="plain-style">Plain map</button></li>
+
     <li><div id = "results-box"></div></li>
   </ul>
 </div>
@@ -299,24 +309,27 @@ var create_demographics_that_year = function(year){
         //current_value = 2012;
         demographics_that_year = districts;
         console.log("IN THE create_demographics_that_year FUNCTION NOW");
+        $('#results-box').append("<table cellpadding='5'>")
+        $('#results-box').append("<tr><th>District</th><th>Start Year</th><th>End Year</th><th>Last name</th><th>Race</th><th>Gender</th></tr>")
         for (i in demographics) {
               //Temp just to check -- display results in a div
               if (demographics[i].effective_start_year <= current_value && demographics[i].effective_end_year >= current_value ) {
                 console.log(demographics[i].effective_start_year, demographics[i].effective_end_year, demographics[i].councilperson_id_id__last_name, demographics[i].district, demographics[i].councilperson_id_id__race, demographics[i].councilperson_id_id__gender)
 
                     $('#results-box').append(
-                      demographics[i].effective_start_year + 
-                      " " + 
-                      demographics[i].effective_end_year + 
-                      " " + 
-                      demographics[i].councilperson_id_id__last_name + 
-                      " " + 
+                      "<tr><td style='text-align:center'>" +
                       demographics[i].district + 
-                      " " +
+                      "</td><td>" +
+                      demographics[i].effective_start_year + 
+                      "</td><td>" + 
+                      demographics[i].effective_end_year + 
+                      "</td><td>" + 
+                      demographics[i].councilperson_id_id__last_name + 
+                      "</td><td>" + 
                       demographics[i].councilperson_id_id__race + 
-                      " " +
+                      "</td><td style='text-align:center'>" +
                       demographics[i].councilperson_id_id__gender + 
-                      "<br>"
+                      "</td></tr>"
                       ) //end results box append
 
 
@@ -331,7 +344,7 @@ var create_demographics_that_year = function(year){
 
                   }//end if
         }//end for
-
+        $('#results-box').append("</table>")
         return demographics_that_year;
       }//end create_demographics_that_year()
 
@@ -373,7 +386,7 @@ var activate_demographic_style = function(button_id, dem, grades) {
                   
                   //add the legend to the map
 
-                  if (grades.length>=1)  {legend.addTo(map)};
+                  legend.addTo(map);
               
 
               });  //end click function
