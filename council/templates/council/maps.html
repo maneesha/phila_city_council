@@ -105,10 +105,20 @@
     }
 
     #results-box {
-      height: 250px;
+      height: 300px;
       width: 250px;
       border: solid gray;
     }
+label {
+    /* Other styling.. */
+    text-align: right;
+    clear: both;
+    float:left;
+    margin-right:15px;
+}
+
+
+
 
     </style>
 
@@ -132,10 +142,12 @@
     <li><button id="plain-style">Plain map</button></li>
     <li><div id = "slider-holder"</div></li>
     <li>
+
       <p>
       <label for="amount">Year</label>
-      <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+      <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold; width:100px">
       </p>
+
     </li>
     <li><div id = "results-box"></div></li>
   </ul>
