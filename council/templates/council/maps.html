@@ -426,6 +426,7 @@ var add_to_page = function( event, ui ) {
       min: 1980,
       max: 2012,
       step: 4,
+      disabled: true,
       slide: add_to_page
     });
     //initialize slider to slider("value")
@@ -433,7 +434,10 @@ var add_to_page = function( event, ui ) {
 
     }) //closes $function
 
-
+document.getElementById("plain-style").addEventListener('click', function() {$( "#slider-holder" ).slider( "option", "disabled", true );})
+document.getElementById("change-race").addEventListener('click', function() {$( "#slider-holder" ).slider( "option", "disabled", false );})
+document.getElementById("change-party").addEventListener('click', function() {$( "#slider-holder" ).slider( "option", "disabled", false );})
+document.getElementById("change-gender").addEventListener('click', function() {$( "#slider-holder" ).slider( "option", "disabled", false );})
 
 
 </script>
