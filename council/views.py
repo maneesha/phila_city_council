@@ -74,7 +74,7 @@ def demographic_breakdown(request):
         try:  #Try this 
             search = int(request.GET.get('search')) #if it can't be converted to int, ValueError exception below
 
-            if 1980 <= search <= 2015: #if date falls in range, else return message below
+            if 1980 <= search <= 2016: #if date falls in range, else return message below
 
                 #Filter for all councilmembers active that year (started before/equal & ended after/equal)
                 active_in_year = Term.objects.filter(effective_end_year__gte=search).filter(effective_start_year__lte=search)
@@ -102,13 +102,13 @@ def demographic_breakdown(request):
 
                 members_by_party, councilmember_names_by_party, party_list = members_by_demographic('party')
 
-            else: #if date is not in range 1980-2015
+            else: #if date is not in range 1980-2016
                 search = None
-                message = "Year must be a four digit number between 1980 and 2015. Please try again."
+                message = "Year must be a four digit number between 1980 and 2016. Please try again."
 
         except ValueError:
             search = None
-            message = "Year must be a four digit number between 1980 and 2015. Please try again."
+            message = "Year must be a four digit number between 1980 and 2016. Please try again."
 
     page = "council/demographic_breakdown.html"
 
