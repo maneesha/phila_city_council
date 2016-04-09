@@ -168,7 +168,7 @@ td, th {
 
 <script>
 
-var current_value = 2012;
+var current_value = 2016;
 //Initialize a map inside a div called map
 var map = L.map('map').setView([39.999, -75.1087], 11);
 
@@ -349,7 +349,7 @@ var create_demographics_that_year = function(year){
       }//end create_demographics_that_year()
 
 
-create_demographics_that_year(2012);
+create_demographics_that_year(2016);
 
 var activate_demographic_style = function(button_id, dem, grades) {
 
@@ -418,7 +418,7 @@ var add_to_page = function( event, ui ) {
         $('#results-box').text("");
         
         //    var fillColor = (!color) ? getColor(target) : color;
-        current_value = (!ui.value) ?  2012 : ui.value;
+        current_value = (!ui.value) ?  2016 : ui.value;
 
         demographics_that_year = districts;
         console.log("TEMP OBJ INSIDE add_to_page", demographics_that_year)
@@ -450,9 +450,9 @@ var add_to_page = function( event, ui ) {
     $( "#slider-holder" ).slider({
       //See http://api.jqueryui.com/slider/ for all options & methods slider can take
       range: "min",
-      value: 2012,
+      value: 2016,
       min: 1980,
-      max: 2012,
+      max: 2016,
       step: 4,
       disabled: true,
       slide: add_to_page
