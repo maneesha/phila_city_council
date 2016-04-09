@@ -159,7 +159,7 @@ def demographics_stacked_bar(request):
     This returns a dataset in the format d3 needs to make a stacked bar chart except
     d3  requires zero values to be explicity stated.  How to fix this?
     """
-    years = [1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012]
+    years = [1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012, 2016]
     
     #SELECT distinct(race) FROM Council JOIN Term
     #Returns this (a list of dictionaries):
@@ -179,7 +179,7 @@ def demographics_stacked_bar(request):
 
             #Add an item to each dictionary: Key = 'values', Value = empty list
             c['values'] = []
-            years = [1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012]
+            years = [1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012, 2016]
 
             for year in years:
                 #Add a dict for each year in years to the empty list assigned to values
